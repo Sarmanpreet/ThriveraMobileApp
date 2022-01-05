@@ -7,12 +7,13 @@ import * as AuthActions from '../../pages/auth/store/auth.actions';
 import * as EmployeeAction from './../../pages/employee/store/Employee.actions';
 import { getcheckSession } from 'src/app/pages/auth/store/auth.selectors';
 import { ToastController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-
+    subscription = new Subscription();
     constructor(
         private session: SessionCheck,
         private router: Router,
@@ -47,11 +48,14 @@ export class AuthGuard implements CanActivate {
                 (serverResponse) => {
 
                     if (serverResponse) {
+                        debugger;
                         if (serverResponse.Status == true) {
 
                             return true;
                         } else {
-                            this.toastAlert(serverResponse.Message, 'danger');
+
+                            // this.toastAlert(serverResponse.Message, 'danger');
+                            this.toastAlert('Your session is expired. Please login again.', 'danger');
                             this.session.logout('');
                             return false;
                         }

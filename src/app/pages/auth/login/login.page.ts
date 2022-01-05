@@ -29,7 +29,14 @@ export class LoginPage implements OnInit, OnDestroy {
     private sessionCall: SessionCheck,
     private toaster: ToastController,
     private commonService: CommonService
-  ) { }
+  ) {
+    this.store.dispatch(AuthActions.resetAuthState({
+      payload: {
+        Checksession: null
+      }
+    }));
+
+  }
 
   async onLogin() {
     debugger;
@@ -85,56 +92,56 @@ export class LoginPage implements OnInit, OnDestroy {
     };
     console.log(logDeviceInfo);
 
-    if (this.isUserLoggedIn()) {
-      this.router.navigate(['/employee/employeedashboard']);
-    } else {
+    // if (this.isUserLoggedIn()) {
+    //   this.router.navigate(['/employee/employeedashboard']);
+    // } else {
 
 
-      const loginSubscription = this.store.pipe(select(getServerResponse))
-        .subscribe(
-          (serverResponse) => {
+    const loginSubscription = this.store.pipe(select(getServerResponse))
+      .subscribe(
+        (serverResponse) => {
 
-            if (serverResponse) {
-              const header = serverResponse.headers;
-              const tokenID = header.get('Token');
-              if (tokenID !== null) {
-                const toArray = tokenID.split(':');
-                const userID = serverResponse.body.LoginID;
-                const token = toArray[0];
-                const tokenexpiry = serverResponse.headers.get('TokenExpiry');
-                if (token && userID && tokenexpiry) {
-                  this.sessionCall.setlocalStorage('UserInfo', JSON.stringify(serverResponse.body));
-                  this.sessionCall.setlocalStorage('RoleID', serverResponse.body.RoleID);
-                  this.sessionCall.setlocalStorage('userid', userID);
-                  this.sessionCall.setlocalStorage('empid', serverResponse.body.EMPID);
-                  this.sessionCall.setlocalStorage('token', token);
+          if (serverResponse) {
+            const header = serverResponse.headers;
+            const tokenID = header.get('Token');
+            if (tokenID !== null) {
+              const toArray = tokenID.split(':');
+              const userID = serverResponse.body.LoginID;
+              const token = toArray[0];
+              const tokenexpiry = serverResponse.headers.get('TokenExpiry');
+              if (token && userID && tokenexpiry) {
+                this.sessionCall.setlocalStorage('UserInfo', JSON.stringify(serverResponse.body));
+                this.sessionCall.setlocalStorage('RoleID', serverResponse.body.RoleID);
+                this.sessionCall.setlocalStorage('userid', userID);
+                this.sessionCall.setlocalStorage('empid', serverResponse.body.EMPID);
+                this.sessionCall.setlocalStorage('token', token);
 
 
-                  this.commonService.toastAlert('You are logged in successfully', 'success');
-                  // this.getmeusettings(serverResponse.body.Roleid);
-                  this.router.navigate(['/employee/employeedashboard']);
-                }
-              } else {
-                this.loading = false;
-                this.commonService.toastAlert('Incorrect username password.', 'danger');
+                this.commonService.toastAlert('You are logged in successfully', 'success');
+                // this.getmeusettings(serverResponse.body.Roleid);
+                this.router.navigate(['/employee/employeedashboard']);
               }
-            }
-          }
-        );
-
-      this.subscription.add(loginSubscription);
-
-      const loginErrorSubscription = this.store.select(a => a.auth.error)
-        .subscribe(
-          (error) => {
-            if (error) {
-              //this.commonService.toastAlert('Something went wrong', 'danger');
+            } else {
               this.loading = false;
+              this.commonService.toastAlert('Incorrect username password.', 'danger');
             }
           }
-        );
-      this.subscription.add(loginErrorSubscription);
-    }
+        }
+      );
+
+    this.subscription.add(loginSubscription);
+
+    const loginErrorSubscription = this.store.select(a => a.auth.error)
+      .subscribe(
+        (error) => {
+          if (error) {
+            //this.commonService.toastAlert('Something went wrong', 'danger');
+            this.loading = false;
+          }
+        }
+      );
+    this.subscription.add(loginErrorSubscription);
+    //}
   }
 
 
@@ -144,7 +151,8 @@ export class LoginPage implements OnInit, OnDestroy {
       payload: {
         loading: false,
         serverResponse: null,
-        error: null
+        error: null,
+        Checksession: null
       }
     }));
   }
