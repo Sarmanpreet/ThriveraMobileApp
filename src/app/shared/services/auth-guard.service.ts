@@ -4,7 +4,7 @@ import { SessionCheck } from '../session/sessioncheck.service';
 import { select, Store } from '@ngrx/store';
 import { IAppState } from 'src/app/interfaces/app-states.interface';
 import * as AuthActions from '../../pages/auth/store/auth.actions';
-import * as EmployeeAction from './../../pages/employee/store/Employee.actions';
+import * as EmployeeAction from './../../tabs/employee/store/Employee.actions';
 import { getcheckSession } from 'src/app/pages/auth/store/auth.selectors';
 import { ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';

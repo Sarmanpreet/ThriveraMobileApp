@@ -7,8 +7,8 @@ export const environment = {
   //apiUrl: 'http://182.77.57.238:82/'
   // apiUrl: 'http://ion-app-api.rustx.net/',
   // apiUrl: 'http://localhost:1578/',
-  apiUrl: 'https://cppdapi.thrivera.co/',
-  // apiUrl: 'https://api.thrivera.co.in/',
+  //apiUrl: 'https://cppdapi.thrivera.co/',
+  apiUrl: 'https://api.thrivera.co.in/',
 };
 
 /*

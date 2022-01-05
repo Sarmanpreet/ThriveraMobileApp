@@ -36,8 +36,8 @@ import { DatePipe } from '@angular/common';
 import { ClientsEffects } from './pages/client-list/store/clients.effects';
 import { DemoEffects } from './pages/pend-upcom-demo-list/store/Pend-upcom-effects';
 
-import { EmployeeEffects } from './pages/employee/store/Employee.effects';
-import { EmpHeaderComponent } from './pages/employee/emp-header/emp-header.component';
+import { EmployeeEffects } from './tabs/employee/store/Employee.effects';
+import { EmpHeaderComponent } from './tabs/employee/emp-header/emp-header.component';
 
 
 

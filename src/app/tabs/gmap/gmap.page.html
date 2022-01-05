@@ -1,0 +1,37 @@
+<ion-header>
+    <ion-toolbar color="primary">
+
+        <ion-title>GMap</ion-title>
+        <!-- <ion-buttons slot="start">
+      <ion-button (click)="toggleMenu()">
+        <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+
+        <ion-buttons slot="start">
+            <ion-button (click)="commonService.logOut()">
+                <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-buttons slot="end">
+            <ion-button (click)="locate()">
+                <ion-icon name="locate-outline"></ion-icon>
+            </ion-button>
+
+            <!-- <ion-button (click)="savelocation()">
+                <ion-icon name="location-outline"></ion-icon>
+                &nbsp; Save
+            </ion-button> -->
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="15" [disableDefaultUI]="false">
+        <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]=false>
+            <agm-info-window>{{address}}</agm-info-window>
+        </agm-marker>
+    </agm-map>
+</ion-content>

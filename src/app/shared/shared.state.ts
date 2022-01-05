@@ -23,15 +23,15 @@ import { SettingsState } from './settings/settings.model';
 import { MusicState } from './music/music.model';
 import { musicReducer } from './music/music.reducer';
 import { authReducer, IAuthState } from '../pages/auth/store/auth.reducers';
-//import { clientsReducer, IClientsState } from '../tabs/clients/store/clients.reducers';
+import { clientsReducer, IClientsState } from '../tabs/clients/store/clients.reducers';
 import { clientDtlReducer, IClientDtlState } from '../pages/client-dtl/store/clientDtl.reducers';
-// import { savedlocationsReducer, IsavedlocationsState } from '../tabs/saved-locations/store/savedlocations.reducers';
-// import { gmapReducer, IGmapsState } from '../tabs/gmap/store/gmap.reducers';
-// import { InotificationState, notificationReducer } from '../tabs/notification/store/notification.reducers';
-// import { profileReducer, IprofileState } from '../tabs/profile/store/profile.reducers';
-// import { IRoutesState, routeReducer } from '../tabs/routes/store/route.reducers';
+import { savedlocationsReducer, IsavedlocationsState } from '../tabs/saved-locations/store/savedlocations.reducers';
+import { gmapReducer, IGmapsState } from '../tabs/gmap/store/gmap.reducers';
+import { InotificationState, notificationReducer } from '../tabs/notification/store/notification.reducers';
+import { profileReducer, IprofileState } from '../tabs/profile/store/profile.reducers';
+import { IRoutesState, routeReducer } from '../tabs/routes/store/route.reducers';
 import { DemoReducer, IDemoState } from '../pages/pend-upcom-demo-list/store/Pend-upcom-reducers';
-import { employeeReducer, IEmployee } from '../pages/employee/store/Employee.reducers';
+import { employeeReducer, IEmployee } from '../tabs/employee/store/Employee.reducers';
 
 
 
@@ -43,13 +43,13 @@ export const reducers: ActionReducerMap<AppState> = {
   settings: settingsReducer,
   music: musicReducer,
   auth: authReducer,
-  //routes: routeReducer,
-  //clients: clientsReducer,
+  routes: routeReducer,
+  clients: clientsReducer,
   clientDtl: clientDtlReducer,
-  // gmap: gmapReducer,
-  //savedlocations: savedlocationsReducer,
-  //notification: notificationReducer,
-  //profile: profileReducer,
+  gmap: gmapReducer,
+  savedlocations: savedlocationsReducer,
+  notification: notificationReducer,
+  profile: profileReducer,
   demo: DemoReducer,
   Upcomingdemo: DemoReducer,
   employee: employeeReducer
@@ -65,13 +65,13 @@ export interface AppState {
   employee: IEmployee;
   music: MusicState;
   auth: IAuthState;
-  // clients: IClientsState;
-  // routes: IRoutesState;
+  clients: IClientsState;
+  routes: IRoutesState;
   clientDtl: IClientDtlState;
-  // gmap: IGmapsState;
-  // savedlocations: IsavedlocationsState;
-  // notification: InotificationState;
-  // profile: IprofileState;
+  gmap: IGmapsState;
+  savedlocations: IsavedlocationsState;
+  notification: InotificationState;
+  profile: IprofileState;
   demo: IDemoState,
   Upcomingdemo: IDemoState
 }
@@ -90,23 +90,23 @@ export const selectEmployeeState = createFeatureSelector<
   IEmployee
 >('employee');
 
-// export const selectClientsState = createFeatureSelector<
-//   AppState,
-//   IClientsState
-// >('clients');
+export const selectClientsState = createFeatureSelector<
+  AppState,
+  IClientsState
+>('clients');
 
 export const selectPendDemoState = createFeatureSelector<
   AppState,
   IDemoState
 >('demo');
-// export const selectUpcomingState = createFeatureSelector<
-//   AppState,
-//   IDemoState
-// >('Upcomingdemo');
-// export const selectRoutesState = createFeatureSelector<
-//   AppState,
-//   IRoutesState
-// >('routes');
+export const selectUpcomingState = createFeatureSelector<
+  AppState,
+  IDemoState
+>('Upcomingdemo');
+export const selectRoutesState = createFeatureSelector<
+  AppState,
+  IRoutesState
+>('routes');
 
 export const selectClientDtlState = createFeatureSelector<
   AppState,
@@ -114,22 +114,22 @@ export const selectClientDtlState = createFeatureSelector<
 >('clientDtl');
 
 
-// export const selectgmapState = createFeatureSelector<
-//   AppState,
-//   IGmapsState
-// >('gmap');
+export const selectgmapState = createFeatureSelector<
+  AppState,
+  IGmapsState
+>('gmap');
 
 
-// export const selectsavedlocationsState = createFeatureSelector<
-//   AppState,
-//   IsavedlocationsState
-// >('savedlocations');
+export const selectsavedlocationsState = createFeatureSelector<
+  AppState,
+  IsavedlocationsState
+>('savedlocations');
 
 
-// export const selectprofileState = createFeatureSelector<
-//   AppState,
-//   IprofileState
-// >('profile');
+export const selectprofileState = createFeatureSelector<
+  AppState,
+  IprofileState
+>('profile');
 
 
 

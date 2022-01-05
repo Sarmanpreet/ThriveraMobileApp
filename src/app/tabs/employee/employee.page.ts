@@ -8,13 +8,13 @@ import { IAppState } from 'src/app/interfaces/app-states.interface';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { SessionCheck } from 'src/app/shared/session/sessioncheck.service';
 import * as EmployeeAction from './store/Employee.actions';
-import * as AuthActions from '../auth/store/auth.actions';
+import * as AuthActions from '../../../app/pages/auth/store/auth.actions';
 import { Subscription } from 'rxjs';
-import { getCalenderResponse } from './store/Employee.selectors';
-import { getServerResponse } from '../auth/store/auth.selectors';
+import { getServerResponse } from '../../../app/pages/auth/store/auth.selectors';
 import { AttandanceModalComponentComponent } from 'src/app/components/attandance-modal-component/attandance-modal-component.component';
 import { IonRouterOutlet } from '@ionic/angular';
 import { BasePageComponent } from 'src/app/components/base-page/base-page.component';
+import { getCalenderResponse } from './store/Employee.selectors';
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.page.html',

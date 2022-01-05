@@ -1,0 +1,75 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+
+    <!-- <ion-buttons slot="start">
+        <ion-button (click)="toggleMenu()">
+          <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+            </ion-button>
+      </ion-buttons>
+       -->
+    <ion-buttons slot="start">
+      <ion-button (click)="commonService.logOut()">
+        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title *ngIf="!showSearchbar">
+      {{title}}
+      <!-- <ion-icon name="chevron-down-outline" class="savedlocations-icon-middle"></ion-icon> -->
+    </ion-title>
+    <!--
+      <ion-buttons slot="end">
+        <ion-button *ngIf="!isIos && !showSearchbar" (click)="(showSearchbar = true)">
+          <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="!showSearchbar">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" style="--ion-text-color: var(--ion-color-medium);" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-down-outline"></ion-refresher-content>
+  </ion-refresher>
+  <!-- <ion-searchbar [formControl]="searchsavedlocationsList" cancelButtonIcon="arrow-back-outline"
+      [placeholder]="'savedlocationss_search_title' | translate" *ngIf="isIos">
+    </ion-searchbar> -->
+  <ion-list class="ion-padding-bottom">
+    <ng-container>
+      <ion-card class="post-list-card" *ngFor="let savedlocations of savedlocationsList">
+        <ion-item lines="none">
+          <ion-label>
+            <h2>{{savedlocations.CompName | uppercase}}</h2>
+            <p>{{savedlocations.CreatedonApp}}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-card-content class="post-list-content">
+          <p *ngIf="savedlocations.Location">{{savedlocations.Location}}</p>
+
+        </ion-card-content>
+
+        <ion-item lines="none" class="action-item">
+          <ion-buttons slot="start">
+            <ion-button color="medium" class="action-button">
+              <ion-icon slot="start" name="location-outline"></ion-icon>
+              {{savedlocations.Latitude}}
+            </ion-button>
+            <ion-button color="medium" class="action-button">
+              <ion-icon slot="start" name="location-outline"></ion-icon>
+              {{savedlocations.Longitude}}
+            </ion-button>
+
+          </ion-buttons>
+          <!--  -->
+          <ion-buttons slot="end">
+            <ion-button color="medium" (click)="openMapModal(savedlocations)">
+              <!-- <ion-icon size="small" slot="start" name="eye-outline"></ion-icon> -->
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+      </ion-card>
+    </ng-container>
+  </ion-list>
+</ion-content>

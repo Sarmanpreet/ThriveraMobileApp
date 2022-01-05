@@ -4,14 +4,14 @@ import { ModalController, NavParams, ToastController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { IAppState } from 'src/app/interfaces/app-states.interface';
-import { getAttachmentIdResponse, getAttandenceResponse, saveAttandencelogResponse } from 'src/app/pages/employee/store/Employee.selectors';
+import { getAttachmentIdResponse, getAttandenceResponse, saveAttandencelogResponse } from 'src/app/tabs/employee/store/Employee.selectors';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { SessionCheck } from 'src/app/shared/session/sessioncheck.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { resetAttandence, SaveAttachementImage, SaveAttandence } from 'src/app/pages/employee/store/Employee.actions';
+import { resetAttandence, SaveAttachementImage, SaveAttandence } from 'src/app/tabs/employee/store/Employee.actions';
 import { Geolocation, GeolocationPermissionType, GeolocationPluginPermissions } from '@capacitor/geolocation';
 import { NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
-import * as EmployeeAction from '../../pages/employee/store/Employee.actions';
+import * as EmployeeAction from '../../tabs/employee/store/Employee.actions';
 @Component({
   selector: 'app-attandance-modal-component',
   templateUrl: './attandance-modal-component.component.html',

@@ -1,0 +1,138 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <!-- <ion-buttons slot="start">
+      <ion-button (click)="toggleMenu()">
+        <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+          </ion-button>
+    </ion-buttons> -->
+    <ion-buttons slot="start">
+        <ion-button (click)="commonService.logOut()">
+          <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+            </ion-button>
+      </ion-buttons>
+
+    <ion-title *ngIf="profile">
+      {{profile.EMP_NAME}} ({{profile.EMP_CODE}})
+    </ion-title>
+
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" style="--ion-text-color: var(--ion-color-medium);" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-down-outline"></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- <ion-list lines="none" *ngIf="profile">
+    <ion-item lines="none" style="--background: inherit;">
+      <ion-avatar slot="start" style="width: 72px;height: 72px;">
+        <img [src]="user.image">
+      </ion-avatar>
+      <ion-label>
+        <ion-card>
+        <h1 style="font-weight: bold;">{{profile.DESIGNATION}}</h1>
+         
+        
+      <p style="font-weight: bold;"> {{profile.Address}} {{profile.CITY}} {{profile.STATE}}</p>
+      <p style="font-weight: bold;">{{profile.CONTACT_NO}} {{profile.HOMEPH}}</p>
+        <h4 style="font-weight: bold;">IsActive: {{profile.WORKING}}</h4>
+  
+              
+        <p style="vertical-align: middle;display: table-cell;">
+           
+         
+        </p>
+        </ion-card>
+      </ion-label>
+    </ion-item>
+  </ion-list> -->
+
+  <ion-list class="ion-padding-bottom"  *ngIf="profile">
+    <ng-container>
+      <ion-card class="post-list-card" >
+        
+        <ion-item lines="none">
+          <ion-avatar *ngIf="profilePic" slot="start" style="width: 72px;height: 72px;">
+            <img [src]="profilePic">
+          </ion-avatar>
+          <ion-label>
+            <h2>{{profile.EMP_NAME}} ({{profile.EMP_CODE}})</h2>
+            <p>{{profile.Address}}</p>
+            <p> {{profile.CITY}} {{profile.STATE}}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none" class="action-item">
+          <ion-buttons slot="start">
+            <ion-button *ngIf="profile.CONTACT_NO" color="medium" class="action-button">
+              <ion-icon slot="start" name="call-outline"></ion-icon>
+              {{profile.CONTACT_NO}}
+            </ion-button>
+            <ion-button *ngIf="profile.HOMEPH" color="medium" class="action-button">
+              <ion-icon slot="start" name="home-outline"></ion-icon>
+              {{profile.Emailid}}
+            </ion-button>
+
+          </ion-buttons>
+          <!--  -->
+          <ion-buttons slot="end">
+            <ion-button color="medium">
+             
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+      </ion-card>
+     
+<ion-card>
+  <ion-item  class="ion-activated">
+  <ion-label style="text-align: center;">Demo Summary</ion-label> </ion-item>
+  <ion-item class="ion-activated">
+  
+    <ion-label>Today : {{profile.Today_domo}}</ion-label> </ion-item>
+ 
+  <ion-item  class="ion-activated">
+  
+    <ion-label>Today Pending: {{profile.Today_Pending}}</ion-label>
+  </ion-item>
+  <ion-item>
+    
+    <ion-label>Upcoming(Curr. Month) : {{profile.upcoming_curent_month_domo}}</ion-label>
+  </ion-item>
+  <ion-item >
+ 
+    <ion-label>Total(Curr. Month) : {{profile.total_curent_month_domo}}</ion-label>
+  </ion-item>
+  <ion-item >
+ 
+    <ion-label>Completed(Curr. Month) : {{profile.Complete_curent_month_domo}}</ion-label>
+  </ion-item>
+
+  <ion-item class="ion-activated">
+  
+    <ion-label>Pending(Curr. Month) : {{profile.pending_curent_month_domo}}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    
+    <ion-label>Total(Curr. Year) : {{profile.total_curent_year_domo}}</ion-label>
+  </ion-item>
+  <ion-item >
+ 
+    <ion-label>Completed(Curr. Year) : {{profile.total_Compete_year_domo}}</ion-label>
+  </ion-item>
+
+  <ion-item class="ion-activated">
+  
+    <ion-label>Pending(Curr. Year) : {{profile.total_Pending_year_domo}}</ion-label>
+  </ion-item>
+  <ion-item class="ion-activated">
+  
+    <ion-label>Pending(Prev. Month) : {{profile.total_Pending_PrevMonth_domo}}</ion-label>
+  </ion-item>
+
+</ion-card>
+    </ng-container>
+  </ion-list>
+
+</ion-content>

@@ -9,10 +9,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthPageModule)
 
   },
-  // {
-  //   path: 'tabs',
-  //   loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  // },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+  },
   // {
   //   path: 'settings',
   //   loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsPageModule)
@@ -28,11 +28,10 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthPageModule)
-  }, {
+  },
+  {
     path: 'employee',
-
-
-    loadChildren: () => import('./pages/employee/employee.module').then(m => m.EmployeePageModule),
+    loadChildren: () => import('./tabs/employee/employee.module').then(m => m.EmployeePageModule),
     canActivate: [AuthGuard]
   },
   // {

@@ -1,0 +1,58 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+ 
+    <!-- <ion-buttons slot="start">
+        <ion-button (click)="toggleMenu()">
+          <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+            </ion-button>
+      </ion-buttons> -->
+      <ion-buttons slot="start">
+          <ion-button (click)="commonService.logOut()">
+            <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+              </ion-button>
+        </ion-buttons>
+      <ion-title>
+        Notifications
+      </ion-title>
+    <!-- <ion-segment [formControl]="activeSegment">
+      <ion-segment-button value="feedback">
+        {{'notification_feedback_title' | translate}}
+      </ion-segment-button>
+      <ion-segment-button value="comments">
+        {{'notification_comments_title' | translate}}
+      </ion-segment-button>
+    </ion-segment>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="options-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+
+
+    <ion-content [fullscreen]="true">
+            
+             
+         <ion-list class="ion-padding-bottom">
+            <ng-container>
+              <ion-card class="post-list-card" *ngFor="let notification of notifications">
+                
+                <ion-card-content class="post-list-content">
+                    <p>{{notification.Notice}} </p>
+        
+                  </ion-card-content>
+      
+                <ion-item lines="none" class="action-item">
+                  <ion-buttons slot="end">
+                    <ion-button color="medium" class="action-button">
+                     On: {{notification.Createdon}}
+                    </ion-button>
+                  </ion-buttons>
+                
+                 
+                </ion-item>
+              </ion-card>
+            </ng-container>
+          </ion-list>
+</ion-content>

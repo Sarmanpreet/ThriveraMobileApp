@@ -6,6 +6,10 @@ import { SaleEntryListComponent } from './sale-entry-list/sale-entry-list.compon
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'employeedashboard'
+  },
+  {
     path: 'employeedashboard',
     component: EmployeePage
   },

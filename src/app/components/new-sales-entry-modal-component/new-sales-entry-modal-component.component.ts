@@ -4,16 +4,16 @@ import { ModalController, NavParams, ToastController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { IAppState } from 'src/app/interfaces/app-states.interface';
-import { getAttachmentIdResponse, getAttandenceResponse, getCityDDLListResponse, getItemDDLListResponse, getProductDDLListResponse, getSaleEntryDDLListResponse, getSaveEntryResponse, getSubProductDDLListResponse, saveAttandencelogResponse } from 'src/app/pages/employee/store/Employee.selectors';
+import { getAttachmentIdResponse, getAttandenceResponse, getCityDDLListResponse, getItemDDLListResponse, getProductDDLListResponse, getSaleEntryDDLListResponse, getSaveEntryResponse, getSubProductDDLListResponse, saveAttandencelogResponse } from 'src/app/tabs/employee/store/Employee.selectors';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { SessionCheck } from 'src/app/shared/session/sessioncheck.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { GetCityDDL, GetItemDDL, GetProductDDL, GetSalesEntryDDL, GetSubProductDDL, resetAttandence, SaveAttachementImage, SaveAttandence, SaveSalesEntry } from 'src/app/pages/employee/store/Employee.actions';
+import { GetCityDDL, GetItemDDL, GetProductDDL, GetSalesEntryDDL, GetSubProductDDL, resetAttandence, SaveAttachementImage, SaveAttandence, SaveSalesEntry } from 'src/app/tabs/employee/store/Employee.actions';
 import { Geolocation, GeolocationPluginPermissions } from '@capacitor/geolocation';
 import { NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import { DatePipe } from '@angular/common';
 import { format, parseISO } from 'date-fns';
-import * as EmployeeAction from '../../pages/employee/store/Employee.actions';
+import * as EmployeeAction from '../../tabs/employee/store/Employee.actions';
 @Component({
   selector: 'app-new-sales-entry-modal-component',
   templateUrl: './new-sales-entry-modal-component.component.html',

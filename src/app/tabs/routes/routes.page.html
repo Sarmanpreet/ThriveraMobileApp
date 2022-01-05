@@ -1,0 +1,72 @@
+<ion-header [translucent]="true">
+
+    <ion-toolbar color="primary">
+        <!-- <ion-buttons slot="start">
+        <ion-button (click)="toggleMenu()">
+          <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+            </ion-button>
+      </ion-buttons> -->
+        <ion-buttons slot="start">
+            <ion-button (click)="commonService.logOut()">
+                <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title *ngIf="!showSearchbar">
+            {{title}}
+            <!-- <ion-icon name="chevron-down-outline" class="message-icon-middle"></ion-icon> -->
+        </ion-title>
+        <!-- <ion-searchbar [formControl]="searchMessageList" showCancelButton="always" cancelButtonIcon="arrow-back-outline" (ionCancel)="showSearchbar = false" [placeholder]="'messages_search_title' | translate" *ngIf="showSearchbar" [formControl]="searchControl">
+      </ion-searchbar> -->
+        <!--<ion-buttons slot="end">
+          <ion-button *ngIf="!isIos && !showSearchbar" (click)="(showSearchbar = true)">
+              <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="!showSearchbar">
+      <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+    </ion-button> --
+      </ion-buttons>-->
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ion-refresher slot="fixed" style="--ion-text-color: var(--ion-color-medium);" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-down-outline"></ion-refresher-content>
+    </ion-refresher>
+
+    <!-- <ion-searchbar [formControl]="searchMessageList" cancelButtonIcon="arrow-back-outline" [placeholder]="'messages_search_title' | translate" *ngIf="isIos">
+  </ion-searchbar> -->
+    <ion-list class="ion-padding-bottom">
+        <!-- <ion-item >
+        <ion-label>
+            <h2>Routes</h2>
+        </ion-label>
+        <ion-note slot="end">
+         PendingQty
+      </ion-note>
+    </ion-item> -->
+        <ion-item-sliding *ngFor="let route of RouteList">
+            <ion-item button (click)="onItemClick(route)">
+                <ion-label>
+                    <h2>{{route.RouteName | uppercase}}</h2>
+                    <!-- <p>{{client.ADD1}} {{client.ADD2}}</p>
+                  <p> {{client.CITY}} {{client.STATE}} {{client.PIN}}</p> -->
+                </ion-label>
+                <ion-note slot="end">
+                    {{route.PendingQty}}
+                </ion-note>
+            </ion-item>
+
+
+            <ion-item-options side="end">
+                <!-- <ion-item-option color="primary" (click)="onCheckinClick('client')">
+                    <ion-icon slot="start" name="location-outline"></ion-icon>
+                    <ion-label>
+                        Check-In
+                    </ion-label>
+                </ion-item-option> -->
+
+
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+</ion-content>
