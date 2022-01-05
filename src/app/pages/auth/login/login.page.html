@@ -1,0 +1,48 @@
+<ion-content [fullscreen]="true" center class="auth-page bg-img">
+    <ion-grid class="my-grid">
+        <ion-row class="parent-row">
+            <ion-col class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
+                <form [formGroup]="login" (ngSubmit)="onLogin()">
+                    <div class="logo">
+                        <img alt="logo" id="header_logo" height="60" src="../../../../assets/logo/logo.png">
+                    </div>
+
+                    <ion-card color="light" class="auth-card ion-margin">
+                        <ion-item lines="none" color="light">
+                            <ion-button slot="start" fill="clear" class="ion-no-margin">
+                                <ion-icon slot="icon-only" color="medium" name="person-circle-outline"></ion-icon>
+                            </ion-button>
+                            <ion-input type="text" placeholder="User Name" formControlName="userName"></ion-input>
+                        </ion-item>
+
+                    </ion-card>
+                    <ion-card color="light" class="auth-card ion-margin">
+
+                        <ion-item lines="none" color="light" class="ion-no-inner-padding-end">
+                            <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+                            <ion-button slot="start" fill="clear" class="ion-no-margin">
+                                <ion-icon slot="icon-only" color="medium" name="lock-closed-outline"></ion-icon>
+                            </ion-button>
+                        </ion-item>
+                    </ion-card>
+
+                    <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom" type="submit"
+                        [disabled]="!login.valid">
+                        Log In
+                    </ion-button>
+                    <span class="ion-margin"></span>
+                    <!--<span class="ion-margin"></span>
+          <ion-button expand="block" class="ion-margin" [routerLink]="[ '/auth', 'register' ]"
+            routerDirection="forward">
+            Sign Up
+          </ion-button> -->
+
+
+                </form>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+<ion-footer class="footer" center>
+
+</ion-footer>

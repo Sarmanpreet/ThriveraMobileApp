@@ -1,0 +1,149 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="'back_title' | translate" defaultHref="/auth/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="auth-page">
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
+        <form [formGroup]="registerForm" (ngSubmit)="onRegister(registerForm)">
+          <!-- <div class="logo">
+            <img src="./assets/icon/favicon.png">
+          </div>-->
+          <p class="ion-text-center">Register Form</p> 
+
+          <ion-card color="light" class="auth-card ion-margin">
+            <ion-item lines="none" color="light">
+              <ion-input type="text" placeholder="First name" formControlName="FirstName"></ion-input>
+              
+              <app-validation-message [control]="registerForm.controls['FirstName']"
+                    [validations]="validationMessages['FirstName']">
+              </app-validation-message>
+
+            </ion-item>
+            <ion-item lines="none" color="light">
+              <ion-input type="text" placeholder="Last name" formControlName="LastName"></ion-input>
+              <app-validation-message [control]="registerForm.controls['LastName']"
+                    [validations]="validationMessages['LastName']">
+              </app-validation-message>
+            </ion-item>
+            <ion-item lines="none" color="light">
+              <ion-datetime formControlName="DOB" name="DOB" displayFormat="DD MM YYYY" 
+              placeholder="Select Date"></ion-datetime>
+              <app-validation-message [control]="registerForm.controls['DOB']"
+                    [validations]="validationMessages['DOB']">
+              </app-validation-message>
+            </ion-item>
+            <ion-item lines="none" color="light">
+              <ion-label>Gender</ion-label>
+              <ion-select formControlName="Gender">
+                <ion-select-option value="Male">Male</ion-select-option>
+                <ion-select-option value="Female">Female</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item lines="none" color="light">
+              <ion-input type="email" placeholder="Email" formControlName="EmailID"></ion-input>
+              <app-validation-message [control]="registerForm.controls['EmailID']"
+                [validations]="validationMessages['EmailID']">
+              </app-validation-message>
+            </ion-item>
+            <ion-item lines="none" color="light">
+              <ion-input type="text" placeholder="ContactNo" formControlName="ContactNo"></ion-input>
+              <app-validation-message [control]="registerForm.controls['ContactNo']"
+                [validations]="validationMessages['ContactNo']">
+              </app-validation-message>
+            </ion-item>
+            <ion-item lines="none" color="light">
+              <ion-input type="text" placeholder="Company Name" formControlName="CompName"></ion-input>
+              <app-validation-message [control]="registerForm.controls['CompName']"
+                [validations]="validationMessages['CompName']">
+              </app-validation-message>
+            </ion-item>
+            <ion-item lines="none" color="light">
+              <ion-input type="text" placeholder="Address" formControlName="AddrLine1"></ion-input>
+              <app-validation-message [control]="registerForm.controls['AddrLine1']"
+                [validations]="validationMessages['AddrLine1']">
+              </app-validation-message>
+            </ion-item>
+            <ion-item lines="none" color="light">
+              <ion-input type="text" placeholder="Address1" formControlName="AddrLine2"></ion-input>
+              <!-- <app-validation-message [control]="registerForm.controls['address1']"
+                [validations]="validationMessages['address1']">
+              </app-validation-message> -->
+            </ion-item>
+            <ion-item lines="none" color="light">
+              <ion-input type="text" placeholder="Country" formControlName="Country"></ion-input>
+              <app-validation-message [control]="registerForm.controls['Country']"
+                [validations]="validationMessages['Country']">
+              </app-validation-message>
+            </ion-item>
+            <ion-item lines="none" color="light">
+              <ion-input type="text" placeholder="State" formControlName="State"></ion-input>
+              <app-validation-message [control]="registerForm.controls['State']"
+              [validations]="validationMessages['State']">
+            </app-validation-message>
+            </ion-item>
+            <ion-item lines="none" color="light">
+              <ion-input type="text" placeholder="City" formControlName="City"></ion-input>
+              <app-validation-message [control]="registerForm.controls['City']"
+              [validations]="validationMessages['City']">
+            </app-validation-message>
+            </ion-item>
+            <ion-item lines="none" color="light">
+              <ion-input type="text" placeholder="PinCode" formControlName="PinCode"></ion-input>
+              <app-validation-message [control]="registerForm.controls['PinCode']"
+              [validations]="validationMessages['PinCode']">
+            </app-validation-message>
+            </ion-item>
+            <ion-item lines="none" color="light">
+              <ion-input type="text" placeholder="GST No Optional" formControlName="GSTNo"></ion-input>
+              <!-- <app-validation-message [control]="registerForm.controls['GSTNo']"
+              [validations]="validationMessages['GSTNo']">    </app-validation-message> -->
+            </ion-item>
+            <!-- <ion-item lines="none" color="light">
+              <ion-input type="text" placeholder="PAN No" formControlName="PAN"></ion-input>
+              <app-validation-message [control]="registerForm.controls['PAN']"
+              [validations]="validationMessages['PAN']">    </app-validation-message>
+            </ion-item> -->
+            <ion-item lines="none" color="light">
+              <ion-input type="text" placeholder="AdharNo Optional" formControlName="AdharNo"></ion-input>
+            </ion-item>
+            <ion-item lines="none" color="light">
+              <ion-input type="text" placeholder="UserName" formControlName="UserName"></ion-input>
+              <app-validation-message [control]="registerForm.controls['UserName']"
+              [validations]="validationMessages['UserName']">    </app-validation-message>
+            </ion-item>
+            <ion-item lines="none" color="light" class="ion-no-inner-padding-end">
+              <ion-input type="password" placeholder="Password" formControlName="Pwd"></ion-input>
+              <app-validation-message [control]="registerForm.controls['Pwd']"
+              [validations]="validationMessages['Pwd']">    </app-validation-message>
+            </ion-item>
+            <ion-item lines="none" color="light" class="ion-no-inner-padding-end">
+              <ion-input type="password" placeholder="Password (Confirm)" formControlName="password_confirm">
+              </ion-input>
+            </ion-item>
+          </ion-card>
+          <!-- [disabled]="!registerForm.valid" -->
+          <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom" type="submit">
+            Sign Up
+          </ion-button>
+          <span class="ion-margin"></span>
+        </form>
+
+        <p class="ion-margin">
+          <ion-text>
+            By pressing Sign Up, you agree to the service's
+            <a href="http://">Terms of Service</a>
+            and
+            <a href="http://">Privacy Policy</a>
+          </ion-text>
+        </p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

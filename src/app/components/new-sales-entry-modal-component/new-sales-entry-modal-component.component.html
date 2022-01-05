@@ -1,0 +1,154 @@
+<ion-header>
+  <app-modal-header [Heading]="'Sale Entry'"></app-modal-header>
+</ion-header>
+<ion-content>
+  <form [formGroup]="newSalesForm">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Product Deatils</ion-card-subtitle>
+      </ion-card-header>
+      <!-- <ion-item>
+        <ion-label>{{today | date: 'EEEE, dd-MMM-yyyy h:mm:ss a'}} </ion-label>
+      </ion-item> -->
+
+      <ion-item>
+        <ion-label>Date *</ion-label>
+        <ion-input formControlName="Date" name="Date" placeholder="" readonly="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Brand * </ion-label>
+        <ion-input formControlName="Brand" name="Brand" placeholder="" readonly="true" [value]="Brand"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Invoice No *</ion-label>
+        <ion-input formControlName="InvoiceNo" name="InvoiceNo" placeholder=""></ion-input>
+      </ion-item>
+      <ion-item button="true" id="open-date-input">
+
+        <!-- <ion-input formControlName="InvoiceDate" name="InvoiceDate" placeholder=""></ion-input> -->
+
+        <ion-label>Invoice Date</ion-label>
+        <ion-input formControlName="InvoiceDate" name="InvoiceDate" slot="end"></ion-input>
+        <ion-popover trigger="open-date-input" show-backdrop="false">
+          <ng-template>
+            <ion-datetime #popoverDatetime presentation="date"
+              (ionChange)="dateValue = formatDate(popoverDatetime.value)"></ion-datetime>
+          </ng-template>
+        </ion-popover>
+
+      </ion-item>
+      <ion-item>
+        <ion-label>Product Type</ion-label>
+        <!-- <ion-input formControlName="ProductType" name="ProductType" placeholder=""></ion-input> -->
+        <ion-select ok-text="Ok" cancel-text="Cancel" name="ProductType" formControlName="ProductType"
+          (ionChange)="GetProduct($event)">
+          <ion-select-option *ngFor="let s of ProductTypeDDL" value="{{s.ID}}">{{s.Name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Product</ion-label>
+        <!-- <ion-input formControlName="Product" name="Product" placeholder=""></ion-input> -->
+        <ion-select ok-text="Ok" cancel-text="Cancel" name="Product" formControlName="Product"
+          (ionChange)="GetSubProduct($event)">
+          <ion-select-option *ngFor="let s of ProductDDL" value="{{s.ID}}">{{s.Name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Sub Product</ion-label>
+        <!-- <ion-input formControlName="SubProduct" name="SubProduct" placeholder=""></ion-input> -->
+        <ion-select ok-text="Ok" cancel-text="Cancel" name="SubProduct" formControlName="SubProduct"
+          (ionChange)="GetItem($event)">
+          <ion-select-option *ngFor="let s of SubProductDDL" value="{{s.ID}}">{{s.Name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Item *</ion-label>
+        <!-- <ion-input formControlName="Item" name="Item" placeholder=""></ion-input> -->
+        <ion-select ok-text="Ok" cancel-text="Cancel" name="Item" formControlName="Item">
+          <ion-select-option *ngFor="let s of ItemMasterDDL" value="{{s.ID}}">{{s.Name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Qty *</ion-label>
+        <ion-input formControlName="Qty" type="decimal" name="Qty" placeholder=""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Price *</ion-label>
+        <ion-input formControlName="Price" type="decimal" name="Price" placeholder=""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Serial No *</ion-label>
+        <ion-input formControlName="SerialNo" name="SerialNo" placeholder=""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Installation No *</ion-label>
+        <ion-input formControlName="InstallationNo" name="InstallationNo" placeholder=""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Mode of Payment *</ion-label>
+        <!-- <ion-input formControlName="ModeofPaymnet" name="ModeofPaymnet" placeholder=""></ion-input> -->
+        <ion-select ok-text="Ok" cancel-text="Cancel" name="ModeofPaymnet" formControlName="ModeofPaymnet">
+          <ion-select-option *ngFor="let s of PaymentModeDDL" value="{{s.ID}}">{{s.Name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Exchange *</ion-label>
+        <ion-checkbox ormControlName="Exchange" name="Exchange" placeholder=""></ion-checkbox>
+      </ion-item>
+      <ion-item>
+        <ion-label>Remarks *</ion-label>
+        <ion-input formControlName="Remarks" name="Remarks" placeholder=""></ion-input>
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Customer Details</ion-card-subtitle>
+      </ion-card-header>
+      <ion-item>
+        <ion-label>Customer Name *</ion-label>
+        <ion-input formControlName="CustomerName" name="CustomerName" placeholder=""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Phone *</ion-label>
+        <ion-input formControlName="Phone" type="number" name="Phone" placeholder=""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Email *</ion-label>
+        <ion-input formControlName="Email" type="email" name="Email" placeholder=""></ion-input>
+      </ion-item>
+      <ion-card-header>
+        <ion-card-subtitle>Address</ion-card-subtitle>
+      </ion-card-header>
+      <ion-item>
+        <ion-label>State *</ion-label>
+        <!-- <ion-input formControlName="State" name="State" placeholder=""></ion-input> -->
+        <ion-select (ionChange)="GetCity($event)" ok-text="Ok" cancel-text="Cancel" name="State"
+          formControlName="State">
+          <ion-select-option *ngFor="let s of StateDDL" value="{{s.ID}}">{{s.Name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>City *</ion-label>
+        <!-- <ion-input formControlName="City" name="City" placeholder=""></ion-input> -->
+        <ion-select ok-text="Ok" cancel-text="Cancel" name="City" formControlName="City" (ionChange)="GetItem($event)">
+          <ion-select-option *ngFor="let s of CityDDL" value="{{s.ID}}">{{s.Name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Location *</ion-label>
+        <ion-input formControlName="Location" name="Location" placeholder=""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Address *</ion-label>
+        <ion-textarea rows="3" formControlName="Address" name="Address" placeholder=""></ion-textarea>
+      </ion-item>
+    </ion-card>
+    <ion-button (click)="takePicture()">Upload Image</ion-button>
+    <ion-img [src]="imageElement" width="80" height="80"></ion-img>
+    <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom" (click)="saveSalesEntry()">
+      Save
+    </ion-button>
+  </form>
+
+</ion-content>

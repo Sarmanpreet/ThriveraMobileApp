@@ -1,0 +1,26 @@
+<ion-header>
+  <app-emp-header></app-emp-header>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" style="--ion-text-color: var(--ion-color-medium);" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-down-outline"></ion-refresher-content>
+  </ion-refresher>
+  <ion-card>
+    <ion-card-header class="ion-text-center">
+
+      <ion-card-subtitle>Hello , {{userInfo.EMPName }} ({{userInfo.UserID}})</ion-card-subtitle>
+      <ion-card-subtitle style="font-size:12px">Are are assigned to</ion-card-subtitle>
+      <ion-card-subtitle>{{userInfo.DealerName }} ({{userInfo.Work_AreaName}})</ion-card-subtitle>
+      <ion-button color="success" (click)="openCommentModal()">+ Site in</ion-button>
+    </ion-card-header>
+
+    <!-- <ion-card-content>
+      Keep close to Nature's heart... and break clear away, once in awhile,
+      and climb a mountain or spend a week in the woods. Wash your spirit clean.
+    </ion-card-content> -->
+  </ion-card>
+  <ion-calendar [(ngModel)]="dateMulti" (onChange)="onChange($event)" [options]="options" [type]="type"
+    [format]="'YYYY-MM-DD'">
+  </ion-calendar>
+</ion-content>

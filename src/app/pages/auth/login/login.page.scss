@@ -1,0 +1,18 @@
+.bg-color{
+   // --background: linear-gradient(207deg, rgba(188,251,251,1) 0%, rgba(151,151,196,1) 70%);
+--background: linear-gradient(0deg, rgba(131,234,241,1) 0%, rgba(99,164,255,1) 70%);
+   
+}
+
+.bg-img{
+    --background: url("../../../../assets/img/loginbg.png") no-repeat center center / cover;
+}
+
+.my-grid {
+    height: 90% !important;
+ }
+.parent-row {
+    height: 90% !important;
+    align-items: center !important;
+    justify-content: center !important;
+ }

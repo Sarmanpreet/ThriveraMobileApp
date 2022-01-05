@@ -1,0 +1,16 @@
+<ion-content class="ion-padding">
+  <ion-segment [value]="_Default" [(ngModel)]="_Default">
+    <ion-segment-button [value]="item.name" *ngFor="let item of _Tabs">
+      <ion-label>{{item.title}}</ion-label>
+    </ion-segment-button>
+
+  </ion-segment>
+  <div [ngSwitch]="_Default" *ngFor="let item of _Tabs">
+    <ion-list *ngSwitchCase="item.name">
+      <dynamic-table [dataSource]="item.datasource" [_colunms]="_ColunmForGrid"
+        [_isDelbtnflag]="item.showdeletebtnongrid" [_formName]=""></dynamic-table>
+    </ion-list>
+
+
+  </div>
+</ion-content>

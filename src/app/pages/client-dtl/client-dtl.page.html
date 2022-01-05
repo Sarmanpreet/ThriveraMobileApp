@@ -1,0 +1,215 @@
+<ion-header>
+  <ion-toolbar>
+    <!-- <ion-buttons slot="start">
+      <ion-back-button [text]="'back_title' | translate" defaultHref="/tabs/clients"></ion-back-button>
+    </ion-buttons> -->
+    <ion-button slot="start" (click)='goBack()' class="roundbtn">
+      <ion-icon slot="icon-only" name='arrow-back'></ion-icon>
+    </ion-button>
+    <ion-segment [formControl]="activeSegment">
+      <ion-segment-button value="detail">
+        INFORMATION
+      </ion-segment-button>
+      <ion-segment-button value="comments">
+       Visit Remarks
+      </ion-segment-button>
+    </ion-segment>
+
+    <!-- <ion-buttons slot="end">
+      <ion-button (click)="openCommentModal()">
+        <ion-icon slot="icon-only" name="chatbox-ellipses-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" style="--ion-text-color: var(--ion-color-medium);" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-down-outline"></ion-refresher-content>
+  </ion-refresher>
+  <!-- Discover tab -->
+  <ng-container *ngIf="activeSegment.value === 'detail'">
+
+    <ion-card class="post-card">
+      <ion-item class="ion-text-center">
+        <ion-label start color="primary">
+          <h2>{{client.CompName | uppercase}} </h2>
+        </ion-label>
+       
+      
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <p>{{client.AddrLine1}} {{client.AddrLine2}}</p>
+          <p>{{client.City}} {{client.State}} {{client.PinCode}}</p>
+          <p >Timing: {{client.DemoSlot}} </p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item lines="none" class="action-item">
+        
+        <!-- <ion-buttons slot="start">
+          <ion-button color="primary" class="action-button">
+            <ion-icon slot="start" name="heart-outline"></ion-icon>
+           54
+          </ion-button>
+          <ion-button color="medium" class="action-button">
+            <ion-icon slot="start" name="chatbox-outline"></ion-icon>
+            78
+          </ion-button>
+          <ion-button color="medium" class="action-button">
+            <ion-icon slot="start" name="return-up-forward-outline"></ion-icon>
+            58
+          </ion-button>
+        </ion-buttons>
+
+        <ion-buttons slot="end">
+          <ion-button color="medium">
+            <ion-icon size="small" slot="start" name="eye-outline"></ion-icon>
+            6
+          </ion-button>
+        </ion-buttons> -->
+      </ion-item>
+
+    </ion-card>
+    <ion-card>
+      <ion-list>
+        <ion-list-header lines="inset" class="ion-text-center">
+          <ion-label color="primary">
+            <h2>CONTACTS</h2>
+          </ion-label>
+        </ion-list-header>
+        <ion-item-sliding >
+          <ion-item>
+            <ion-label>
+              <h2>{{client.Name | uppercase}}</h2>
+              <p>Contact No.: {{client.ContactNo}} </p>
+              <p>Email: {{client.EmailID}}</p>
+            </ion-label>
+          </ion-item>
+        
+          <ion-item-options side="end">
+            <ion-item-option color="medium">
+              <ion-icon slot="start" name="call-outline"></ion-icon>
+              <ion-label>
+                Call
+              </ion-label>
+            </ion-item-option>
+            <!-- <ion-item-option color="danger" expandable>
+              <ion-icon slot="start" name="mail-outline"></ion-icon>
+              <ion-label>
+                Mail
+              </ion-label>
+            </ion-item-option> -->
+          </ion-item-options>
+        </ion-item-sliding>
+
+
+      </ion-list>
+    </ion-card>
+  <ion-card *ngIf="client.Status === 'Pending'">
+      <ion-list>
+        <ion-list-header lines="inset" class="ion-text-center">
+          <ion-label color="primary">
+            <h2> Meeting </h2>
+          </ion-label>
+        </ion-list-header>
+        <ion-item-sliding >
+     
+          
+          <ion-toolbar no-padding >
+            <ion-grid class="grid">
+              <ion-row>
+                
+                <ion-col text-center>
+                      <!-- <h3>
+                        <ion-toggle class="toggle" [(ngModel)]="theSate" (ionChange)="stateChange($event)"></ion-toggle>
+                      </h3> -->
+                      <div >       
+                        <ion-button  expand="block" [color]="DemoStatus?'success':'danger'" (click)="onDemoClick()">{{DemoStatus?'Stop Demo':'Start Demo'}}</ion-button>
+                        </div>
+                </ion-col>
+               
+              </ion-row>
+            </ion-grid>
+      </ion-toolbar>
+    </ion-item-sliding>
+
+
+  </ion-list>
+</ion-card> 
+          <!-- <ion-item-options side="end">
+            <ion-item-option color="medium">
+              <ion-icon slot="start" name="call-outline"></ion-icon>
+              <ion-label>
+                Call
+              </ion-label>
+            </ion-item-option>
+            <ion-item-option color="danger" expandable>
+              <ion-icon slot="start" name="mail-outline"></ion-icon>
+              <ion-label>
+                Mail
+              </ion-label>
+            </ion-item-option>
+          </ion-item-options> --
+        </ion-item-sliding>
+
+
+      </ion-list>
+    </ion-card> -->
+  </ng-container>
+
+  <ng-container *ngIf="activeSegment.value === 'comments'">
+    
+      <ion-list lines="none" class="ion-padding-bottom">
+
+        <ion-card class="post-list-card" *ngFor="let comment of clientComments">
+          <ion-item lines="none">
+           
+              <p>{{comment.COMMENT}}</p>
+            
+          </ion-item>
+  
+  
+          <ion-item lines="none" class="action-item">
+            <ion-buttons slot="start">
+              <ion-button color="medium" class="action-button">
+                <ion-icon slot="start" name="person-outline"></ion-icon>
+                {{comment.EMP_NAME | uppercase}}
+              </ion-button>
+             
+              
+            </ion-buttons>
+  
+            <ion-buttons slot="end">
+              <ion-button color="medium">
+                <ion-icon size="small" slot="start" name="calendar-outline"></ion-icon>
+            
+                {{ comment.CREATEDON | date: 'dd/MM/yyyy' }}               
+              </ion-button>
+            </ion-buttons>
+          </ion-item>
+        </ion-card>
+
+        <!-- <ion-item-sliding *ngFor="let comment of clientComments">
+          <ion-card>
+          <ion-item>
+            <p>
+              {{comment.COMMENT}}
+            </p>
+          </ion-item>
+          <ion-item >
+            <ion-label color="primary" slot="start">
+              <p>BY: {{comment.COMMENTED_BY | uppercase}}</p>
+            </ion-label>
+            <ion-label color="primary" >
+              <p>ON: {{comment.CREATEDON}}</p>
+            </ion-label>
+          </ion-item>
+        </ion-card>
+        </ion-item-sliding> -->
+      </ion-list>
+  </ng-container>
+
+</ion-content>

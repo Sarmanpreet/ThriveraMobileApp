@@ -1,0 +1,35 @@
+.card {
+    flex-wrap : nowrap;
+    overflow-x: scroll !important;
+    overflow-y: hidden;
+
+
+}
+
+::-webkit-scrollbar {
+    border    : none;
+    width     : 0;
+    background: rgba(0, 0, 0, 0);
+}
+
+.noColWrap {
+    flex-wrap: nowrap !important;
+
+    white-space: nowrap !important;
+}
+
+ion-card {
+
+    margin: 0 !important;
+
+}
+
+ion-icon {
+    font-size: 14px !important;
+}
+
+ion-button {
+    height   : 20px !important;
+    font-size: 4px !important;
+    margin   : 0 !important;
+}

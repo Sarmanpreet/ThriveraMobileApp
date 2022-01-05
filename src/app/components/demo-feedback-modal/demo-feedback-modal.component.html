@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>FEEDBACK FORM</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <form [formGroup]="feedbackForm">
+    <ion-item>
+      <ion-label>OTP</ion-label>
+    
+      <ion-input formControlName="OTP" name="reminderDate" placeholder="Enter OTP"></ion-input>
+    </ion-item>
+   
+      <ion-item>
+        <ion-label>Status </ion-label>
+        <ion-select ok-text="Ok" cancel-text="Cancel" formControlName="Status">
+          <!-- <ion-select-option *ngFor="let s of feedbacks"  Value="{{s.value}}">{{s.value}}</ion-select-option > -->
+           <ion-select-option Value="ORDER RECEIVED">ORDER RECEIVED</ion-select-option >
+          <ion-select-option Value="INTERESTED BUT ORDER NEXT TIME">INTERESTED BUT ORDER NEXT TIME</ion-select-option >
+          <ion-select-option Value="PRICE HIGH">PRICE HIGH</ion-select-option >
+          <ion-select-option Value="QUALITY POOR">QUALITY POOR</ion-select-option >
+          <ion-select-option Value="BUSY">BUSY</ion-select-option>
+          <ion-select-option Value="CLOSED">CLOSED</ion-select-option>
+          <ion-select-option Value="NOT RELEVENT SHOP">NOT RELEVENT SHOP</ion-select-option >
+          <ion-select-option Value="SET NEXT MEETING">SET NEXT MEETING</ion-select-option >
+        </ion-select>
+      </ion-item>
+      <ion-item *ngIf="feedbackForm.controls['Status'].value==='SET NEXT MEETING'" >
+        <ion-label >Reminder Date </ion-label>
+        <!--*ngIf="FeedbackForm.controls['Status'].value==='SET NEXT MEETING'"
+           <ion-datetime [(ngModel)]="commentFormData.reminderDate" name="reminderDate" displayFormat="DD MM YYYY" 
+        placeholder="Select Date"></ion-datetime> -->
+        <ion-datetime formControlName="reminderDate" name="reminderDate" displayFormat="DD MM YYYY" 
+        placeholder="Select Date"></ion-datetime>
+      </ion-item>
+     
+    <ion-item>
+      <!-- <ion-label>Feedback</ion-label> -->
+      <ion-textarea formControlName="Remarks" name="Remarks" placeholder="Write your remark here.." 
+      rows="3" cols="20"></ion-textarea>
+    </ion-item>
+
+     <!--<ion-item>
+      <ion-textarea [(ngModel)]="commentFormData.comment" name="comment" placeholder="Write your comment here.." 
+      rows="3" cols="20"></ion-textarea>
+      <ion-textarea formControlName="comment" name="comment" placeholder="Write your Remark here.." 
+      rows="3" cols="20"></ion-textarea>
+    </ion-item> -->
+   
+
+    <!-- <ion-button (click)="saveComment()">save</ion-button> -->
+    <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom"
+      (click)="saveComment()">
+      Save
+    </ion-button>
+  </form>
+
+</ion-content>

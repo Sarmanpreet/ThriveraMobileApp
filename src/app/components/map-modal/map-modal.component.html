@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>View Location</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="15" [disableDefaultUI]="false">
+    <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]=false>
+      <agm-info-window>{{lat}} {{lng}} {{address}}</agm-info-window>
+    </agm-marker>
+  </agm-map>
+</ion-content>

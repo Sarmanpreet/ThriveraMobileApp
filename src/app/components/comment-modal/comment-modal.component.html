@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>CUSTOMER VISIT FORM</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <form [formGroup]="commentForm">
+    <ion-item>
+      <ion-label>Reminder Date</ion-label>
+      <!-- <ion-datetime [(ngModel)]="commentFormData.reminderDate" name="reminderDate" displayFormat="DD MM YYYY" 
+      placeholder="Select Date"></ion-datetime> -->
+      <ion-datetime formControlName="reminderDate" name="reminderDate" displayFormat="DD MM YYYY" 
+      placeholder="Select Date"></ion-datetime>
+    </ion-item>
+   
+    <ion-item>
+      <!-- <ion-textarea [(ngModel)]="commentFormData.comment" name="comment" placeholder="Write your comment here.." 
+      rows="3" cols="20"></ion-textarea> -->
+      <ion-textarea formControlName="comment" name="comment" placeholder="Write your Remark here.." 
+      rows="3" cols="20"></ion-textarea>
+    </ion-item>
+   
+
+    <!-- <ion-button (click)="saveComment()">save</ion-button> -->
+    <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom"
+      (click)="saveComment()">
+      Save
+    </ion-button>
+  </form>
+
+</ion-content>

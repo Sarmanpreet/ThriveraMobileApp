@@ -1,0 +1,22 @@
+.vertical-center {
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+    height         : 100%;
+    margin-left    : -17% !important;
+}
+
+.center {
+    display: block;
+    margin : auto;
+    width  : 50%;
+
+}
+
+.ion-text-center {
+    --background: #4454c3;
+}
+
+ion-card-subtitle {
+    --color: white;
+}

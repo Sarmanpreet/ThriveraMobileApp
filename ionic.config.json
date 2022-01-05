@@ -1,0 +1,7 @@
+{
+  "name": "Thrivera",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,27 @@
+<ion-toolbar>
+  <ion-title></ion-title>
+  <ion-buttons slot="start">
+    <img alt="logo" id="header_logo" height="30" src="../../../../assets/logo/logo.png">
+  </ion-buttons>
+  <ion-buttons slot="start">
+
+    <ion-button (click)="toggleMenu()">
+      <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <!-- <ion-title class="ion-text-center" style="">
+    <ion-img src="../../assets/logo/bluestar.png" height="50" width="50"></ion-img>
+  </ion-title> -->
+  <div class="vertical-center">
+    <div class="center">
+      <img alt="logo" id="header_logo" class="ion-align-self-end" height="30"
+        src="../../../../assets/logo/bluestar.png">
+    </div>
+
+  </div>
+  <ion-buttons slot="end">
+    <ion-button (click)="commonService.logOut()">
+      <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>

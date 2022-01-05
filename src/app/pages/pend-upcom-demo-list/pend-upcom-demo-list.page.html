@@ -1,0 +1,107 @@
+<ion-header [translucent]="true">
+
+  <ion-toolbar color="primary">
+    <!-- <ion-buttons slot="start">
+        <ion-button (click)="toggleMenu()">
+          <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+            </ion-button>
+      </ion-buttons> -->
+    <ion-button slot="start" (click)='goBack()' class="roundbtn">
+      <ion-icon slot="icon-only" name='arrow-back'></ion-icon>
+    </ion-button>
+    <!-- <ion-buttons slot="start">
+        <ion-back-button [text]="'back_title' | translate" defaultHref="/tabs/routes"></ion-back-button>
+
+         <ion-button (click)="commonService.logOut()">
+              <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+          </ion-button>
+      </ion-buttons> -->
+    <!-- <ion-title *ngIf="!showSearchbar">
+          {{title}}
+        <ion-icon name="chevron-down-outline" class="message-icon-middle"></ion-icon> 
+      </ion-title> -->
+    <ion-segment value="Pending">
+      <ion-segment-button value="Pending" (click)="Tabchange('Pending')">
+        <ion-label>Pending</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Upcoming" (click)="Tabchange('Upcoming')">
+        <ion-label>Upcoming</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <!-- <ion-searchbar [formControl]="searchMessageList" showCancelButton="always" cancelButtonIcon="arrow-back-outline" (ionCancel)="showSearchbar = false" [placeholder]="'messages_search_title' | translate" *ngIf="showSearchbar" [formControl]="searchControl">
+      </ion-searchbar> -->
+    <!--  <ion-buttons slot="end">
+          <ion-button *ngIf="!isIos && !showSearchbar" (click)="(showSearchbar = true)">
+              <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+          </ion-button>
+          <-- <ion-button *ngIf="!showSearchbar">
+      <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+    </ion-button> --
+      </ion-buttons>-->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" style="--ion-text-color: var(--ion-color-medium);" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-down-outline"></ion-refresher-content>
+  </ion-refresher>
+  <!-- [formControl]="searchMessageList" -->
+  <ion-searchbar cancelButtonIcon="arrow-back-outline" [placeholder]="'messages_search_title'" *ngIf="isIos">
+  </ion-searchbar>
+  <ion-list class="ion-padding-bottom" *ngIf="Tab==='Pending'">
+    <ion-item-sliding *ngFor="let client of DemoPendingList">
+      <ion-item button (click)="onItemClick(client)">
+        <ion-label>
+          <h2>{{client.CompName | uppercase}} </h2>
+          <p>{{client.AddrLine1}} </p>
+          <p> {{client.City}} {{client.State}} {{client.PinCode}}</p>
+          <p> {{client.Demodate| date:'dd-MMM-yyyy'}} | {{client.DemoSlot}}</p>
+        </ion-label>
+        <ion-note slot="end" Class="bgRed" *ngIf="client.Status==='Pending'">{{client.Status}}</ion-note>
+        <ion-note slot="end" Class="bgGreen" *ngIf="client.Status==='Complete'">{{client.Status}}</ion-note>
+
+      </ion-item>
+
+
+      <ion-item-options side="end">
+        <ion-item-option color="primary" (click)="onCheckinClick(client)">
+          <ion-icon slot="start" name="location-outline"></ion-icon>
+          <ion-label>
+            Check-In
+          </ion-label>
+        </ion-item-option>
+
+
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-list class="ion-padding-bottom" *ngIf="Tab==='Upcoming'">
+    <ion-item-sliding *ngFor="let client of DemoUpcomingList">
+      <!-- <ion-item button (click)="onItemClick(client)"> -->
+      <ion-item button>
+        <ion-label>
+          <h2>{{client.CompName | uppercase}} </h2>
+          <p>{{client.AddrLine1}} </p>
+          <p> {{client.City}} {{client.State}} {{client.PinCode}}</p>
+          <p> {{client.Demodate| date:'dd-MMM-yyyy'}} | {{client.DemoSlot}} </p>
+        </ion-label>
+        <ion-note slot="end" Class="bgRed" *ngIf="client.Status==='Pending'">{{client.Status}}</ion-note>
+        <ion-note slot="end" Class="bgGreen" *ngIf="client.Status==='Complete'">{{client.Status}}</ion-note>
+
+      </ion-item>
+
+
+      <ion-item-options side="end">
+        <!-- <ion-item-option color="primary" (click)="onCheckinClick(client)"> -->
+        <ion-item-option color="primary">
+          <ion-icon slot="start" name="location-outline"></ion-icon>
+          <ion-label>
+            Check-In
+          </ion-label>
+        </ion-item-option>
+
+
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

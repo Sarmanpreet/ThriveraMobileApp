@@ -1,0 +1,40 @@
+<!-- 
+<small class="form-text text-muted danger" *ngIf="_control && _control.errors && (_control.dirty || _control.touched)">
+
+  <ng-container *ngFor="let item of validations; let i = index">
+      <ng-container [ngSwitch]="item.ValidationType">
+
+          <ng-template [ngSwitchCase]="'required'">
+              <span *ngIf="_control.errors.required" class="d-block">{{item.ValidationMessage}}</span>
+          </ng-template>
+
+          <ng-template [ngSwitchCase]="'pattern'">
+              <span *ngIf="_control.errors.pattern" class="d-block">{{item.ValidationMessage}}</span>
+          </ng-template>
+
+          <ng-template [ngSwitchCase]="'minlength'">
+              <span *ngIf="_control.errors.minlength" class="d-block">{{item.ValidationMessage}}</span>
+          </ng-template>
+          <ng-template [ngSwitchCase]="'maxlength'">
+            <span *ngIf="_control.errors.maxlength" class="d-block">{{item.ValidationMessage}}</span>
+        </ng-template>
+
+          <ng-template [ngSwitchCase]="'mustMatch'">
+              <span *ngIf="_control.errors.mustMatch" class="d-block">{{item.ValidationMessage}}</span>
+          </ng-template>
+
+          <ng-template [ngSwitchCase]="'customPattern'">
+              <span *ngIf="_control.errors.customPattern" class="d-block">{{item.ValidationMessage}}</span>
+          </ng-template>
+
+          <ng-template [ngSwitchCase]="'usernameExist'">
+              <span *ngIf="_control.errors.usernameExist" class="d-block">{{item.ValidationMessage}}</span>
+          </ng-template>
+
+          <ng-template [ngSwitchCase]="'groupNameExist'">
+              <span *ngIf="_control.errors.groupNameExist" class="d-block">{{item.ValidationMessage}}</span>
+          </ng-template>
+
+      </ng-container>
+  </ng-container>
+</small> -->
