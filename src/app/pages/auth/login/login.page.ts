@@ -39,6 +39,9 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   async onLogin() {
+    //throw new Error("done");
+
+
     debugger;
 
     this.devid = await Device.getId();
@@ -143,6 +146,9 @@ export class LoginPage implements OnInit, OnDestroy {
       );
     this.subscription.add(loginErrorSubscription);
     //}
+    if (this.isUserLoggedIn()) {
+      this.router.navigate(['/employee/employeedashboard']);
+    }
   }
 
 

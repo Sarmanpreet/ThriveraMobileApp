@@ -1,9 +1,9 @@
 //import { profileEffects } from './tabs/profile/store/profile.effects';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { RouteReuseStrategy } from '@angular/router';
+import { Router, RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -38,8 +38,8 @@ import { DemoEffects } from './pages/pend-upcom-demo-list/store/Pend-upcom-effec
 
 import { EmployeeEffects } from './tabs/employee/store/Employee.effects';
 import { EmpHeaderComponent } from './tabs/employee/emp-header/emp-header.component';
-
-
+import * as Sentry from "@sentry/angular";
+import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -94,8 +94,23 @@ import { EmpHeaderComponent } from './tabs/employee/emp-header/emp-header.compon
     ScreenOrientation,
     NativeGeocoder,
     DatePipe,
+    Camera,
 
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler({
+        showDialog: false,
+      }),
+    }, {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    }, {
+      provide: APP_INITIALIZER,
+      useFactory: () => () => { },
+      deps: [Sentry.TraceService],
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })

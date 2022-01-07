@@ -19,7 +19,9 @@
       <ion-input formControlName="Notes" name="reminderDate" placeholder=""></ion-input>
     </ion-item>
     <ion-button (click)="takePicture()">Upload Image</ion-button>
-    <ion-img [src]="imageElement" slot="center" style="width:50% !important;margin-inline: auto;"></ion-img>
+    <ion-img *ngIf="CordovaService.Image64DataAttn" [src]="'data:image/jpeg;base64,'+CordovaService.Image64DataAttn"
+      slot="center" style="width:50% !important;margin-inline: auto;">
+    </ion-img>
     <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom" (click)="saveComment()">
       Save
     </ion-button>

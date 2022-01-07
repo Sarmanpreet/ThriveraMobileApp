@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController, NavParams, ToastController } from '@ionic/angular';
+import { ModalController, NavParams, Platform, ToastController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { IAppState } from 'src/app/interfaces/app-states.interface';
@@ -12,6 +12,7 @@ import { resetAttandence, SaveAttachementImage, SaveAttandence } from 'src/app/t
 import { Geolocation, GeolocationPermissionType, GeolocationPluginPermissions } from '@capacitor/geolocation';
 import { NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import * as EmployeeAction from '../../tabs/employee/store/Employee.actions';
+import { CordovaPluginsService } from 'src/app/shared/services/cordova-plugins.service';
 @Component({
   selector: 'app-attandance-modal-component',
   templateUrl: './attandance-modal-component.component.html',
@@ -40,7 +41,8 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
     private toaster: ToastController,
     private commonService: CommonService,
     private navParams: NavParams,
-    private sessionCall: SessionCheck) { this.startTime(); }
+    private sessionCall: SessionCheck, private platform: Platform
+    , public CordovaService: CordovaPluginsService) { this.startTime(); }
 
 
   ngOnInit() {
@@ -185,24 +187,41 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
 
   }
   async takePicture() {
-    const image = await Camera.getPhoto({
-      quality: 30,
-      source: CameraSource.Camera,
-      resultType: CameraResultType.Base64,
-      width: 400,
-      height: 400, correctOrientation: false
-    });
+    // const image = await Camera.getPhoto({
+    //   quality: 30,
+    //   source: CameraSource.Camera,
+    //   resultType: CameraResultType.Base64,
+    //   width: 400,
+    //   height: 400, correctOrientation: false
+    // }),(err) => {
+    //   alert("EROOR IN SAVING PC");
+    // });;
     debugger;
-    // image.webPath will contain a path that can be set as an image src.
-    // You can access the original file using image.path, which can be
-    // passed to the Filesystem API to read the raw data of the image,
-    // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-    this.Image = image.base64String
-    // this.Image = image;
-    //var imageUrl = image.webPath;
-    //const databolob = this.dataURItoBlob(image);
-    // Can be set to the src of an image now
-    this.imageElement = "data:image/jpeg;base64," + image.base64String;
+    if (this.platform.is('android')) {
+      const Image = await this.CordovaService.clickAttnPicture();
+
+
+
+    }
+    else {
+      try {
+        Camera.getPhoto({
+          quality: 30,
+          source: CameraSource.Camera,
+          resultType: CameraResultType.Base64,
+          width: 400,
+          height: 400, correctOrientation: false
+        }).then((imageData) => {
+          this.Image = imageData.base64String;
+          this.imageElement = "data:image/jpeg;base64," + this.Image;
+        }, (err) => {
+          throw err;
+        });
+      }
+      catch (err) {
+        throw err;
+      }
+    }
   };
   dismissModal() {
     this.updateCalender();
@@ -227,6 +246,8 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
 
   async saveComment() {
     await this.Checkpermission();
+    this.Image = this.CordovaService.Image64DataAttn;
+    this.imageElement = "data:image/jpeg;base64," + this.Image;
     if (this.Geopermission) {
       const form = this.attandanceForm;
       debugger;
