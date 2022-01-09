@@ -153,8 +153,8 @@ export class EmployeePage extends BasePageComponent implements OnInit, OnDestroy
       component: AttandanceModalComponentComponent,
       swipeToClose: true,
       componentProps: paramData,
-      initialBreakpoint: 0.95,
-      breakpoints: [0, 0.5, 1]
+      // initialBreakpoint: 0.95,
+      // breakpoints: [0, 0.5, 1]
       // presentingElement: await this.modalController.getTop()
     });
     return await modal.present();

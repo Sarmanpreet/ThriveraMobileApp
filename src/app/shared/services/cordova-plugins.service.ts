@@ -6,7 +6,7 @@ import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 })
 export class CordovaPluginsService {
   Image64DataAttn: any;
-  constructor(private camera: Camera) { }
+  constructor(public camera: Camera) { }
   clickAttnPicture() {
     const options: CameraOptions = {
       quality: 50,

@@ -2,6 +2,7 @@
   <app-modal-header [Heading]="'Clock In'"></app-modal-header>
 </ion-header>
 <ion-content>
+
   <form [formGroup]="attandanceForm">
     <ion-item>
       <ion-label>{{today | date: 'EEEE, dd-MMM-yyyy h:mm:ss a'}} </ion-label>
@@ -18,11 +19,40 @@
       <ion-label>Note</ion-label>
       <ion-input formControlName="Notes" name="reminderDate" placeholder=""></ion-input>
     </ion-item>
-    <ion-button (click)="takePicture()">Upload Image</ion-button>
-    <ion-img *ngIf="CordovaService.Image64DataAttn" [src]="'data:image/jpeg;base64,'+CordovaService.Image64DataAttn"
-      slot="center" style="width:50% !important;margin-inline: auto;">
+
+    <div id="cameraPreview" class="cameraPreview">
+
+    </div>
+    <div *ngIf="CameraPreview">
+
+      <ion-button (click)="stopCamera()" expand="block" id="close">
+        <ion-icon name="close-circle" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="captureImage()" expand="block" id="capture">
+        <ion-icon name="camera" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="flipCamera()" expand="block" id="flip">
+        <ion-icon name="camera-reverse" slot="icon-only"></ion-icon>
+      </ion-button>
+
+    </div>
+    <ion-fab *ngIf="!CameraPreview" vertical="start" horizontal="start" slot="fixed">
+      <ion-fab-button (click)="takePicture()">
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    <br />
+    <br />
+    <br />
+    <ion-img *ngIf="Image && !CameraPreview" [src]="'data:image/jpeg;base64,'+Image" slot="center"
+      style="width:50% !important;margin-inline: auto;">
     </ion-img>
-    <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom" (click)="saveComment()">
+
+
+
+
+    <ion-button *ngIf="!CameraPreview" expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom"
+      (click)="saveComment()">
       Save
     </ion-button>
   </form>

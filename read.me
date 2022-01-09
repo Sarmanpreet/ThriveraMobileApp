@@ -1,0 +1,34 @@
+Changes required in android MainActivity
+
+package io.ionic.starter;
+import com.ahm.capacitor.camera.preview.CameraPreview;
+import com.getcapacitor.BridgeActivity;
+import com.getcapacitor.Plugin;
+
+import android.os.Bundle;
+import java.util.ArrayList;
+public class MainActivity extends BridgeActivity {
+  @Override
+public  void  onCreate(Bundle  savedInstanceState)
+{
+    super.onCreate(savedInstanceState);
+  registerPlugin(com.capacitorjs.plugins.device.DevicePlugin.class);
+  registerPlugin(com.capacitorjs.plugins.geolocation.GeolocationPlugin.class);
+    this.init(savedInstanceState, new ArrayList<Class<? extends Plugin>>() {{
+      // Additional plugins you've installed go here
+      // Ex: add(TotallyAwesomePlugin.class);
+
+      add(CameraPreview.class);
+}});
+}
+}
+
+
+permission in androidManifest.xml
+
+ <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+

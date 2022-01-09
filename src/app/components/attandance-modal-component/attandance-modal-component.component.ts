@@ -8,6 +8,9 @@ import { getAttachmentIdResponse, getAttandenceResponse, saveAttandencelogRespon
 import { CommonService } from 'src/app/shared/services/common.service';
 import { SessionCheck } from 'src/app/shared/session/sessioncheck.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { CameraPreview, CameraPreviewPictureOptions } from "@capacitor-community/camera-preview"
+
+import { CameraPreviewOptions } from '@capacitor-community/camera-preview';
 import { resetAttandence, SaveAttachementImage, SaveAttandence } from 'src/app/tabs/employee/store/Employee.actions';
 import { Geolocation, GeolocationPermissionType, GeolocationPluginPermissions } from '@capacitor/geolocation';
 import { NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
@@ -24,7 +27,7 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
   DemoData: any = {};
   feedbacks: any = [];
   subscription = new Subscription();
-  Image: any;
+  Image: any = null;
   AttandenceDDL: any;
   imageElement: any;
   lat: any;
@@ -34,6 +37,7 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
   loc: GeolocationPluginPermissions;
   Geopermission: boolean;
   UserId: any;
+  CameraPreview: boolean = false;
   constructor(
     private store: Store<IAppState>,
     private modalController: ModalController,
@@ -186,6 +190,26 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
 
 
   }
+  async flipCamera() {
+    CameraPreview.flip();
+
+  }
+  async stopCamera() {
+    await CameraPreview.stop();
+    this.CameraPreview = false;
+  }
+  async captureImage() {
+    const cameraPreviewPictureOptions: CameraPreviewPictureOptions = {
+      quality: 50
+    };
+
+    const result = await CameraPreview.capture(cameraPreviewPictureOptions);
+    this.Image = result.value;
+    this.CameraPreview = false;
+    CameraPreview.stop();
+
+  }
+
   async takePicture() {
     // const image = await Camera.getPhoto({
     //   quality: 30,
@@ -196,32 +220,41 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
     // }),(err) => {
     //   alert("EROOR IN SAVING PC");
     // });;
+    const cameraPreviewOptions: CameraPreviewOptions = {
+      position: 'rear',
+      parent: "cameraPreview",
+      className: "cameraPreview",
+      paddingBottom: 100
+    };
+    CameraPreview.start(cameraPreviewOptions);
+    this.CameraPreview = true;
+
     debugger;
-    if (this.platform.is('android')) {
-      const Image = await this.CordovaService.clickAttnPicture();
+    // if (this.platform.is('android')) {
+    //   const Image = await this.CordovaService.clickAttnPicture();
 
 
 
-    }
-    else {
-      try {
-        Camera.getPhoto({
-          quality: 30,
-          source: CameraSource.Camera,
-          resultType: CameraResultType.Base64,
-          width: 400,
-          height: 400, correctOrientation: false
-        }).then((imageData) => {
-          this.Image = imageData.base64String;
-          this.imageElement = "data:image/jpeg;base64," + this.Image;
-        }, (err) => {
-          throw err;
-        });
-      }
-      catch (err) {
-        throw err;
-      }
-    }
+    // }
+    // else {
+    //   try {
+    //     Camera.getPhoto({
+    //       quality: 30,
+    //       source: CameraSource.Camera,
+    //       resultType: CameraResultType.Base64,
+    //       width: 400,
+    //       height: 400, correctOrientation: false
+    //     }).then((imageData) => {
+    //       this.Image = imageData.base64String;
+    //       this.imageElement = "data:image/jpeg;base64," + this.Image;
+    //     }, (err) => {
+    //       throw err;
+    //     });
+    //   }
+    //   catch (err) {
+    //     throw err;
+    //   }
+    // }
   };
   dismissModal() {
     this.updateCalender();
@@ -246,8 +279,8 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
 
   async saveComment() {
     await this.Checkpermission();
-    this.Image = this.CordovaService.Image64DataAttn;
-    this.imageElement = "data:image/jpeg;base64," + this.Image;
+    // this.Image = this.CordovaService.Image64DataAttn;
+    // this.imageElement = "data:image/jpeg;base64," + this.Image;
     if (this.Geopermission) {
       const form = this.attandanceForm;
       debugger;

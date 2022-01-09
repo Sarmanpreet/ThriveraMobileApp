@@ -2,6 +2,7 @@
   <app-modal-header [Heading]="'Sale Entry'"></app-modal-header>
 </ion-header>
 <ion-content>
+
   <form [formGroup]="newSalesForm">
     <ion-card>
       <ion-card-header>
@@ -143,12 +144,48 @@
         <ion-label>Address *</ion-label>
         <ion-textarea rows="3" formControlName="Address" name="Address" placeholder=""></ion-textarea>
       </ion-item>
+
+
+
     </ion-card>
-    <ion-button (click)="takePicture()">Upload Image</ion-button>
-    <ion-img [src]="imageElement" style="width:50% !important;margin-inline: auto;"></ion-img>
-    <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom" (click)="saveSalesEntry()">
+    <div id="cameraPreview" class="cameraPreview">
+
+    </div>
+    <div *ngIf="CameraPreview">
+
+      <ion-button (click)="stopCamera()" expand="block" id="close">
+        <ion-icon name="close-circle" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="captureImage()" expand="block" id="capture">
+        <ion-icon name="camera" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="flipCamera()" expand="block" id="flip">
+        <ion-icon name="camera-reverse" slot="icon-only"></ion-icon>
+      </ion-button>
+
+    </div>
+
+    <ion-fab *ngIf="!CameraPreview" vertical="start" horizontal="start" slot="fixed">
+      <ion-fab-button (click)="takePicture()">
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+    <br />
+    <br />
+    <br />
+    <ion-img *ngIf="Image && !CameraPreview" [src]="'data:image/jpeg;base64,'+Image" slot="center"
+      style="width:50% !important;margin-inline: auto;">
+    </ion-img>
+
+
+    <ion-button *ngIf="!CameraPreview" expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom"
+      (click)="saveSalesEntry()">
       Save
     </ion-button>
+    <!-- <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom" (click)="saveSalesEntry()">
+      Save
+    </ion-button> -->
   </form>
 
 </ion-content>

@@ -14,6 +14,10 @@ import { NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/nativ
 import { DatePipe } from '@angular/common';
 import { format, parseISO } from 'date-fns';
 import * as EmployeeAction from '../../tabs/employee/store/Employee.actions';
+import { CameraPreview, CameraPreviewPictureOptions } from "@capacitor-community/camera-preview"
+
+import { CameraPreviewOptions } from '@capacitor-community/camera-preview';
+
 @Component({
   selector: 'app-new-sales-entry-modal-component',
   templateUrl: './new-sales-entry-modal-component.component.html',
@@ -43,6 +47,7 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
   Brand: any;
   loc: GeolocationPluginPermissions;
   Geopermission: boolean = false;
+  CameraPreview: boolean = false;
   constructor(
     private store: Store<IAppState>,
     private modalController: ModalController,
@@ -358,26 +363,54 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
 
 
   }
-  async takePicture() {
-    const image = await Camera.getPhoto({
-      quality: 30,
-      source: CameraSource.Camera,
-      width: 400,
-      height: 400,
+  async flipCamera() {
+    CameraPreview.flip();
 
-      resultType: CameraResultType.Base64
-    });
-    debugger;
-    // image.webPath will contain a path that can be set as an image src.
-    // You can access the original file using image.path, which can be
-    // passed to the Filesystem API to read the raw data of the image,
-    // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-    this.Image = image.base64String
-    // this.Image = image;
-    //var imageUrl = image.webPath;
-    //const databolob = this.dataURItoBlob(image);
-    // Can be set to the src of an image now
-    this.imageElement = "data:image/jpeg;base64," + image.base64String;
+  }
+  async stopCamera() {
+    await CameraPreview.stop();
+    this.CameraPreview = false;
+  }
+  async captureImage() {
+    const cameraPreviewPictureOptions: CameraPreviewPictureOptions = {
+      quality: 50
+    };
+
+    const result = await CameraPreview.capture(cameraPreviewPictureOptions);
+    this.Image = result.value;
+    this.CameraPreview = false;
+    CameraPreview.stop();
+
+  }
+  async takePicture() {
+    const cameraPreviewOptions: CameraPreviewOptions = {
+      position: 'rear',
+      parent: "cameraPreview",
+      className: "cameraPreview",
+      paddingBottom: 100
+    };
+    CameraPreview.start(cameraPreviewOptions);
+    this.CameraPreview = true;
+
+    // const image = await Camera.getPhoto({
+    //   quality: 30,
+    //   source: CameraSource.Camera,
+    //   width: 400,
+    //   height: 400,
+
+    //   resultType: CameraResultType.Base64
+    // });
+    // debugger;
+    // // image.webPath will contain a path that can be set as an image src.
+    // // You can access the original file using image.path, which can be
+    // // passed to the Filesystem API to read the raw data of the image,
+    // // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
+    // this.Image = image.base64String
+    // // this.Image = image;
+    // //var imageUrl = image.webPath;
+    // //const databolob = this.dataURItoBlob(image);
+    // // Can be set to the src of an image now
+    // this.imageElement = "data:image/jpeg;base64," + image.base64String;
   };
   dismissModal() {
     this.subscription.unsubscribe();
