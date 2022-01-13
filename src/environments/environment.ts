@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   //apiUrl: 'http://182.77.57.238:82/'
   // apiUrl: 'http://ion-app-api.rustx.net/',
-  // apiUrl: 'http://localhost:1578/',
+  //apiUrl: 'http://localhost:1578/',
   //apiUrl: 'https://cppdapi.thrivera.co/',
   apiUrl: 'https://api.thrivera.co.in/',
   sentryUrl: "https://06e254d4981c4b36bc9638feb26bda9d@o1109008.ingest.sentry.io/6137100"

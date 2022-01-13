@@ -477,7 +477,9 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
           tableid: 0,
           TableName: ''
           , IPAddress: '192.168.1.1.',
-          Description: ''
+          Description: '',
+          pathFor: 'ssrentry'
+
 
         }
         // this.modalController.dismiss({

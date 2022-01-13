@@ -224,7 +224,8 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
       position: 'rear',
       parent: "cameraPreview",
       className: "cameraPreview",
-      paddingBottom: 100
+      paddingBottom: 100,
+
     };
     CameraPreview.start(cameraPreviewOptions);
     this.CameraPreview = true;
@@ -298,7 +299,8 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
           tableid: 0,
           TableName: ''
           , IPAddress: '192.168.1.1.',
-          Description: ''
+          Description: '',
+          pathFor: 'ssrentry  '
 
         }
         // this.modalController.dismiss({
