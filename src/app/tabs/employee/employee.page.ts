@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MenuController, ModalController, ToastController } from '@ionic/angular';
+import { IonSlides, MenuController, ModalController, ToastController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { CalendarComponentOptions, DayConfig } from 'ion2-calendar';
 import { IAppState } from 'src/app/interfaces/app-states.interface';
@@ -22,13 +22,17 @@ import { getCalenderResponse } from './store/Employee.selectors';
 })
 export class EmployeePage extends BasePageComponent implements OnInit, OnDestroy {
   dateMulti: string[] = [];//['2021-12-12', '2021-12-11', '2021-12-13'];
-
+  // @ViewChild('slideWithNav', { static: false }) slideWithNav: IonSlides;
   daysConfig: DayConfig[] = [];
   options: CalendarComponentOptions
   date: string;
   type: 'string'; // 'string' | 'js-date' | 'moment' | 'time' | 'object'
 
   userInfo: any;
+  slideOpts = {
+    initialSlide: 1,
+    speed: 2000, autoplay: true
+  };
   public subscription = new Subscription();
 
   constructor(

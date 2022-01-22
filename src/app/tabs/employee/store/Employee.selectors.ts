@@ -67,5 +67,12 @@ export const getDeleteEntryResponse = createSelector(
     selectEmployeeState,
     (state: IEmployee) => state.DeleteEntry
 );
+export const getMOPListResponse = createSelector(
+    selectEmployeeState,
+    (state: IEmployee) => state.MOPList
+);
+
+
+
 
 

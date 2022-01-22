@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { EmployeePage } from './employee.page';
+import { MOPListComponent } from './mop-list/mop-list.component';
 import { SaleEntryListComponent } from './sale-entry-list/sale-entry-list.component';
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
     path: 'Transaction',
     children: [
       { path: 'SaleEntryList', component: SaleEntryListComponent },
+      { path: 'MOPList', component: MOPListComponent },
     ]
   },
 

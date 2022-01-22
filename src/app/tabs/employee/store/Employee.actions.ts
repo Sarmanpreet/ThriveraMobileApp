@@ -195,4 +195,22 @@ export const DeleteEntryError = createAction(
 );
 
 
+export const GetMOPList = createAction(
+  '[GetMOPList Page] GetMOPList Button',
+  props<{ payload: any }>()
+);
+
+export const GetMOPListSuccess = createAction(
+  '[GetMOPList Effects] GetMOPList Success Response',
+  props<{ payload: any }>()
+);
+
+export const GetMOPListError = createAction(
+  '[GetMOPList Effects] GetMOPList Error Response',
+  props<{ payload: any }>()
+);
+
+
+
+
 

@@ -7,8 +7,8 @@
   </ion-segment>
   <div [ngSwitch]="_Default" *ngFor="let item of _Tabs">
     <ion-list *ngSwitchCase="item.name">
-      <dynamic-table [dataSource]="item.datasource" [_colunms]="_ColunmForGrid"
-        [_isDelbtnflag]="item.showdeletebtnongrid" [_formName]=""></dynamic-table>
+      <dynamic-table [dataSource]="item.datasource" [_colunms]="_ColunmForGrid" [_isbtnflag]="item.showdeletebtnongrid"
+        [_formName]=""></dynamic-table>
     </ion-list>
 
 

@@ -122,8 +122,8 @@ export class LoginPage implements OnInit, OnDestroy {
 
                 this.commonService.toastAlert('You are logged in successfully', 'success');
                 // this.getmeusettings(serverResponse.body.Roleid);
-                this.router.navigate(['/employee/employeedashboard']);
-                //this.router.navigate(['/tabs']);
+                //this.router.navigate(['/employee/employeedashboard']);
+                this.router.navigate(['/tabs']);
               }
             } else {
               this.loading = false;
@@ -147,7 +147,8 @@ export class LoginPage implements OnInit, OnDestroy {
     this.subscription.add(loginErrorSubscription);
     //}
     if (this.isUserLoggedIn()) {
-      this.router.navigate(['/employee/employeedashboard']);
+      this.router.navigate(['/tabs']);
+      // this.router.navigate(['/employee/employeedashboard']);
     }
   }
 

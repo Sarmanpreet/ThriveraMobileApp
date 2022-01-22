@@ -32,6 +32,7 @@ import { profileReducer, IprofileState } from '../tabs/profile/store/profile.red
 import { IRoutesState, routeReducer } from '../tabs/routes/store/route.reducers';
 import { DemoReducer, IDemoState } from '../pages/pend-upcom-demo-list/store/Pend-upcom-reducers';
 import { employeeReducer, IEmployee } from '../tabs/employee/store/Employee.reducers';
+import { IMop, mopReducer } from '../tabs/employee/mop-list/store/Mop.reducers';
 
 
 
@@ -52,7 +53,8 @@ export const reducers: ActionReducerMap<AppState> = {
   profile: profileReducer,
   demo: DemoReducer,
   Upcomingdemo: DemoReducer,
-  employee: employeeReducer
+  employee: employeeReducer,
+  mop: mopReducer
 };
 
 export const selectSettingsState = createFeatureSelector<
@@ -63,6 +65,7 @@ export const selectSettingsState = createFeatureSelector<
 export interface AppState {
   settings: SettingsState;
   employee: IEmployee;
+  mop: IMop;
   music: MusicState;
   auth: IAuthState;
   clients: IClientsState;
@@ -89,7 +92,10 @@ export const selectEmployeeState = createFeatureSelector<
   AppState,
   IEmployee
 >('employee');
-
+export const selectMopState = createFeatureSelector<
+  AppState,
+  IMop
+>('mop');
 export const selectClientsState = createFeatureSelector<
   AppState,
   IClientsState

@@ -2,14 +2,14 @@
   <ion-grid>
     <ion-row class="noColWrap">
       <ion-col *ngFor="let item of _colunms" [size]="item.tblcolumnWidth?item.tblcolumnWidth:5"
-        [ngStyle]="item.name=='actions' && !_isDelbtnflag?{'display': 'none'} : {'display': 'block'}">
+        [ngStyle]="item.name=='actions' && !_isbtnflag ?{'display': 'none'} : {'display': 'block'}">
         <div>{{item.title}}</div>
       </ion-col>
 
     </ion-row>
     <ion-row class="noColWrap" *ngFor="let data of _dataSource">
       <ion-col *ngFor="let item of _colunms" [size]="item.tblcolumnWidth?item.tblcolumnWidth:5"
-        [ngStyle]="item.name=='actions' &&  !_isDelbtnflag?{'display': 'none'} : {'display': 'block'}">
+        [ngStyle]="item.name=='actions' &&   !_isbtnflag?{'display': 'none'} : {'display': 'block'}">
         <div class="actions" *ngIf="item.name=='actions'">
           <ion-button tc-button *ngFor="let actionButton of item.buttons"
             (click)="actionButton.click ? actionButton.click($event,data) : 'return;'">

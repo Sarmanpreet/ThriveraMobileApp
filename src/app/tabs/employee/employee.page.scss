@@ -20,3 +20,39 @@
 ion-card-subtitle {
     --color: white;
 }
+
+.ion-profile-grid {
+    --ion-grid-padding: 10px;
+    background-color  : #5f478c;
+
+    .imgcenter {
+        display: block;
+        margin : auto;
+    }
+
+    ion-label {
+        color    : white;
+        font-size: 11px;
+    }
+}
+
+.rotate-90 {
+    display  : inline-block;
+    transform: rotate(90deg);
+}
+
+.f-sm {
+    font-size  : smaller;
+    margin-left: -15% !important;
+
+}
+
+.f-sm-m0 {
+    font-size: smaller;
+
+
+}
+
+.logocenter {
+    margin-top: 2px;
+}

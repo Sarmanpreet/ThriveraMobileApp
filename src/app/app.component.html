@@ -58,7 +58,7 @@
     <ion-content>
 
       <ion-item routerLinkActive="active-link" routerDirection="root" button (click)="toggleMenu()"
-        [routerLink]="'employee/employeedashboard'">
+        [routerLink]="'tabs/employee/employeedashboard'">
         <ion-label>Dashboard</ion-label>
       </ion-item>
 
@@ -71,7 +71,7 @@
 
           <ion-list slot="content" *ngFor="let submenu of  extractSubmenu(item)">
             <ion-item routerLinkActive="active-link" button (click)="toggleMenu()"
-              [routerLink]="'employee'+submenu.MenuURL">
+              [routerLink]="'tabs/employee'+submenu.MenuURL">
               <ion-label>{{submenu.MenuName}}</ion-label>
             </ion-item>
 

@@ -26,30 +26,31 @@
       <ion-icon name="reader-outline"></ion-icon>
     </ion-tab-button> -->
 
-    <ion-tab-button (click)="toggleMenu()">
-      <ion-icon name="reader-outline">Menu</ion-icon>
-      <ion-label>Menu</ion-label>
-    </ion-tab-button>
 
     <ion-tab-button tab="employee">
-      <ion-icon name="home-outline"></ion-icon>
+      <ion-icon name="home"></ion-icon>
       <ion-label>Home</ion-label>
     </ion-tab-button>
 
     <ion-tab-button (click)="openAttnModal()">
       <!-- <ion-icon name="people-circle-outline"></ion-icon> (click)="openMenu()" -->
-      <ion-icon name="person-add-outline"></ion-icon>
+      <ion-icon name="person-add"></ion-icon>
       <ion-label>Attn.</ion-label>
     </ion-tab-button>
 
 
     <ion-tab-button tab="employee/Transaction/SaleEntryList">
-      <ion-icon name="layers-outline"></ion-icon>
-      <ion-label>Sale</ion-label>
+      <ion-icon name="layers"></ion-icon>
+      <ion-label>Sales</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="profile">
-      <ion-icon name="notifications-outline"></ion-icon>
+      <ion-icon name="notifications"></ion-icon>
       <ion-label>Notification</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button (click)="toggleMenu()">
+      <ion-icon name="reader">Menu</ion-icon>
+      <ion-label>Menu</ion-label>
     </ion-tab-button>
   </ion-tab-bar>

@@ -2,33 +2,37 @@ ion-progress-bar {
   height: 2px;
 }
 
+ion-tab-button {
+  color: #5f478c !important;
+}
+
 .music-toolbar {
-  --min-height: var(--music-tab-height);
-  height: var(--music-tab-height);
-  --min-height: var(--music-tab-height);
-  --padding-top: 0px;
+  --min-height    : var(--music-tab-height);
+  height          : var(--music-tab-height);
+  --min-height    : var(--music-tab-height);
+  --padding-top   : 0px;
   --padding-bottom: 0px;
 }
 
 .music-toolbar-buttons {
-  min-height: var(--music-tab-height);
-  height: var(--music-tab-height);
+  min-height  : var(--music-tab-height);
+  height      : var(--music-tab-height);
   --min-height: var(--music-tab-height);
 }
 
 .music-toolbar-button {
   height: var(--music-tab-height);
-  width: var(--music-tab-height);
+  width : var(--music-tab-height);
 }
 
 .music-toolbar-title {
-  font-size: 12px;
-  min-height: var(--music-tab-height);
-  height: var(--music-tab-height);
+  font-size   : 12px;
+  min-height  : var(--music-tab-height);
+  height      : var(--music-tab-height);
   --min-height: var(--music-tab-height);
 
   p {
     font-size: 10px;
-    color: var(--ion-color-medium);
+    color    : var(--ion-color-medium);
   }
 }

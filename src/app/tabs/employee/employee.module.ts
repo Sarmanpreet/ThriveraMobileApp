@@ -16,6 +16,8 @@ import { SaleEntryListComponent } from './sale-entry-list/sale-entry-list.compon
 import { DynamicTableComponent } from './dynamic-table/dynamic-table.component';
 import { SalesEntryModalComponentComponent } from 'src/app/components/new-sales-entry-modal-component/new-sales-entry-modal-component.component';
 import { ModalHeaderComponent } from 'src/app/shared/modal-header/modal-header.component';
+import { MOPListComponent } from './mop-list/mop-list.component';
+import { MOPEntryModalComponentComponent } from 'src/app/components/mop-entry-modal-component/mop-entry-modal-component.component';
 
 @NgModule({
   imports: [
@@ -30,12 +32,14 @@ import { ModalHeaderComponent } from 'src/app/shared/modal-header/modal-header.c
   declarations: [EmployeePage,
     EmpHeaderComponent,
     SaleEntryListComponent,
+    MOPListComponent,
     TabHeaderComponent,
     DynamicTableComponent,
     SalesEntryModalComponentComponent,
     AttandanceModalComponentComponent,
+    MOPEntryModalComponentComponent,
     ModalHeaderComponent
   ],
-  entryComponents: [AttandanceModalComponentComponent, SalesEntryModalComponentComponent]
+  entryComponents: [AttandanceModalComponentComponent, SalesEntryModalComponentComponent, MOPEntryModalComponentComponent]
 })
 export class EmployeePageModule { }

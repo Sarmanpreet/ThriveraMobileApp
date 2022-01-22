@@ -10,7 +10,8 @@ export class DynamicTableComponent implements OnInit {
   public _dataSource: any[];
   @Input() _formName: string = '';
   @Input() _colunms: IDynamicTblColumn[] = [];
-  @Input() _isDelbtnflag: boolean = false;
+  @Input() _isbtnflag: boolean = false;
+  @Input() _isEditbtnflag: boolean = false;
 
   @Input() set dataSource(val: any[]) {
 

@@ -228,6 +228,24 @@ export class EmployeeEffects {
                 ))
 
     )
+    GetMOPList$ = createEffect(
+        () => this.actions$
+            .pipe(
+                ofType(EmpActions.GetMOPList),
+                mergeMap(
+                    (data) => this.service.postMethodWithToken('GetMOPList', this.session.getlocalStorage('token'), data.payload)
+                        .pipe(
+                            map(result => {
+
+                                // Just to get the headers from the response in mutable way before passing into reducer 
+
+                                return EmpActions.GetMOPListSuccess({ payload: result[0] });
+                            }),
+                            catchError(error => of(EmpActions.GetMOPListError({ payload: error })))
+                        )
+                ))
+
+    );
     constructor(private actions$: Actions,
         private service: GenericCallService,
         private session: SessionCheck

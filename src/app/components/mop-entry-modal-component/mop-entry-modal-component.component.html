@@ -1,0 +1,92 @@
+<ion-header>
+  <app-modal-header [Heading]="'Sale Entry'"></app-modal-header>
+</ion-header>
+<ion-content>
+
+  <form [formGroup]="MOPForm">
+    <ion-card>
+
+
+      <ion-item>
+        <ion-label>Date *</ion-label>
+        <ion-input formControlName="Date" name="Date" placeholder="" readonly="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Brand Name* </ion-label>
+        <ion-input formControlName="Brand" name="Brand" placeholder="" readonly="true" [value]="Brand"></ion-input>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label>Product</ion-label>
+
+        <ion-select ok-text="Ok" cancel-text="Cancel" name="Product" formControlName="Product"
+          (ionChange)="GetSubProduct($event)">
+          <ion-select-option *ngFor="let s of ProductDDL" value="{{s.ID}}">{{s.Name}}</ion-select-option>
+
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Sub Product</ion-label>
+
+        <ion-select ok-text="Ok" cancel-text="Cancel" name="SubProduct" formControlName="SubProduct"
+          (ionChange)="GetItem($event)">
+          <ion-select-option *ngFor="let s of SubProductDDL" value="{{s.ID}}">{{s.Name}}</ion-select-option>
+
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Model Number *</ion-label>
+        <ion-input formControlName="ModelNumber" name="ModelNumber" placeholder=""></ion-input>
+
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Price *</ion-label>
+        <ion-input formControlName="Price" type="decimal" name="Price" placeholder=""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Remark *</ion-label>
+        <ion-input formControlName="SerialNo" name="SerialNo" placeholder=""></ion-input>
+      </ion-item>
+
+    </ion-card>
+
+    <!-- <div id="cameraPreview" class="cameraPreview">
+
+    </div>
+    <div *ngIf="CameraPreview">
+
+      <ion-button (click)="stopCamera()" expand="block" id="close">
+        <ion-icon name="close-circle" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="captureImage()" expand="block" id="capture">
+        <ion-icon name="camera" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="flipCamera()" expand="block" id="flip">
+        <ion-icon name="camera-reverse" slot="icon-only"></ion-icon>
+      </ion-button>
+
+    </div>
+
+    <ion-fab *ngIf="!CameraPreview" vertical="start" horizontal="start" slot="fixed">
+      <ion-fab-button (click)="takePicture()">
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+    <br />
+    <br />
+    <br />
+    <ion-img *ngIf="Image && !CameraPreview" [src]="'data:image/jpeg;base64,'+Image" slot="center"
+      style="width:50% !important;margin-inline: auto;">
+    </ion-img> -->
+
+    <!-- <ion-button *ngIf="!CameraPreview" expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom" -->
+    <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom" (click)="saveMOPEntry()">
+      Submit
+    </ion-button>
+
+  </form>
+
+</ion-content>

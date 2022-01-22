@@ -20,6 +20,9 @@ export interface IEmployee {
   ItemDDL: any;
   SaveEntry: any;
   DeleteEntry: any;
+  MOPList: any;
+  MOPProductList: any;
+  SaveMop: any;
 }
 
 export const initialAuthState: IEmployee = {
@@ -37,7 +40,10 @@ export const initialAuthState: IEmployee = {
   SubProductDDL: null,
   ItemDDL: null,
   SaveEntry: null,
-  DeleteEntry: null
+  DeleteEntry: null,
+  MOPList: null,
+  MOPProductList: null,
+  SaveMop: null
 };
 
 
@@ -401,7 +407,33 @@ export const reducer = createReducer(
         loading: false,
         error: action.payload
       };
-    })
+    }),
+  on(EmpActions.GetMOPList,
+    (state, action) => {
+      return {
+        ...state,
+        loading: true
+      };
+    }),
+  on(EmpActions.GetMOPListSuccess,
+    (state, action) => {
+
+      return {
+        ...state,
+        loading: false,
+        MOPList: action.payload
+      };
+    }),
+
+  on(EmpActions.GetMOPListError,
+    (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }),
+
 );
 
 export function employeeReducer(
