@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { CounterDisplayListComponent } from './counterdisplay-list/counterdisplay-list.component';
 
 import { EmployeePage } from './employee.page';
 import { MOPListComponent } from './mop-list/mop-list.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
     children: [
       { path: 'SaleEntryList', component: SaleEntryListComponent },
       { path: 'MOPList', component: MOPListComponent },
+      { path: 'CounterDisplayList', component: CounterDisplayListComponent },
     ]
   },
 

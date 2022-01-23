@@ -47,6 +47,10 @@ export const SaveAttachementImageError = createAction(
   '[SaveAttachementImage Effects] SaveAttachementImage Error Response',
   props<{ payload: any }>()
 );
+export const resetAttachementImage = createAction(
+  '[resetAttachementImage Effects] resetAttachementImage Error Response',
+  props<{ payload: any }>()
+);
 export const SaveAttandence = createAction(
   '[SaveAttandence Page] SaveAttandence Button',
   props<{ payload: any }>()

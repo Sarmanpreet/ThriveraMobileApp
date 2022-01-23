@@ -41,6 +41,7 @@ import { EmpHeaderComponent } from './tabs/employee/emp-header/emp-header.compon
 import * as Sentry from "@sentry/angular";
 import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 import { Mopffects } from './tabs/employee/mop-list/store/Mop.effects';
+import { Counterdisplayeffects } from './tabs/employee/counterdisplay-list/store/Counterdisplay.effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -81,6 +82,7 @@ import { Mopffects } from './tabs/employee/mop-list/store/Mop.effects';
       ClientsEffects,
       ClientDtlEffects,
       Mopffects,
+      Counterdisplayeffects,
       // gmapEffects,
       // savedLocationsEffect,
       //profileEffects,

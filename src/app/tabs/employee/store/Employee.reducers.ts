@@ -149,6 +149,15 @@ export const reducer = createReducer(
         error: action.payload
       };
     }),
+  on(EmpActions.resetAttachementImage,
+    (state, action) => {
+
+      return {
+        ...state,
+        loading: false,
+        AttachmentId: null
+      };
+    }),
   on(EmpActions.SaveAttandence,
     (state, action) => {
       return {

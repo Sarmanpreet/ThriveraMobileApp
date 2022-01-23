@@ -23,9 +23,11 @@ import { CameraPreviewOptions } from '@capacitor-community/camera-preview';
   templateUrl: './new-sales-entry-modal-component.component.html',
   styleUrls: ['./new-sales-entry-modal-component.component.scss'],
 })
+
 export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
   today = new Date();
   newSalesForm: FormGroup;
+  StaticnewSalesForm: FormGroup;
   DemoData: any = {};
   feedbacks: any = [];
   subscription = new Subscription();
@@ -80,7 +82,7 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
             this.ItemMasterDDL = getResponse[4];
             this.IntialItemMasterDDL = getResponse[4];
             this.Brand = getResponse[0][0].SaleFor;
-
+            this.newSalesForm.patchValue({ Brand: getResponse[0][0].SaleFor });
 
           }
         }
@@ -134,7 +136,7 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
           debugger;
           if (getCalenderResponse) {
             console.log(getCalenderResponse);
-            const form = this.newSalesForm;
+            const form = this.StaticnewSalesForm;
             if (getCalenderResponse[0].MESSAGE == "Added Successfully") {
               if (form.valid) {
                 const data = {
@@ -464,6 +466,7 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
       const form = this.newSalesForm;
       debugger;
       if (form.valid && this.Image != undefined) {
+        this.StaticnewSalesForm = this.newSalesForm;
         // const formData = new FormData();
         // formData.append('file', this.Image);
         // formData.append('EntityTypeId', '7');

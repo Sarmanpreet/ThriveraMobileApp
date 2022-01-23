@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
+import { Observable } from 'rxjs/internal/Observable';
+import { Observer } from 'rxjs/internal/types';
 
 @Injectable({
   providedIn: 'root'

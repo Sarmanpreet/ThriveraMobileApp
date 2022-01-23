@@ -33,6 +33,7 @@ import { IRoutesState, routeReducer } from '../tabs/routes/store/route.reducers'
 import { DemoReducer, IDemoState } from '../pages/pend-upcom-demo-list/store/Pend-upcom-reducers';
 import { employeeReducer, IEmployee } from '../tabs/employee/store/Employee.reducers';
 import { IMop, mopReducer } from '../tabs/employee/mop-list/store/Mop.reducers';
+import { counterdisplayReducer, ICounterdisplay } from '../tabs/employee/counterdisplay-list/store/Counterdisplay.reducers';
 
 
 
@@ -42,6 +43,7 @@ export const metaReducers: MetaReducer<AppState>[] = [
 
 export const reducers: ActionReducerMap<AppState> = {
   settings: settingsReducer,
+  counterdisplay: counterdisplayReducer,
   music: musicReducer,
   auth: authReducer,
   routes: routeReducer,
@@ -66,6 +68,7 @@ export interface AppState {
   settings: SettingsState;
   employee: IEmployee;
   mop: IMop;
+  counterdisplay: ICounterdisplay;
   music: MusicState;
   auth: IAuthState;
   clients: IClientsState;
@@ -96,6 +99,10 @@ export const selectMopState = createFeatureSelector<
   AppState,
   IMop
 >('mop');
+export const selectCounterdisplayState = createFeatureSelector<
+  AppState,
+  ICounterdisplay
+>('counterdisplay');
 export const selectClientsState = createFeatureSelector<
   AppState,
   IClientsState

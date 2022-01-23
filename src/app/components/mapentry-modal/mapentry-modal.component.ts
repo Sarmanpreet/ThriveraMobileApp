@@ -91,7 +91,7 @@ export class MapentryModalComponent implements OnInit, OnDestroy {
             this.ProductDDL = getResponse[2];
             this.Brand = getResponse[1];
             if (this.MopData.MOPID != 0) {
-              this.EditForm(this.MopData);
+              this.EditForm(getResponse[0][0]);
             }
 
 
