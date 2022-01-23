@@ -1,5 +1,5 @@
 <ion-header>
-  <app-modal-header [Heading]="'Sale Entry'"></app-modal-header>
+  <app-modal-header [Heading]="'Add MOP'"></app-modal-header>
 </ion-header>
 <ion-content>
 
@@ -12,26 +12,29 @@
         <ion-input formControlName="Date" name="Date" placeholder="" readonly="true"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>Brand Name* </ion-label>
-        <ion-input formControlName="Brand" name="Brand" placeholder="" readonly="true" [value]="Brand"></ion-input>
+        <ion-label>Brand Name * </ion-label>
+        <ion-select ok-text="Ok" cancel-text="Cancel" name="Brand" formControlName="Brand">
+          <ion-select-option *ngFor="let s of Brand" [value]="s.ID">{{s.Name}}</ion-select-option>
+        </ion-select>
+        <!-- <ion-input formControlName="Brand" name="Brand" placeholder="" readonly="true" [value]="Brand"></ion-input>
+  -->
       </ion-item>
 
 
       <ion-item>
-        <ion-label>Product</ion-label>
+        <ion-label>Product *</ion-label>
 
         <ion-select ok-text="Ok" cancel-text="Cancel" name="Product" formControlName="Product"
           (ionChange)="GetSubProduct($event)">
-          <ion-select-option *ngFor="let s of ProductDDL" value="{{s.ID}}">{{s.Name}}</ion-select-option>
+          <ion-select-option *ngFor="let s of ProductDDL" [value]="s.ID">{{s.Name}}</ion-select-option>
 
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label>Sub Product</ion-label>
+        <ion-label>Sub Product *</ion-label>
 
-        <ion-select ok-text="Ok" cancel-text="Cancel" name="SubProduct" formControlName="SubProduct"
-          (ionChange)="GetItem($event)">
-          <ion-select-option *ngFor="let s of SubProductDDL" value="{{s.ID}}">{{s.Name}}</ion-select-option>
+        <ion-select ok-text="Ok" cancel-text="Cancel" name="SubProduct" formControlName="SubProduct">
+          <ion-select-option *ngFor="let s of SubProductDDL" [value]="s.ID">{{s.Name}}</ion-select-option>
 
         </ion-select>
       </ion-item>
@@ -46,8 +49,8 @@
         <ion-input formControlName="Price" type="decimal" name="Price" placeholder=""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>Remark *</ion-label>
-        <ion-input formControlName="SerialNo" name="SerialNo" placeholder=""></ion-input>
+        <ion-label>Remarks *</ion-label>
+        <ion-input formControlName="Remarks" name="Remarks" placeholder=""></ion-input>
       </ion-item>
 
     </ion-card>

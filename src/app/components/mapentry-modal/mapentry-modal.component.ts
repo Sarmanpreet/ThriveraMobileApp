@@ -7,7 +7,7 @@ import { IAppState } from 'src/app/interfaces/app-states.interface';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { SessionCheck } from 'src/app/shared/session/sessioncheck.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { GetCityDDL, GetItemDDL, GetProductDDL, GetSalesEntryDDL, GetSubProductDDL, resetAttandence, SaveAttachementImage, SaveAttandence, SaveSalesEntry } from 'src/app/tabs/employee/store/Employee.actions';
+import { GetSubProductDDL } from 'src/app/tabs/employee/store/Employee.actions';
 import { Geolocation, GeolocationPluginPermissions } from '@capacitor/geolocation';
 import { NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import { DatePipe } from '@angular/common';
@@ -16,18 +16,19 @@ import * as EmployeeAction from '../../tabs/employee/store/Employee.actions';
 import { CameraPreview, CameraPreviewPictureOptions } from "@capacitor-community/camera-preview"
 
 import { CameraPreviewOptions } from '@capacitor-community/camera-preview';
-import { getMOPProductListResponse } from 'src/app/tabs/employee/mop-list/store/Mop.selectors';
-import { GetMOPProductList } from 'src/app/tabs/employee/mop-list/store/Mop.actions';
+import { getMOPProductListResponse, getSaveMopResponse } from 'src/app/tabs/employee/mop-list/store/Mop.selectors';
+import { GetMOPProductList, resetMOP, ResetMOPProductList, saveMOPEntry } from 'src/app/tabs/employee/mop-list/store/Mop.actions';
+import { getSubProductDDLListResponse } from 'src/app/tabs/employee/store/Employee.selectors';
 
 @Component({
-  selector: 'app-mop-entry-modal-component',
-  templateUrl: './mop-entry-modal-component.component.html',
-  styleUrls: ['./mop-entry-modal-component.component.scss'],
+  selector: 'app-mapentry-modal',
+  templateUrl: './mapentry-modal.component.html',
+  styleUrls: ['./mapentry-modal.component.scss'],
 })
-export class MOPEntryModalComponentComponent implements OnInit, OnDestroy {
+export class MapentryModalComponent implements OnInit, OnDestroy {
   today = new Date();
   MOPForm: FormGroup;
-  DemoData: any = {};
+  MopData: any = {};
   feedbacks: any = [];
   subscription = new Subscription();
   Image: any;
@@ -60,9 +61,22 @@ export class MOPEntryModalComponentComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    this.store.dispatch(ResetMOPProductList({ payload: '' }));
 
-    this.IntialiseDll();
+    this.initForm();
+    this.MopData = this.navParams.data;
+    this.IntialiseDll(this.MopData.MOPID);
 
+    if (this.MopData.MOPID != 0) {
+      this.EditForm(this.MopData);
+    }
+
+
+
+
+
+
+    //this.locate();
     // this.Checkpermission();
     debugger;
     const date = new Date();
@@ -70,15 +84,15 @@ export class MOPEntryModalComponentComponent implements OnInit, OnDestroy {
     const Subscription = this.store.pipe(select(getMOPProductListResponse))
       .subscribe(
         (getResponse) => {
-          debugger;
+
           if (getResponse) {
 
-            this.ProductDDL = getResponse[1];
-            this.SubProductDDL = getResponse[2];
-            // this.PaymentModeDDL = getResponse[3];
-            // this.ItemMasterDDL = getResponse[4];
-            // this.IntialItemMasterDDL = getResponse[4];
-            // this.Brand = getResponse[0][0].SaleFor;
+
+            this.ProductDDL = getResponse[2];
+            this.Brand = getResponse[1];
+            if (this.MopData.MOPID != 0) {
+              this.EditForm(this.MopData);
+            }
 
 
           }
@@ -86,108 +100,65 @@ export class MOPEntryModalComponentComponent implements OnInit, OnDestroy {
       );
     this.subscription.add(Subscription);
 
-    this.initForm();
+    const SubProductSubscription = this.store.pipe(select(getSubProductDDLListResponse))
+      .subscribe(
+        (getResponse) => {
+          if (getResponse) {
+            this.SubProductDDL = getResponse;
+          }
+        }
+      );
 
-    this.locate();
-
-
-
-    // const SubscriptionAttlog = this.store.pipe(select(getSaveEntryResponse))
-    //   .subscribe(
-    //     (getResponse) => {
-    //       debugger;
-    //       if (getResponse) {
-
-    //         if (getResponse[0].Message == 'Inserted Successfully') {
+    this.subscription.add(SubProductSubscription);
 
 
-    //           this.commonService.toastAlert(getResponse[0].Message, 'success');
-    //         }
-    //         else {
-    //           this.commonService.toastAlert(getResponse[0].Message, 'danger');
-    //         }
-    //         this.store.dispatch(resetAttandence({ payload: '' }));
-    //         this.getSalesEntry();
-    //         this.dismissModal();
+    const SubscriptionAttlog = this.store.pipe(select(getSaveMopResponse))
+      .subscribe(
+        (getResponse) => {
+          debugger;
+          if (getResponse) {
 
-    //       }
-    //     }
-    //   );
-    // this.subscription.add(SubscriptionAttlog);
+            if (getResponse[0].Message == 'Inserted Successfully') {
+
+
+              this.commonService.toastAlert(getResponse[0].Message, 'success');
+            }
+            else {
+              this.commonService.toastAlert(getResponse[0].Message, 'danger');
+            }
+            this.store.dispatch(resetMOP({ payload: '' }));
+            this.getMopEntry();
+            this.dismissModal();
+
+          }
+        }
+      );
+    this.subscription.add(SubscriptionAttlog);
+
   }
   formatDate(value: string) {
     this.MOPForm.patchValue({ InvoiceDate: format(parseISO(value), 'MMM dd yyyy') });
 
     return format(parseISO(value), 'MMM dd yyyy');
   }
-  GetProduct(event) {
 
-    console.log(event.target.value)
-    const data = {
-      Doctype: "Product",
-      Values: event.target.value,
-      LoginID: this.sessionCall.getlocalStorage('userid')
-
-    }
-    this.store.dispatch(GetProductDDL({ payload: data }));
-  }
   GetSubProduct(event) {
 
-    console.log(event.target.value)
+    this.getSubProduct(event.target.value)
+
+  }
+  getSubProduct(id) {
     const data = {
       Doctype: "ProductTran",
-      Values: event.target.value,
+      Values: id,
       LoginID: this.sessionCall.getlocalStorage('userid')
 
     }
     this.store.dispatch(GetSubProductDDL({ payload: data }));
   }
-  GetItem(event) {
-
-    console.log(event.target.value)
+  IntialiseDll(ID) {
     const data = {
-      Doctype: "Items",
-      Values: event.target.value,
-
-      LoginID: this.sessionCall.getlocalStorage('userid')
-    }
-    this.store.dispatch(GetItemDDL({ payload: data }));
-  }
-  GetCity(event) {
-
-    console.log(event.target.value)
-    const data = {
-      Doctype: "City",
-      Values: event.target.value,
-
-      LoginID: this.sessionCall.getlocalStorage('userid')
-
-    }
-    this.store.dispatch(GetCityDDL({ payload: data }));
-  }
-  async locate() {
-    const coordinates = await Geolocation.getCurrentPosition();
-    if (coordinates.coords) {
-      this.lat = coordinates.coords.latitude;
-      this.lng = coordinates.coords.longitude;
-
-      const options: NativeGeocoderOptions = {
-        useLocale: true,
-        maxResults: 5
-      };
-
-      // this.nativeGeocoder
-      //   .reverseGeocode(this.lat, this.lng, options)
-      //   .then(
-      //     (result: NativeGeocoderResult[]) =>
-      //       (this.address = JSON.stringify(result[0]))
-      //   )
-      //   .catch((error: any) => console.log(error));
-    }
-  }
-  IntialiseDll() {
-    const data = {
-      MOPID: 0,
+      MOPID: ID,
       LoginID: this.sessionCall.getlocalStorage('userid')
 
     }
@@ -205,16 +176,52 @@ export class MOPEntryModalComponentComponent implements OnInit, OnDestroy {
 
     this.MOPForm = this.formBuilder.group({
 
-      Date: this.formBuilder.control(mm + '/' + dd + '/' + yyyy, [Validators.required]),
-      Brand: this.formBuilder.control(this.Brand, [Validators.required]),
+      Date: this.formBuilder.control(dd + '-' + mm + '-' + yyyy, [Validators.required]),
+      Brand: this.formBuilder.control('', [Validators.required]),
       Product: this.formBuilder.control('', [Validators.required]),
       SubProduct: this.formBuilder.control('', [Validators.required]),
       ModelNumber: this.formBuilder.control('', [Validators.required]),
       Price: this.formBuilder.control('', [Validators.required]),
-
       Remarks: this.formBuilder.control('', [Validators.required]),
 
     });
+
+    //this.feedbackForm = this.formBuilder.group(form);
+
+  }
+  EditForm(FormData) {
+    debugger;
+    this.getSubProduct(FormData.ProductID)
+
+
+
+    setTimeout(() => {
+
+      let today = new Date(FormData.Date);
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+      this.MOPForm = this.formBuilder.group({
+
+        Date: this.formBuilder.control(dd + '-' + mm + '-' + yyyy, [Validators.required]),
+        Product: this.formBuilder.control(FormData.ProductID ? FormData.ProductID : '', [Validators.required]),
+        Brand: this.formBuilder.control(FormData.BrandID ? FormData.BrandID : '', [Validators.required]),
+
+        SubProduct: this.formBuilder.control(FormData.PDTranID ? FormData.PDTranID : '', [Validators.required]),
+        ModelNumber: this.formBuilder.control(FormData.ModelNo ? FormData.ModelNo : '', [Validators.required]),
+        Price: this.formBuilder.control(FormData.Price ? FormData.Price : '', [Validators.required]),
+
+        Remarks: this.formBuilder.control(FormData.Remarks ? FormData.Remarks : '', [Validators.required]),
+
+      });
+    }, 500);
+    // setTimeout(() => {
+    //   this.MOPForm.patchValue({
+    //     Brand: FormData.BrandID,
+    //     Product: FormData.ProductID,
+    //     SubProduct: FormData.PDTranID
+    //   });
+    // }, 500);
 
     //this.feedbackForm = this.formBuilder.group(form);
 
@@ -300,25 +307,17 @@ export class MOPEntryModalComponentComponent implements OnInit, OnDestroy {
 
     }
   }
-  getSalesEntry() {
+  getMopEntry() {
     const RoleID = this.sessionCall.getlocalStorage('RoleID');
     const UserId = this.sessionCall.getlocalStorage('userid');
     const date = new Date();
 
-    this.store.dispatch(EmployeeAction.GetSaleEntryList({
+
+    this.store.dispatch(EmployeeAction.GetMOPList({
       payload: {
         LoginID: UserId,
         Month: date.getUTCMonth() + 1,
-        Year: date.getFullYear(),
-        Approved: 0
-      }
-    }));
-    this.store.dispatch(EmployeeAction.GetSaleEntryList({
-      payload: {
-        LoginID: UserId,
-        Month: date.getUTCMonth() + 1,
-        Year: date.getFullYear(),
-        Approved: 1
+        Year: date.getFullYear()
       }
     }));
 
@@ -335,40 +334,24 @@ export class MOPEntryModalComponentComponent implements OnInit, OnDestroy {
       // formData.append('EntityTypeId', '7');
 
       const data = {
-        SaleEntryID: 0,
+        MOPID: this.MopData.MOPID,
         EMPID: this.sessionCall.getlocalStorage('empid'),
-        SaleFor: this.Brand,
-        InvoiceDate: form.value.InvoiceDate,
-        InvoiceNo: form.value.InvoiceNo,
-        ItemID: form.value.Item,
-        Qty: form.value.Qty,
+        BrandID: form.value.Brand,
+        ProductID: form.value.Product,
+        PDTranID: form.value.SubProduct,
+        ModelNo: form.value.ModelNumber,
         Price: form.value.Price,
-        SerialNo: form.value.SerialNo,
-        InstallationNo: form.value.InstallationNo,
-        PaymentMode: form.value.ModeofPaymnet,
-        IsExchange: form.value.Exchange ? 1 : 0,
         Remarks: form.value.Remarks,
         IsActive: 1,
-        Priority: 0,
+        Priority: 1,
         createdby: this.sessionCall.getlocalStorage('userid'),
-        Name: form.value.CustomerName,
-        Phone: form.value.Phone,
-        Email: form.value.Email,
-        Doctype: 'local',
-        TableID: '',
-        TableName: '',
-        CountryID: 0,
-        StateID: form.value.State,
-        CityID: form.value.City,
-        Address1: form.value.Address,
-        Address2: '',
-        Location: form.value.Location,
-        Zipcode: '',
+        EntrySource: "App",
         IPAddress: '192.168.1.1',
-        EntrySource: 'App'
+
+
 
       }
-      this.store.dispatch(SaveSalesEntry({ payload: data }));
+      this.store.dispatch(saveMOPEntry({ payload: data }));
 
     } else {
       const invalid = [];
@@ -387,3 +370,4 @@ export class MOPEntryModalComponentComponent implements OnInit, OnDestroy {
 
   }
 }
+

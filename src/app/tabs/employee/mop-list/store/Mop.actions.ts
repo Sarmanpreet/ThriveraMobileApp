@@ -9,7 +9,10 @@ export const GetMOPProductListSuccess = createAction(
   '[GetMOPProductList Effects] GetMOPProductList Success Response',
   props<{ payload: any }>()
 );
-
+export const ResetMOPProductList = createAction(
+  '[ResetMOPProductList Effects] ResetMOPProductList Success Response',
+  props<{ payload: any }>()
+);
 export const GetMOPProductListError = createAction(
   '[GetMOPProductList Effects] GetMOPProductList Error Response',
   props<{ payload: any }>()
@@ -26,6 +29,10 @@ export const saveMOPEntrySuccess = createAction(
 
 export const saveMOPEntryError = createAction(
   '[saveMOPEntry Effects] saveMOPEntry Error Response',
+  props<{ payload: any }>()
+);
+export const resetMOP = createAction(
+  '[resetMOP Page] resetMOP Button',
   props<{ payload: any }>()
 );
 

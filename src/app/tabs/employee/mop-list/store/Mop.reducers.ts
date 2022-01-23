@@ -1,4 +1,5 @@
 
+import { assertNotNull } from '@angular/compiler/src/output/output_ast';
 import { Action, createReducer, on } from '@ngrx/store';
 import { DayConfig } from 'ion2-calendar';
 import * as mopActions from './Mop.actions';
@@ -54,6 +55,16 @@ export const reducer = createReducer(
         error: action.payload
       };
     }),
+
+  on(mopActions.ResetMOPProductList,
+    (state, action) => {
+
+      return {
+        ...state,
+        loading: false,
+        GetMOPList: null
+      };
+    }),
   on(mopActions.saveMOPEntry,
     (state, action) => {
       return {
@@ -77,6 +88,15 @@ export const reducer = createReducer(
         ...state,
         loading: false,
         error: action.payload
+      };
+    }),
+  on(mopActions.resetMOP,
+    (state, action) => {
+
+      return {
+        ...state,
+        loading: false,
+        SaveMop: null
       };
     }),
 );

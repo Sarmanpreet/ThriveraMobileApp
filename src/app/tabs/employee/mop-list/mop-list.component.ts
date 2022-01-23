@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { BasePageComponent } from 'src/app/components/base-page/base-page.component';
-import { MOPEntryModalComponentComponent } from 'src/app/components/MOP-entry-modal-component/MOP-entry-modal-component.component';
+import { MapentryModalComponent } from 'src/app/components/mapentry-modal/mapentry-modal.component';
 import { IAppState } from 'src/app/interfaces/app-states.interface';
 import { ActionButtonType, IDynamicTabColumn, IDynamicTblColumn } from 'src/app/shared/interface/Dynamic-tab';
 import { CommonService } from 'src/app/shared/services/common.service';
@@ -42,7 +42,7 @@ export class MOPListComponent extends BasePageComponent implements OnInit, OnDes
 
     super(router, store, sessionCall);
 
-    this.BtnOngrid = super.IsMenuAccess('E');
+    //this.BtnOngrid = super.IsMenuAccess('E');
     debugger;
   }
 
@@ -116,23 +116,21 @@ export class MOPListComponent extends BasePageComponent implements OnInit, OnDes
 
   btnEditClick = (event, record) => {
 
-    //this.presentAlertConfirm(record);
-
+    this.OpenModal(record);
   }
 
 
-  async OpenModal() {
-    const paramData = {
-      custid: 2
+  async OpenModal(params: any = undefined) {
 
+    if (params == undefined) {
+      params = {
+        MOPID: 0,
+      }
     }
     const modal = await this.modalController.create({
-      component: MOPEntryModalComponentComponent,
+      component: MapentryModalComponent,
       swipeToClose: true,
-      componentProps: paramData,
-      // initialBreakpoint: 0.95,
-      // breakpoints: [0, 0.5, 1]
-      // presentingElement: await this.modalController.getTop()
+      componentProps: params
     });
     return await modal.present();
   }
@@ -142,7 +140,6 @@ export class MOPListComponent extends BasePageComponent implements OnInit, OnDes
   }
   doRefresh(event) {
     setTimeout(() => {
-
       this.getMopList();
       event.target.complete();
     }, 2000);
