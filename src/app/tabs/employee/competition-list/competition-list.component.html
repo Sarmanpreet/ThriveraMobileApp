@@ -1,0 +1,17 @@
+<ion-header>
+  <app-emp-header></app-emp-header>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" style="--ion-text-color: var(--ion-color-medium);" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-down-outline"></ion-refresher-content>
+  </ion-refresher>
+  <!-- <dynamic-tab [_Tabs]="tabs" [_Default]="tabs[0].title" [_ColunmForGrid]="_Colunm" [formName]="formName"></dynamic-tab> -->
+  <dynamic-table [dataSource]="DataSource" [_colunms]="_Colunm" [_isbtnflag]="BtnOngrid" [_formName]="">
+  </dynamic-table>
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed" (click)="OpenModal()">
+    <ion-fab-button color="danger">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

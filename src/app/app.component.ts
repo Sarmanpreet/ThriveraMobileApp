@@ -21,7 +21,8 @@ import { SessionCheck } from './shared/session/sessioncheck.service';
 import { CommonService } from './shared/services/common.service';
 
 import * as AuthActions from '../app/pages/auth/store/auth.actions';
-
+import { HttpClient } from '@angular/common/http';
+import packageInfo from "../../package.json";
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -84,7 +85,8 @@ export class AppComponent {
     private auth: AuthGuard,
     private sessionCall: SessionCheck,
     private toaster: ToastController,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private http: HttpClient
   ) {
     this.initializeApp();
   }
@@ -98,6 +100,14 @@ export class AppComponent {
       this.statusBar.overlaysWebView(false);
       this.splashScreen.hide();
       this.screenOrientation.unlock();
+    });
+
+    this.http.get('https://genapi.kambalwala.com/css/version.css').subscribe((response) => {
+      debugger;
+      if (response["Version"] !== packageInfo.version) {
+        this.commonService.presentAlertMultipleButtons('Update App', '', 'Update new version of application..');
+      }
+
     });
   }
 

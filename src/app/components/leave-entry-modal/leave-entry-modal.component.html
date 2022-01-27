@@ -1,0 +1,115 @@
+<ion-header>
+  <app-modal-header [Heading]="'Add Leaves'"></app-modal-header>
+</ion-header>
+<ion-content>
+
+  <form [formGroup]="MOPForm">
+    <ion-card>
+
+
+      <!-- <ion-item>
+        <ion-label>Date *</ion-label>
+        <ion-input formControlName="Date" name="Date" placeholder="" readonly="true"></ion-input>
+      </ion-item> -->
+      <ion-item>
+        <ion-label>Leave Type *</ion-label>
+        <ion-select ok-text="Ok" cancel-text="Cancel" name="LeaveTypeID" formControlName="LeaveTypeID">
+          <ion-select-option *ngFor="let s of NewAttn" [value]="s.ID">{{s.Name}}</ion-select-option>
+
+        </ion-select>
+      </ion-item>
+
+      <ion-item button="true" id="open-date-input">
+
+        <!-- <ion-input formControlName="InvoiceDate" name="InvoiceDate" placeholder=""></ion-input> -->
+
+        <ion-label>From *</ion-label>
+        <ion-input formControlName="StartDate" name="StartDate" slot="end"></ion-input>
+        <ion-popover trigger="open-date-input" show-backdrop="false">
+          <ng-template>
+            <ion-datetime #popoverDatetime presentation="date"
+              (ionChange)="dateValue = formatDate(popoverDatetime.value)"></ion-datetime>
+          </ng-template>
+        </ion-popover>
+
+      </ion-item>
+      <ion-item button="true" id="open-date-input1">
+
+        <!-- <ion-input formControlName="InvoiceDate" name="InvoiceDate" placeholder=""></ion-input> -->
+
+        <ion-label>To *</ion-label>
+        <ion-input formControlName="EndDate" name="EndDate" slot="end"></ion-input>
+        <ion-popover trigger="open-date-input1" show-backdrop="false">
+          <ng-template>
+            <ion-datetime #popoverDatetime presentation="date"
+              (ionChange)="dateValue = formatendDate(popoverDatetime.value)"></ion-datetime>
+          </ng-template>
+        </ion-popover>
+
+      </ion-item>
+
+
+
+
+      <!-- <ion-input formControlName="Brand" name="Brand" placeholder="" readonly="true" [value]="Brand"></ion-input>
+  -->
+
+      <ion-item>
+
+        <ion-label>Hours * </ion-label>
+        <ion-select ok-text="Ok" cancel-text="Cancel" name="Hours" formControlName="Hours">
+          <ion-select-option value="8">8</ion-select-option>
+          <ion-select-option value="7">7</ion-select-option>
+          <ion-select-option value="6">6</ion-select-option>
+          <ion-select-option value="5">5</ion-select-option>
+          <ion-select-option value="4">4</ion-select-option>
+          <ion-select-option value="3">3</ion-select-option>
+          <ion-select-option value="2">2</ion-select-option>
+          <ion-select-option value="1">1</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Remarks, if any</ion-label>
+        <ion-input formControlName="Reason" name="Reason" placeholder=""></ion-input>
+      </ion-item>
+
+    </ion-card>
+
+    <!-- <div id="cameraPreview" class="cameraPreview">
+
+    </div>
+    <div *ngIf="CameraPreview">
+
+      <ion-button (click)="stopCamera()" expand="block" id="close">
+        <ion-icon name="close-circle" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="captureImage()" expand="block" id="capture">
+        <ion-icon name="camera" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="flipCamera()" expand="block" id="flip">
+        <ion-icon name="camera-reverse" slot="icon-only"></ion-icon>
+      </ion-button>
+
+    </div>
+
+    <ion-fab *ngIf="!CameraPreview" vertical="start" horizontal="start" slot="fixed">
+      <ion-fab-button (click)="takePicture()">
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+    <br />
+    <br />
+    <br />
+    <ion-img *ngIf="Image && !CameraPreview" [src]="'data:image/jpeg;base64,'+Image" slot="center"
+      style="width:50% !important;margin-inline: auto;">
+    </ion-img> -->
+
+    <!-- <ion-button *ngIf="!CameraPreview" expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom" -->
+    <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom" (click)="saveRFCEntry()">
+      Submit
+    </ion-button>
+
+  </form>
+
+</ion-content>

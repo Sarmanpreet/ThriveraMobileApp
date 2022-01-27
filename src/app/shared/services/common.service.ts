@@ -1,7 +1,7 @@
 import { AuthGuard } from './auth-guard.service';
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 import { Observable } from 'rxjs/internal/Observable';
 import { Observer } from 'rxjs/internal/types';
@@ -14,7 +14,8 @@ export class CommonService {
   MenuSetting: any = [];
 
   constructor(private toaster: ToastController, private auth: AuthGuard, private datepipe: DatePipe
-    , public loadingCtrl: LoadingController) { }
+    , public loadingCtrl: LoadingController,
+    public alertController: AlertController) { }
 
   //LogOut //
   logOut() {
@@ -138,6 +139,18 @@ export class CommonService {
       animated: true
     });
     toast.present();
+  }
+  async presentAlertMultipleButtons(header: any, subheader: any, message: any) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: header,
+      subHeader: subheader,
+      message: message,
+      backdropDismiss: false,
+      buttons: []
+    });
+
+    await alert.present();
   }
   async showLoading(text) {
     const loading = await this.loading.create({

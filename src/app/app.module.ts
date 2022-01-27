@@ -42,6 +42,7 @@ import * as Sentry from "@sentry/angular";
 import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 import { Mopffects } from './tabs/employee/mop-list/store/Mop.effects';
 import { Counterdisplayeffects } from './tabs/employee/counterdisplay-list/store/Counterdisplay.effects';
+import { RFCeffects } from './tabs/employee/rfc-list/store/Rfc.effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -82,6 +83,7 @@ import { Counterdisplayeffects } from './tabs/employee/counterdisplay-list/store
       ClientsEffects,
       ClientDtlEffects,
       Mopffects,
+      RFCeffects,
       Counterdisplayeffects,
       // gmapEffects,
       // savedLocationsEffect,

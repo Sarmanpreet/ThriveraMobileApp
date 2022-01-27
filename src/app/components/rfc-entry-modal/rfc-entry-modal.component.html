@@ -1,0 +1,92 @@
+<ion-header>
+  <app-modal-header [Heading]="'Add Request'"></app-modal-header>
+</ion-header>
+<ion-content>
+
+  <form [formGroup]="MOPForm">
+    <ion-card>
+
+
+      <ion-item>
+        <ion-label>Date *</ion-label>
+        <ion-input formControlName="Date" name="Date" placeholder="" readonly="true"></ion-input>
+      </ion-item>
+      <ion-item button="true" id="open-date-input">
+
+        <!-- <ion-input formControlName="InvoiceDate" name="InvoiceDate" placeholder=""></ion-input> -->
+
+        <ion-label>Attendence Date *</ion-label>
+        <ion-input formControlName="AttendenceDate" name="AttendenceDate" slot="end"></ion-input>
+        <ion-popover trigger="open-date-input" show-backdrop="false">
+          <ng-template>
+            <ion-datetime #popoverDatetime presentation="date"
+              (ionChange)="dateValue = formatDate(popoverDatetime.value)"></ion-datetime>
+          </ng-template>
+        </ion-popover>
+
+      </ion-item>
+      <ion-item>
+        <ion-label>Old Attendence* </ion-label>
+        <ion-select ok-text="Ok" cancel-text="Cancel" name="OldAttendence" formControlName="OldAttendence">
+          <ion-select-option *ngFor="let s of OldAttn" [value]="s.ID">{{s.Name}}</ion-select-option>
+        </ion-select>
+        <!-- <ion-input formControlName="Brand" name="Brand" placeholder="" readonly="true" [value]="Brand"></ion-input>
+  -->
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label>New Attendence*</ion-label>
+
+        <ion-select ok-text="Ok" cancel-text="Cancel" name="NewAttendence" formControlName="NewAttendence"
+          (ionChange)="GetSubProduct($event)">
+          <ion-select-option *ngFor="let s of NewAttn" [value]="s.ID">{{s.Name}}</ion-select-option>
+
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Reason *</ion-label>
+        <ion-input formControlName="Reason" name="Reason" placeholder=""></ion-input>
+      </ion-item>
+
+    </ion-card>
+
+    <!-- <div id="cameraPreview" class="cameraPreview">
+
+    </div>
+    <div *ngIf="CameraPreview">
+
+      <ion-button (click)="stopCamera()" expand="block" id="close">
+        <ion-icon name="close-circle" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="captureImage()" expand="block" id="capture">
+        <ion-icon name="camera" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="flipCamera()" expand="block" id="flip">
+        <ion-icon name="camera-reverse" slot="icon-only"></ion-icon>
+      </ion-button>
+
+    </div>
+
+    <ion-fab *ngIf="!CameraPreview" vertical="start" horizontal="start" slot="fixed">
+      <ion-fab-button (click)="takePicture()">
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+    <br />
+    <br />
+    <br />
+    <ion-img *ngIf="Image && !CameraPreview" [src]="'data:image/jpeg;base64,'+Image" slot="center"
+      style="width:50% !important;margin-inline: auto;">
+    </ion-img> -->
+
+    <!-- <ion-button *ngIf="!CameraPreview" expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom" -->
+    <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom" (click)="saveRFCEntry()">
+      Submit
+    </ion-button>
+
+  </form>
+
+</ion-content>

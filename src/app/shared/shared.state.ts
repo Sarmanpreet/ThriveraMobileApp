@@ -34,6 +34,7 @@ import { DemoReducer, IDemoState } from '../pages/pend-upcom-demo-list/store/Pen
 import { employeeReducer, IEmployee } from '../tabs/employee/store/Employee.reducers';
 import { IMop, mopReducer } from '../tabs/employee/mop-list/store/Mop.reducers';
 import { counterdisplayReducer, ICounterdisplay } from '../tabs/employee/counterdisplay-list/store/Counterdisplay.reducers';
+import { IRfc, rfcReducer } from '../tabs/employee/rfc-list/store/Rfc.reducers';
 
 
 
@@ -56,7 +57,8 @@ export const reducers: ActionReducerMap<AppState> = {
   demo: DemoReducer,
   Upcomingdemo: DemoReducer,
   employee: employeeReducer,
-  mop: mopReducer
+  mop: mopReducer,
+  rfc: rfcReducer
 };
 
 export const selectSettingsState = createFeatureSelector<
@@ -68,6 +70,7 @@ export interface AppState {
   settings: SettingsState;
   employee: IEmployee;
   mop: IMop;
+  rfc: IRfc;
   counterdisplay: ICounterdisplay;
   music: MusicState;
   auth: IAuthState;
@@ -99,6 +102,11 @@ export const selectMopState = createFeatureSelector<
   AppState,
   IMop
 >('mop');
+export const selectRfcState = createFeatureSelector<
+  AppState,
+  IRfc
+>('rfc');
+
 export const selectCounterdisplayState = createFeatureSelector<
   AppState,
   ICounterdisplay

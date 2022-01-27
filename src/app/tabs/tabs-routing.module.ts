@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
+import { CounterDisplayListComponent } from './employee/counterdisplay-list/counterdisplay-list.component';
 import { MOPListComponent } from './employee/mop-list/mop-list.component';
+import { RFCListComponent } from './employee/rfc-list/rfc-list.component';
 import { SaleEntryListComponent } from './employee/sale-entry-list/sale-entry-list.component';
 import { TabsPage } from './tabs.page';
 
@@ -25,6 +27,8 @@ const routes: Routes = [
             children: [
               { path: 'SaleEntryList', component: SaleEntryListComponent },
               { path: 'MOPList', component: MOPListComponent },
+              { path: 'CounterDisplayList', component: CounterDisplayListComponent },
+              { path: 'RFCRequestsList', component: RFCListComponent }
             ]
           },
           {

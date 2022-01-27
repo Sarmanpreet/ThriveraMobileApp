@@ -20,6 +20,12 @@ import { MOPListComponent } from './mop-list/mop-list.component';
 import { MapentryModalComponent } from 'src/app/components/mapentry-modal/mapentry-modal.component';
 import { CounterDisplayListComponent } from './counterdisplay-list/counterdisplay-list.component';
 import { CounterdisplayentryModalComponent } from 'src/app/components/counterdisplayentry-modal/counterdisplayentry-modal.component';
+import { RFCListComponent } from './rfc-list/rfc-list.component';
+import { RfcEntryModalComponent } from 'src/app/components/rfc-entry-modal/rfc-entry-modal.component';
+import { CompetitionListComponent } from './competition-list/competition-list.component';
+import { CompetitionEntryModalComponent } from 'src/app/components/competition-entry-modal/competition-entry-modal.component';
+import { LeaveListComponent } from './leave-list/leave-list.component';
+import { LeaveEntryModalComponent } from 'src/app/components/leave-entry-modal/leave-entry-modal.component';
 
 @NgModule({
   imports: [
@@ -33,16 +39,21 @@ import { CounterdisplayentryModalComponent } from 'src/app/components/counterdis
   ],
   declarations: [EmployeePage,
     EmpHeaderComponent,
-    SaleEntryListComponent,
+    SaleEntryListComponent, RFCListComponent,
     MOPListComponent,
     TabHeaderComponent,
+    CompetitionListComponent,
     DynamicTableComponent,
     SalesEntryModalComponentComponent,
     AttandanceModalComponentComponent,
-    MapentryModalComponent,
+    MapentryModalComponent, LeaveListComponent,
     CounterDisplayListComponent, CounterdisplayentryModalComponent,
-    ModalHeaderComponent
+    ModalHeaderComponent, RfcEntryModalComponent, CompetitionEntryModalComponent,
+    LeaveEntryModalComponent
   ],
-  entryComponents: [AttandanceModalComponentComponent, SalesEntryModalComponentComponent, MapentryModalComponent, CounterdisplayentryModalComponent]
+  entryComponents: [AttandanceModalComponentComponent,
+    SalesEntryModalComponentComponent, MapentryModalComponent,
+    CounterdisplayentryModalComponent, CompetitionEntryModalComponent,
+    RfcEntryModalComponent, LeaveEntryModalComponent]
 })
 export class EmployeePageModule { }

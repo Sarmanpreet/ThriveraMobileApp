@@ -2,40 +2,37 @@
 import { assertNotNull } from '@angular/compiler/src/output/output_ast';
 import { Action, createReducer, on } from '@ngrx/store';
 import { DayConfig } from 'ion2-calendar';
-import * as mopActions from './Mop.actions';
+import * as rfcActions from './Rfc.actions';
 
-export interface IMop {
+export interface IRfc {
   loading: boolean;
   CalenderResponse: DayConfig[];
   error: any;
 
-  MOPList: any;
+  RFCPendingList: any;
+  RFCApprovedList: any;
+  RFCRejectedList: any;
   GetMOPList: any;
-  GetCompetetitionList: any;
-  SaveMop: any;
-  SaveCompetetition: any;
-  LeavePendinglist: any;
-  LeaveAprrovedList: any;
-  LeaveRejectedList: any;
-  SaveLeaves: any;
+  SaveRFC: any;
+  OldAttnStatus: any;
+  NewAttnStatus: any;
+  LeaveAttnStatus: any;
+
 }
 
-export const initialAuthState: IMop = {
+export const initialAuthState: IRfc = {
   loading: false,
   CalenderResponse: null,
   error: null,
 
-  MOPList: null,
+  RFCPendingList: null,
+  RFCApprovedList: null,
+  RFCRejectedList: null,
   GetMOPList: null,
-  SaveMop: null,
-  GetCompetetitionList: null,
-  SaveCompetetition: null,
-
-  LeavePendinglist: null,
-  LeaveAprrovedList: null,
-  LeaveRejectedList: null,
-  SaveLeaves: null
-
+  SaveRFC: null,
+  OldAttnStatus: null,
+  NewAttnStatus: null,
+  LeaveAttnStatus: null
 };
 
 
@@ -44,24 +41,24 @@ export const reducer = createReducer(
   initialAuthState,
 
 
-  on(mopActions.GetMOPProductList,
+  on(rfcActions.GetRFCPendingList,
     (state, action) => {
       return {
         ...state,
         loading: true
       };
     }),
-  on(mopActions.GetMOPProductListSuccess,
+  on(rfcActions.GetRFCPendingListSuccess,
     (state, action) => {
 
       return {
         ...state,
         loading: false,
-        GetMOPList: action.payload
+        RFCPendingList: action.payload
       };
     }),
 
-  on(mopActions.GetMOPProductListError,
+  on(rfcActions.GetRFCPendingListError,
     (state, action) => {
       return {
         ...state,
@@ -70,67 +67,25 @@ export const reducer = createReducer(
       };
     }),
 
-  on(mopActions.ResetMOPProductList,
-    (state, action) => {
 
-      return {
-        ...state,
-        loading: false,
-        GetMOPList: null
-      };
-    }),
-  on(mopActions.saveMOPEntry,
+  on(rfcActions.GetRFCApprovedList,
     (state, action) => {
       return {
         ...state,
         loading: true
       };
     }),
-  on(mopActions.saveMOPEntrySuccess,
+  on(rfcActions.GetRFCApprovedListSuccess,
     (state, action) => {
 
       return {
         ...state,
         loading: false,
-        SaveMop: action.payload
+        RFCApprovedList: action.payload
       };
     }),
 
-  on(mopActions.saveMOPEntryError,
-    (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload
-      };
-    }),
-  on(mopActions.resetMOP,
-    (state, action) => {
-
-      return {
-        ...state,
-        loading: false,
-        SaveMop: null
-      };
-    }),
-  on(mopActions.GetCompetitionList,
-    (state, action) => {
-      return {
-        ...state,
-        loading: true
-      };
-    }),
-  on(mopActions.GetCompetitionListSuccess,
-    (state, action) => {
-
-      return {
-        ...state,
-        loading: false,
-        GetCompetetitionList: action.payload
-      };
-    }),
-
-  on(mopActions.GetCompetitionListError,
+  on(rfcActions.GetRFCApprovedListError,
     (state, action) => {
       return {
         ...state,
@@ -139,33 +94,25 @@ export const reducer = createReducer(
       };
     }),
 
-  on(mopActions.ResetGetCompetitionList,
-    (state, action) => {
 
-      return {
-        ...state,
-        loading: false,
-        GetCompetetitionList: null
-      };
-    }),
-  on(mopActions.saveCompetitionEntry,
+  on(rfcActions.GetRFCRejectedList,
     (state, action) => {
       return {
         ...state,
         loading: true
       };
     }),
-  on(mopActions.saveCompetitionEntrySuccess,
+  on(rfcActions.GetRFCRejectedListSuccess,
     (state, action) => {
 
       return {
         ...state,
         loading: false,
-        SaveCompetetition: action.payload
+        RFCRejectedList: action.payload
       };
     }),
 
-  on(mopActions.saveCompetitionEntryError,
+  on(rfcActions.GetRFCRejectedListError,
     (state, action) => {
       return {
         ...state,
@@ -173,33 +120,36 @@ export const reducer = createReducer(
         error: action.payload
       };
     }),
-  on(mopActions.resetsaveCompetitionEntry,
+  on(rfcActions.ResetGetRFCPendingList,
     (state, action) => {
 
       return {
         ...state,
         loading: false,
-        SaveCompetetition: null
+        RFCPendingList: null,
+        RFCRejectedList: null,
+
+        RFCApprovedList: null,
       };
     }),
-  on(mopActions.GetLeavePendingList,
+  on(rfcActions.GetOldAttandenceStatus,
     (state, action) => {
       return {
         ...state,
         loading: true
       };
     }),
-  on(mopActions.GetLeavePendingListSuccess,
+  on(rfcActions.GetOldAttandenceStatusSuccess,
     (state, action) => {
 
       return {
         ...state,
         loading: false,
-        LeavePendinglist: action.payload
+        OldAttnStatus: action.payload
       };
     }),
 
-  on(mopActions.GetLeavePendingListError,
+  on(rfcActions.GetOldAttandenceStatusSuccess,
     (state, action) => {
       return {
         ...state,
@@ -207,24 +157,24 @@ export const reducer = createReducer(
         error: action.payload
       };
     }),
-  on(mopActions.GetLeaveApprovedList,
+  on(rfcActions.GetNewttandenceStatus,
     (state, action) => {
       return {
         ...state,
         loading: true
       };
     }),
-  on(mopActions.GetLeaveApprovedListSuccess,
+  on(rfcActions.GetNewttandenceStatusSuccess,
     (state, action) => {
 
       return {
         ...state,
         loading: false,
-        LeaveApprovedList: action.payload
+        NewAttnStatus: action.payload
       };
     }),
 
-  on(mopActions.GetLeaveApprovedListError,
+  on(rfcActions.GetNewttandenceStatusError,
     (state, action) => {
       return {
         ...state,
@@ -232,24 +182,24 @@ export const reducer = createReducer(
         error: action.payload
       };
     }),
-  on(mopActions.GetLeaveRejectedList,
+  on(rfcActions.GetLeaveattandenceStatus,
     (state, action) => {
       return {
         ...state,
         loading: true
       };
     }),
-  on(mopActions.GetLeaveRejectedListSuccess,
+  on(rfcActions.GetLeaveattandenceStatusSuccess,
     (state, action) => {
 
       return {
         ...state,
         loading: false,
-        LeaveRejected: action.payload
+        LeaveAttnStatus: action.payload
       };
     }),
 
-  on(mopActions.GetLeaveRejectedListError,
+  on(rfcActions.GetLeaveattandenceStatusError,
     (state, action) => {
       return {
         ...state,
@@ -257,43 +207,44 @@ export const reducer = createReducer(
         error: action.payload
       };
     }),
-  on(mopActions.resetLeave,
-    (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        SaveLeaves: null
-      };
-    }),
-  on(mopActions.saveLeaves,
+  on(rfcActions.saveRFCEntry,
     (state, action) => {
       return {
         ...state,
         loading: true
       };
     }),
-  on(mopActions.saveLeavesSuccess,
+  on(rfcActions.saveRFCEntrySuccess,
     (state, action) => {
 
       return {
         ...state,
         loading: false,
-        SaveLeaves: action.payload
+        SaveRFC: action.payload
       };
     }),
 
-  on(mopActions.saveLeavesError,
+  on(rfcActions.saveRFCEntryError,
     (state, action) => {
       return {
         ...state,
         loading: false,
         error: action.payload
+      };
+    }),
+  on(rfcActions.resetsaveRFCEntry,
+    (state, action) => {
+
+      return {
+        ...state,
+        loading: false,
+        SaveRFC: null
       };
     }),
 );
 
-export function mopReducer(
-  state: IMop | undefined,
+export function rfcReducer(
+  state: IRfc | undefined,
   action: Action
 ) {
   return reducer(state, action);
