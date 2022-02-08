@@ -17,6 +17,11 @@
     --background: #4454c3;
 }
 
+.color-theme {
+    --color    : #4454c3;
+    font-weight: 700;
+}
+
 ion-card-subtitle {
     --color: white;
 }
@@ -55,4 +60,23 @@ ion-card-subtitle {
 
 .logocenter {
     margin-top: 2px;
+}
+
+.centerlabel {
+    margin     : auto;
+    text-align : center;
+    font-weight: 700;
+
+
+}
+
+.padiingstart {
+    padding-inline-start: 10px;
+    font-size           : smaller;
+}
+
+.margin-top12px {
+    margin-top: 12px;
+    font-size : large;
+
 }

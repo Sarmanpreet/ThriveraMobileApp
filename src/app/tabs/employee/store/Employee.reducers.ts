@@ -23,6 +23,8 @@ export interface IEmployee {
   MOPList: any;
   MOPProductList: any;
   SaveMop: any;
+  PunchTime: any;
+  Target: any;
 }
 
 export const initialAuthState: IEmployee = {
@@ -43,7 +45,9 @@ export const initialAuthState: IEmployee = {
   DeleteEntry: null,
   MOPList: null,
   MOPProductList: null,
-  SaveMop: null
+  SaveMop: null,
+  PunchTime: null,
+  Target: null
 };
 
 
@@ -435,6 +439,57 @@ export const reducer = createReducer(
     }),
 
   on(EmpActions.GetMOPListError,
+    (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }),
+  on(EmpActions.GetPunchTime,
+    (state, action) => {
+      return {
+        ...state,
+        loading: true
+      };
+    }),
+  on(EmpActions.GetPunchTimeSuccess,
+    (state, action) => {
+
+      return {
+        ...state,
+        loading: false,
+        PunchTime: action.payload
+      };
+    }),
+
+  on(EmpActions.GetAttandenceDDLError,
+    (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }),
+  on(EmpActions.GetTargetAchieved,
+    (state, action) => {
+      return {
+        ...state,
+        loading: true
+      };
+    }),
+  on(EmpActions.GetTargetAchievedSuccess,
+    (state, action) => {
+
+      return {
+        ...state,
+        loading: false,
+
+        Target: action.payload
+      };
+    }),
+
+  on(EmpActions.GetTargetAchievedError,
     (state, action) => {
       return {
         ...state,

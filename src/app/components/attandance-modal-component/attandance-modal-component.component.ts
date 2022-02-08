@@ -162,6 +162,24 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
         doctype: 'Attendence'
       }
     }));
+    let today = new Date();
+    var mm = String(today.getMonth()).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    this.store.dispatch(EmployeeAction.GetPunchTime({
+      payload: {
+        Date: today,
+        LoginID: this.UserId
+      }
+    }));
+    this.store.dispatch(EmployeeAction.GetTargetAchieved({
+      payload: {
+        Month: mm,
+        Year: yyyy,
+        LoginID: this.UserId,
+        Doctype: 'SSR'
+      }
+    }));
   }
   initForm() {
     // const form = {
@@ -282,7 +300,7 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
     await this.Checkpermission();
     // this.Image = this.CordovaService.Image64DataAttn;
     // this.imageElement = "data:image/jpeg;base64," + this.Image;
-    if (this.Geopermission) {
+    if (this.Geopermission && this.lat && this.lat) {
       const form = this.attandanceForm;
       debugger;
       if (form.valid && this.Image != undefined) {
@@ -317,6 +335,10 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
           }
         }
         // this.commonService.toastAlert(invalid, 'danger');
+        if (this.lat == undefined && this.lat == undefined) {
+          this.commonService.toastAlert('Please check GPS of device', 'danger');
+
+        }
         if (this.Image == undefined) {
           this.commonService.toastAlert('Please upload image ', 'danger');
         }

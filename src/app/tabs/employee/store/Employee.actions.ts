@@ -214,6 +214,36 @@ export const GetMOPListError = createAction(
   props<{ payload: any }>()
 );
 
+export const GetPunchTime = createAction(
+  '[GetPunchTime Page] GetPunchTime Button',
+  props<{ payload: any }>()
+);
+
+export const GetPunchTimeSuccess = createAction(
+  '[GetPunchTime Effects] GetPunchTime Success Response',
+  props<{ payload: any }>()
+);
+
+export const GetPunchTimeError = createAction(
+  '[GetPunchTime Effects] GetPunchTime Error Response',
+  props<{ payload: any }>()
+);
+
+export const GetTargetAchieved = createAction(
+  '[GetTargetAchieved Page] GetTargetAchieved Button',
+  props<{ payload: any }>()
+);
+
+export const GetTargetAchievedSuccess = createAction(
+  '[GetTargetAchieved Effects] GetTargetAchieved Success Response',
+  props<{ payload: any }>()
+);
+
+export const GetTargetAchievedError = createAction(
+  '[GetTargetAchieved Effects] GetTargetAchieved Error Response',
+  props<{ payload: any }>()
+);
+
 
 
 

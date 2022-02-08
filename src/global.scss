@@ -187,10 +187,20 @@ ion-content {
     position: fixed;
 }
 
-// ion-calendar-week {
-//     ion-toolbar {
-//         .week-title {
-//             color           : #fdfdfd !important;
-//             background-color: #5f478c !important;
-//         }
-//     }
+.ion-margin-3px {
+    margin-inline: 3px !important
+}
+
+ion-calendar-week {
+    ion-toolbar {
+        .week-title {
+            color           : #fdfdfd !important;
+            background-color: #5f478c !important;
+        }
+    }
+}
+
+.month-packer-item button {
+
+    background-color: #5f478c !important;
+}

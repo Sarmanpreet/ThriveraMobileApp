@@ -72,6 +72,15 @@ export const getMOPListResponse = createSelector(
     (state: IEmployee) => state.MOPList
 );
 
+export const getPunchTimeResponse = createSelector(
+    selectEmployeeState,
+    (state: IEmployee) => state.PunchTime
+);
+export const getTargetResponse = createSelector(
+    selectEmployeeState,
+    (state: IEmployee) => state.Target
+);
+
 
 
 

@@ -14,26 +14,33 @@ import { getServerResponse } from '../../../app/pages/auth/store/auth.selectors'
 import { AttandanceModalComponentComponent } from 'src/app/components/attandance-modal-component/attandance-modal-component.component';
 import { IonRouterOutlet } from '@ionic/angular';
 import { BasePageComponent } from 'src/app/components/base-page/base-page.component';
-import { getCalenderResponse } from './store/Employee.selectors';
+import { getCalenderResponse, getPunchTimeResponse, getTargetResponse } from './store/Employee.selectors';
+import { parse } from 'path';
+import { format, parseISO } from 'date-fns';
+
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.page.html',
   styleUrls: ['./employee.page.scss'],
 })
-export class EmployeePage extends BasePageComponent implements OnInit, OnDestroy {
+export class EmployeePage implements OnInit, OnDestroy {
   dateMulti: string[] = [];//['2021-12-12', '2021-12-11', '2021-12-13'];
   // @ViewChild('slideWithNav', { static: false }) slideWithNav: IonSlides;
   daysConfig: DayConfig[] = [];
+  dateValue: any;
   options: CalendarComponentOptions
   date: string;
   type: 'string'; // 'string' | 'js-date' | 'moment' | 'time' | 'object'
-
+  todayTime: any;
   userInfo: any;
   slideOpts = {
     initialSlide: 1,
     speed: 2000, autoplay: true
   };
   public subscription = new Subscription();
+  Targets: any;
+  PunchTime: any;
+  todayDiffTime: any;
 
   constructor(
     private fb: FormBuilder,
@@ -46,7 +53,7 @@ export class EmployeePage extends BasePageComponent implements OnInit, OnDestroy
     private modalController: ModalController,
     private routerOutlet: IonRouterOutlet
   ) {
-    super(router, store, sessionCall);
+
     // const IsdeleteActive = super.IsMenuAccess(D);
   }
 
@@ -59,9 +66,12 @@ export class EmployeePage extends BasePageComponent implements OnInit, OnDestroy
     debugger;
     const RoleID = this.sessionCall.getlocalStorage('RoleID');
     const UserId = this.sessionCall.getlocalStorage('userid');
-
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    let today = new Date();
     this.userInfo = JSON.parse(this.sessionCall.getlocalStorage('UserInfo'));
-
+    this.dateValue = String(monthNames[today.getUTCMonth()]).padStart(2, '0') + "," + today.getFullYear();
     this.store.dispatch(AuthActions.Menusettings({
       payload: {
         RoleID: RoleID
@@ -80,6 +90,54 @@ export class EmployeePage extends BasePageComponent implements OnInit, OnDestroy
         doctype: 'Attendence'
       }
     }));
+
+    var mm = String(today.getMonth()).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    this.store.dispatch(EmployeeAction.GetPunchTime({
+      payload: {
+        Date: today,
+        LoginID: UserId
+      }
+    }));
+    this.store.dispatch(EmployeeAction.GetTargetAchieved({
+      payload: {
+        Month: mm,
+        Year: yyyy,
+        LoginID: UserId,
+        Doctype: 'SSR'
+      }
+    }));
+    const SubscriptionPunchtime = this.store.pipe(select(getPunchTimeResponse))
+      .subscribe(
+        (Response) => {
+          debugger
+          if (Response) {
+            this.PunchTime = Response[0];
+            if (this.PunchTime && this.PunchTime.InStatus == 'Site In' && this.PunchTime.OutStatus !== 'Site Out') {
+
+              this.startTime(new Date(this.PunchTime.DateInTime));
+
+            }
+            if (this.PunchTime && this.PunchTime.OutStatus == 'Site Out') {
+              this.Time(new Date(this.PunchTime.DateInTime), new Date(this.PunchTime.DateOutTime));
+            }
+          }
+        }
+      );
+    this.subscription.add(SubscriptionPunchtime);
+
+
+    const SubscriptionTarget = this.store.pipe(select(getTargetResponse))
+      .subscribe(
+        (Response) => {
+          debugger
+          if (Response) {
+            this.Targets = Response;
+          }
+        }
+      );
+    this.subscription.add(SubscriptionTarget);
     const Subscription = this.store.pipe(select(getCalenderResponse))
       .subscribe(
         (getCalenderResponse) => {
@@ -116,10 +174,63 @@ export class EmployeePage extends BasePageComponent implements OnInit, OnDestroy
 
 
   }
+  msToTime(ms) {
+    let seconds = (ms / 1000).toFixed(1);
+    let minutes = (ms / (1000 * 60)).toFixed(1);
+    let hours = (ms / (1000 * 60 * 60)).toFixed(1);
+    let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
+    if (parseInt(seconds) < 60) return seconds + " Sec";
+    else if (parseInt(minutes) < 60) return minutes + " Min";
+    else if (parseInt(hours) < 24) return hours + " Hrs";
+    else return days + " Days"
+  }
+  Time(inTime, OutTime) {
+
+    this.todayTime = ((OutTime - inTime) / (1000 * 3600)).toFixed(2);
+  }
+  startTime(Time) {
+    debugger
+    let time = new Date().getTime();
+    var intervalVar = setInterval(function () {
+      this.todayTime = ((Date.now() - Time) / (1000 * 3600)).toFixed(2);;;
+    }.bind(this), 500)
+  }
+  formatDate(value: string) {
+    const UserId = this.sessionCall.getlocalStorage('userid');
+    //this.newSalesForm.patchValue({ InvoiceDate: format(parseISO(value), 'MMM dd yyyy') });
+
+    this.store.dispatch(EmployeeAction.GetTargetAchieved({
+      payload: {
+        Month: format(parseISO(value), 'MM'),
+        Year: format(parseISO(value), 'yyyy'),
+        LoginID: UserId,
+        Doctype: 'SSR'
+      }
+    }));
+    return format(parseISO(value), 'MMMM,yyyy');
+  }
   doRefresh(event) {
     const RoleID = this.sessionCall.getlocalStorage('RoleID');
     const UserId = this.sessionCall.getlocalStorage('userid');
     setTimeout(() => {
+      let today = new Date();
+      var mm = String(today.getMonth()).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+
+      this.store.dispatch(EmployeeAction.GetPunchTime({
+        payload: {
+          Date: today,
+          LoginID: UserId
+        }
+      }));
+      this.store.dispatch(EmployeeAction.GetTargetAchieved({
+        payload: {
+          Month: mm,
+          Year: yyyy,
+          LoginID: UserId,
+          Doctype: 'SSR'
+        }
+      }));
       console.log('Async operation has ended');
       this.store.dispatch(AuthActions.Menusettings({
         payload: {

@@ -246,6 +246,42 @@ export class EmployeeEffects {
                 ))
 
     );
+    GetPunchTime$ = createEffect(
+        () => this.actions$
+            .pipe(
+                ofType(EmpActions.GetPunchTime),
+                mergeMap(
+                    (data) => this.service.postMethodWithToken('GetPunchTime_DateWise', this.session.getlocalStorage('token'), data.payload)
+                        .pipe(
+                            map(result => {
+
+                                // Just to get the headers from the response in mutable way before passing into reducer 
+
+                                return EmpActions.GetPunchTimeSuccess({ payload: result[0] });
+                            }),
+                            catchError(error => of(EmpActions.GetPunchTimeError({ payload: error })))
+                        )
+                ))
+
+    );
+    GetTargetAchieved$ = createEffect(
+        () => this.actions$
+            .pipe(
+                ofType(EmpActions.GetTargetAchieved),
+                mergeMap(
+                    (data) => this.service.postMethodWithToken('GetTargetAchieved_MonthWise', this.session.getlocalStorage('token'), data.payload)
+                        .pipe(
+                            map(result => {
+
+                                // Just to get the headers from the response in mutable way before passing into reducer 
+
+                                return EmpActions.GetTargetAchievedSuccess({ payload: result[0] });
+                            }),
+                            catchError(error => of(EmpActions.GetTargetAchievedError({ payload: error })))
+                        )
+                ))
+
+    );
     constructor(private actions$: Actions,
         private service: GenericCallService,
         private session: SessionCheck

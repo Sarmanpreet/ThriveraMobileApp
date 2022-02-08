@@ -6,93 +6,161 @@
   <ion-refresher slot="fixed" style="--ion-text-color: var(--ion-color-medium);" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingIcon="arrow-down-outline"></ion-refresher-content>
   </ion-refresher>
+
+
+
+
+  <ion-grid class="ion-profile-grid">
+    <ion-row>
+      <ion-col size="2" class="imgcenter">
+
+        <ion-avatar>
+          <img src="https://thrivera.co.in/assets/design/images/NoPhoto_Female.png" style="    border: 1px white solid">
+        </ion-avatar>
+
+
+      </ion-col>
+      <ion-col size="10">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <ion-label> {{userInfo.EMPName }} </ion-label>
+            </ion-col>
+            <ion-col size="6">
+              <ion-label> {{userInfo.DealerName }}</ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <ion-label> {{userInfo.UserID}}</ion-label>
+
+            </ion-col>
+            <ion-col size="6">
+              <ion-label> {{userInfo.Work_AreaName}}</ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+
+
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-label class="f-sm-m0">Check In</ion-label>
+      </ion-col>
+      <ion-col>
+        <ion-label class="f-sm-m0">Hrs</ion-label>
+      </ion-col>
+      <ion-col>
+        <ion-label class="f-sm-m0">Check Out</ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="PunchTime">
+      <ion-col size="1">
+        <ion-icon name="finger-print-outline"></ion-icon>
+      </ion-col>
+      <ion-col size="3">
+
+        <ion-label class="f-sm" *ngIf="PunchTime.InStatus!=='Site In'"></ion-label>
+        <ion-label class="f-sm" *ngIf="PunchTime.InStatus=='Site In'">{{PunchTime.InTime}}</ion-label>
+      </ion-col>
+      <ion-col size="1" class="logocenter">
+        <ion-icon name="time-outline"></ion-icon>
+      </ion-col>
+      <ion-col size="3">
+
+        <ion-label class="f-sm">{{todayTime }}</ion-label>
+      </ion-col>
+      <ion-col size="1" class="logocenter">
+        <ion-icon name="footsteps" class="rotate-90"></ion-icon>
+      </ion-col>
+      <ion-col size="3">
+        <ion-label class="f-sm" *ngIf="PunchTime.InStatus!=='Site In' && PunchTime.OutStatus!=='Site Out'">
+          {{PunchTime.OutTime}}</ion-label>
+        <ion-label class="f-sm" *ngIf="PunchTime.OutStatus!=='Site In'">{{PunchTime.OutTime}}</ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <br />
+
+  <ion-item>
+    <ion-label>TARGET</ion-label>
+    <ion-item slot="end" button="true" id="open-date-input">
+      <ion-input [value]="dateValue" slot="end" style="margin-left: -5% !important">
+        <ion-icon slot="end" name="calendar-outline"></ion-icon>
+      </ion-input>
+
+      <ion-popover trigger="open-date-input" show-backdrop="false">
+        <ng-template>
+          <ion-datetime presentation="month-year" #popoverDatetime
+            (ionChange)="dateValue=formatDate(popoverDatetime.value)">
+          </ion-datetime>
+        </ng-template>
+      </ion-popover>
+
+    </ion-item>
+  </ion-item>
   <ion-card>
-
-
-
-    <!-- <ion-grid class="ion-profile-grid">
+    <ion-grid>
       <ion-row>
         <ion-col size="2" class="imgcenter">
 
           <ion-avatar>
-            <img src="https://thrivera.co.in/assets/design/images/NoPhoto_Female.png"
-              style="    border: 1px white solid">
+            <img src="https://thrivera.co.in/assets/design/images/circlegraph.jpg" style="    border: 1px white solid">
           </ion-avatar>
 
 
         </ion-col>
+
         <ion-col size="10">
           <ion-grid>
-            <ion-row>
-              <ion-col size="6">
-                <ion-label> {{userInfo.EMPName }} </ion-label>
+            <ion-row class="ion-profile-grid">
+              <ion-col size="3">
+                <ion-label> Product </ion-label>
               </ion-col>
-              <ion-col size="6">
-                <ion-label> {{userInfo.DealerName }}</ion-label>
+              <ion-col size="3">
+                <ion-label> TARGET</ion-label>
+              </ion-col>
+              <ion-col size="4">
+                <ion-label> ACHIVEMENT</ion-label>
+              </ion-col>
+              <ion-col size="2">
+                <ion-label> %</ion-label>
               </ion-col>
             </ion-row>
-            <ion-row>
-              <ion-col size="6">
-                <ion-label> {{userInfo.UserID}}</ion-label>
+            <ion-row *ngFor="let item of  Targets">
+              <ion-col size="3">
+                <ion-label>{{item.ProductType }}</ion-label>
+              </ion-col>
+              <ion-col size="3">
+                <ion-label> {{item.Target }}</ion-label>
+              </ion-col>
+              <ion-col size="4">
+                <ion-label>{{item.Achievement }}</ion-label>
+              </ion-col>
+              <ion-col size="2">
+                <ion-label> {{ item.Achievement*100/item.Target | number : '1.2-2'}}</ion-label>
+              </ion-col>
+            </ion-row>
 
-              </ion-col>
-              <ion-col size="6">
-                <ion-label> {{userInfo.Work_AreaName}}</ion-label>
-              </ion-col>
-            </ion-row>
           </ion-grid>
         </ion-col>
 
 
       </ion-row>
     </ion-grid>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-label class="f-sm-m0">Check In</ion-label>
-        </ion-col>
-        <ion-col>
-          <ion-label class="f-sm-m0">Hrs</ion-label>
-        </ion-col>
-        <ion-col>
-          <ion-label class="f-sm-m0">Check Out</ion-label>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="1">
-          <ion-icon name="finger-print-outline"></ion-icon>
-        </ion-col>
-        <ion-col size="3">
+  </ion-card>
 
-
-          <ion-label class="f-sm">9:30 am</ion-label>
-        </ion-col>
-        <ion-col size="1" class="logocenter">
-          <ion-icon name="time-outline"></ion-icon>
-        </ion-col>
-        <ion-col size="3">
-
-          <ion-label class="f-sm">8:30</ion-label>
-
-        </ion-col>
-        <ion-col size="1" class="logocenter">
-          <ion-icon name="footsteps" class="rotate-90"></ion-icon>
-        </ion-col>
-        <ion-col size="3">
-
-          <ion-label class="f-sm">9:30 pm</ion-label>
-        </ion-col>
-      </ion-row>
-    </ion-grid> -->
-
-
-    <ion-card-header class="ion-text-center">
+  <ion-card>
+    <!--  <ion-card-header class="ion-text-center">
 
       <ion-card-subtitle>Hello , {{userInfo.EMPName }} ({{userInfo.UserID}})</ion-card-subtitle>
       <ion-card-subtitle style="font-size:12px">Are are assigned to</ion-card-subtitle>
       <ion-card-subtitle>{{userInfo.DealerName }} ({{userInfo.Work_AreaName}})</ion-card-subtitle>
       <ion-button color="success" (click)="openCommentModal()">+ Site in</ion-button>
-    </ion-card-header>
+    </ion-card-header> -->
 
     <!-- <ion-card-content>
       Keep close to Nature's heart... and break clear away, once in awhile,
@@ -112,4 +180,46 @@
   <ion-calendar [(ngModel)]="dateMulti" (onChange)="onChange($event)" [options]="options" [type]="type"
     [format]="'YYYY-MM-DD'">
   </ion-calendar>
+  <!-- <ion-item>
+    <ion-card class="ion-margin-3px">
+
+      <ion-label class="centerlabel margin-top12px">
+        450
+      </ion-label>
+
+      <ion-card-content class="centerlabel padiingstart">
+        Pending Sale
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="ion-margin-3px">
+
+      <ion-label class="centerlabel margin-top12px">
+        450
+      </ion-label>
+
+      <ion-card-content class="centerlabel padiingstart">
+        Approved Sale
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="ion-margin-3px">
+
+      <ion-label class="centerlabel margin-top12px">
+        450
+      </ion-label>
+
+      <ion-card-content class="centerlabel padiingstart">
+        Reject Sale
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="ion-margin-3px">
+
+      <ion-label class="centerlabel margin-top12px">
+        450
+      </ion-label>
+
+      <ion-card-content class="centerlabel padiingstart">
+        Resubmitted Sale
+      </ion-card-content>
+    </ion-card>
+  </ion-item> -->
 </ion-content>
