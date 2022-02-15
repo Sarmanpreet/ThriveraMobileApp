@@ -404,7 +404,11 @@ export class CounterdisplayentryModalComponent implements OnInit, OnDestroy {
           this.store.dispatch(SaveAttachementImage({ payload: data }));
         }
 
-      } else {
+      }
+      else if (form.valid) {
+        this.saveData(form, 0)
+      }
+      else {
         const invalid = [];
         const controls = form.controls;
         for (const name in controls) {
@@ -413,12 +417,12 @@ export class CounterdisplayentryModalComponent implements OnInit, OnDestroy {
           }
         }
         // this.commonService.toastAlert(invalid, 'danger');
-        if (this.Image == undefined) {
-          this.commonService.toastAlert('Please upload image ', 'danger');
-        }
-        else {
-          this.commonService.toastAlert('Please fill ' + invalid, 'danger');
-        }
+        // if (this.Image == undefined) {
+        //   this.commonService.toastAlert('Please upload image ', 'danger');
+        // }
+        // else {
+        this.commonService.toastAlert('Please fill ' + invalid, 'danger');
+        //}
       }
     }
 

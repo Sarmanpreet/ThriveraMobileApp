@@ -139,42 +139,7 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
             const form = this.StaticnewSalesForm;
             if (getCalenderResponse[0].MESSAGE == "Added Successfully") {
               if (form.valid) {
-                const data = {
-                  SaleEntryID: 0,
-                  EMPID: this.sessionCall.getlocalStorage('empid'),
-                  SaleFor: this.Brand,
-                  InvoiceDate: form.value.InvoiceDate,
-                  InvoiceNo: form.value.InvoiceNo,
-                  ItemID: form.value.Item,
-                  Qty: form.value.Qty,
-                  Price: form.value.Price,
-                  SerialNo: form.value.SerialNo,
-                  InstallationNo: form.value.InstallationNo,
-                  PaymentMode: form.value.ModeofPaymnet,
-                  IsExchange: form.value.Exchange ? 1 : 0,
-                  Remarks: form.value.Remarks,
-                  AttachmentID: getCalenderResponse[0].RET_ID,
-                  IsActive: 1,
-                  Priority: 0,
-                  createdby: this.sessionCall.getlocalStorage('userid'),
-                  Name: form.value.CustomerName,
-                  Phone: form.value.Phone,
-                  Email: form.value.Email,
-                  Doctype: 'local',
-                  TableID: '',
-                  TableName: '',
-                  CountryID: 0,
-                  StateID: form.value.State,
-                  CityID: form.value.City,
-                  Address1: form.value.Address,
-                  Address2: '',
-                  Location: form.value.Location,
-                  Zipcode: '',
-                  IPAddress: '192.168.1.1',
-                  EntrySource: 'App'
-
-                }
-                this.store.dispatch(SaveSalesEntry({ payload: data }));
+                this.DispatchEntry(form, getCalenderResponse[0].RET_ID)
               }
             }
 
@@ -211,6 +176,44 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
     this.newSalesForm.patchValue({ InvoiceDate: format(parseISO(value), 'MMM dd yyyy') });
 
     return format(parseISO(value), 'MMM dd yyyy');
+  }
+  DispatchEntry(form, AttchId) {
+    const data = {
+      SaleEntryID: 0,
+      EMPID: this.sessionCall.getlocalStorage('empid'),
+      SaleFor: this.Brand,
+      InvoiceDate: form.value.InvoiceDate,
+      InvoiceNo: form.value.InvoiceNo,
+      ItemID: form.value.Item,
+      Qty: form.value.Qty,
+      Price: form.value.Price,
+      SerialNo: form.value.SerialNo,
+      InstallationNo: form.value.InstallationNo,
+      PaymentMode: form.value.ModeofPaymnet,
+      IsExchange: form.value.Exchange ? 1 : 0,
+      Remarks: form.value.Remarks,
+      AttachmentID: AttchId,
+      IsActive: 1,
+      Priority: 0,
+      createdby: this.sessionCall.getlocalStorage('userid'),
+      Name: form.value.CustomerName,
+      Phone: form.value.Phone,
+      Email: form.value.Email,
+      Doctype: 'local',
+      TableID: '',
+      TableName: '',
+      CountryID: 0,
+      StateID: form.value.State,
+      CityID: form.value.City,
+      Address1: form.value.Address,
+      Address2: '',
+      Location: form.value.Location,
+      Zipcode: '',
+      IPAddress: '192.168.1.1',
+      EntrySource: 'App'
+
+    }
+    this.store.dispatch(SaveSalesEntry({ payload: data }));
   }
   GetProduct(event) {
 
@@ -490,7 +493,11 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
         // });
         this.store.dispatch(SaveAttachementImage({ payload: data }));
 
-      } else {
+      }
+      else if (form.valid) {
+        this.DispatchEntry(form, 0);
+      }
+      else {
         const invalid = [];
         const controls = form.controls;
         for (const name in controls) {
@@ -499,12 +506,13 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
           }
         }
         // this.commonService.toastAlert(invalid, 'danger');
-        if (this.Image == undefined) {
-          this.commonService.toastAlert('Please upload image ', 'danger');
-        }
-        else {
-          this.commonService.toastAlert('Please fill ' + invalid, 'danger');
-        }
+        // if (this.Image == undefined) {
+
+
+        // }
+        // else {
+        this.commonService.toastAlert('Please fill ' + invalid, 'danger');
+        //}
       }
     }
 
