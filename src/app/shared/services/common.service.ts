@@ -93,6 +93,7 @@ export class CommonService {
 
 
   }
+
   async LoginLoading() {
     const loading = await this.loadingCtrl.create({
       message: 'Please wait...',
@@ -122,10 +123,43 @@ export class CommonService {
     });
   }
   loading: any;
+
+  loader: any;
+  Loadingstart: boolean = false;
+  async ShwLoader() {
+    this.Loadingstart = true;
+    setTimeout(() => {
+      this.StartLoader();
+    }, 1000);
+
+  }
+  async StartLoader() {
+    this.loader = await this.loadingCtrl.create({
+      message: 'Please wait...',
+
+    });
+
+    await this.loader.present();
+
+  }
+  async dismissLoading() {
+    debugger;
+    if (this.Loadingstart) {
+
+      setTimeout(() => {
+        this.loader.dismiss();
+        this.Loadingstart = false;
+      }, 1000);
+
+
+    }
+  }
   hideLoading() {
+    debugger;
     if (this.loading) {
       this.loading.onDidDismiss();
-      ;
+
+
       this.loading.dismiss();
       this.loading = null;
     }

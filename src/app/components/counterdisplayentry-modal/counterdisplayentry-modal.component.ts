@@ -123,7 +123,9 @@ export class CounterdisplayentryModalComponent implements OnInit, OnDestroy {
           if (getCalenderResponse) {
             console.log(getCalenderResponse);
             const form = this.StaticcounterDisplayForm;
+            this.commonService.dismissLoading();
             if (getCalenderResponse[0].MESSAGE == "Added Successfully") {
+
               this.saveData(form, getCalenderResponse[0].RET_ID);
 
             }
@@ -139,7 +141,7 @@ export class CounterdisplayentryModalComponent implements OnInit, OnDestroy {
         (getResponse) => {
           debugger;
           if (getResponse) {
-
+            this.commonService.dismissLoading();
             if (getResponse[0].Message == 'Inserted Successfully') {
 
 
@@ -179,6 +181,7 @@ export class CounterdisplayentryModalComponent implements OnInit, OnDestroy {
         EntrySource: 'App'
 
       }
+      this.commonService.ShwLoader();
       this.store.dispatch(saveCounterDisplay({ payload: data }));
     }
   }
@@ -328,6 +331,7 @@ export class CounterdisplayentryModalComponent implements OnInit, OnDestroy {
     // this.imageElement = "data:image/jpeg;base64," + image.base64String;
   };
   dismissModal() {
+    this.commonService.dismissLoading();
     this.counterDisplayForm.reset();
     this.subscription.unsubscribe();
     this.modalController.dismiss({
@@ -367,6 +371,7 @@ export class CounterdisplayentryModalComponent implements OnInit, OnDestroy {
 
   }
   async saveCDEntry() {
+    // this.commonService.LoginLoading();
     await this.Checkpermission();
     if (this.Geopermission) {
       const form = this.counterDisplayForm;
@@ -401,6 +406,7 @@ export class CounterdisplayentryModalComponent implements OnInit, OnDestroy {
           // this.modalController.dismiss({
           //   'dismissed': true
           // });
+          this.commonService.ShwLoader();
           this.store.dispatch(SaveAttachementImage({ payload: data }));
         }
 
@@ -421,6 +427,7 @@ export class CounterdisplayentryModalComponent implements OnInit, OnDestroy {
         //   this.commonService.toastAlert('Please upload image ', 'danger');
         // }
         // else {
+
         this.commonService.toastAlert('Please fill ' + invalid, 'danger');
         //}
       }

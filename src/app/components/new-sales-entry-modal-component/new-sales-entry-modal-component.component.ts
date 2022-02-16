@@ -137,6 +137,7 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
           if (getCalenderResponse) {
             console.log(getCalenderResponse);
             const form = this.StaticnewSalesForm;
+            this.commonService.dismissLoading();
             if (getCalenderResponse[0].MESSAGE == "Added Successfully") {
               if (form.valid) {
                 this.DispatchEntry(form, getCalenderResponse[0].RET_ID)
@@ -154,7 +155,7 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
         (getResponse) => {
           debugger;
           if (getResponse) {
-
+            this.commonService.dismissLoading();
             if (getResponse[0].Message == 'Inserted Successfully') {
 
 
@@ -178,6 +179,7 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
     return format(parseISO(value), 'MMM dd yyyy');
   }
   DispatchEntry(form, AttchId) {
+    this.commonService.ShwLoader();
     const data = {
       SaleEntryID: 0,
       EMPID: this.sessionCall.getlocalStorage('empid'),
@@ -491,6 +493,7 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
         // this.modalController.dismiss({
         //   'dismissed': true
         // });
+        this.commonService.ShwLoader();
         this.store.dispatch(SaveAttachementImage({ payload: data }));
 
       }
