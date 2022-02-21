@@ -25,6 +25,7 @@ export interface IEmployee {
   SaveMop: any;
   PunchTime: any;
   Target: any;
+  DashBoardSSR: any;
 }
 
 export const initialAuthState: IEmployee = {
@@ -47,7 +48,8 @@ export const initialAuthState: IEmployee = {
   MOPProductList: null,
   SaveMop: null,
   PunchTime: null,
-  Target: null
+  Target: null,
+  DashBoardSSR: null
 };
 
 
@@ -73,11 +75,36 @@ export const reducer = createReducer(
         ProductDDL: null,
         SubProductDDL: null,
         ItemDDL: null,
-        SaveEntry: null
+        SaveEntry: null,
+        DashBoardSSR: null
 
       };
     }),
+  on(EmpActions.GetSSRDashBoard,
+    (state, action) => {
+      return {
+        ...state,
+        loading: true
+      };
+    }),
+  on(EmpActions.GetSSRDashBoardSuccess,
+    (state, action) => {
 
+      return {
+        ...state,
+        loading: false,
+        DashBoardSSR: action.payload
+      };
+    }),
+
+  on(EmpActions.GetSSRDashBoardError,
+    (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }),
   on(EmpActions.GetCalender,
     (state, action) => {
       return {

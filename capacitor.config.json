@@ -1,6 +1,6 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "Thrivera",
+	"appId": "com.thriverablue.app",
+	"appName": "Thrivera Blue",
 	"webDir": "www",
 	"bundledWebRuntime": false
 }

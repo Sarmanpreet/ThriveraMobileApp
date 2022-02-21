@@ -80,6 +80,11 @@ export const getTargetResponse = createSelector(
     selectEmployeeState,
     (state: IEmployee) => state.Target
 );
+export const getSSRDashBoardResponse = createSelector(
+    selectEmployeeState,
+    (state: IEmployee) => state.DashBoardSSR
+);
+
 
 
 

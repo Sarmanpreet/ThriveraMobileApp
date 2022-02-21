@@ -5,6 +5,20 @@ export const resetAuthState = createAction(
   props<{ payload: any }>()
 );
 
+export const GetSSRDashBoard = createAction(
+  '[GetSSRDashBoard Page] GetSSRDashBoard Button',
+  props<{ payload: any }>()
+);
+
+export const GetSSRDashBoardSuccess = createAction(
+  '[GetSSRDashBoard Effects] GetSSRDashBoard Success Response',
+  props<{ payload: any }>()
+);
+
+export const GetSSRDashBoardError = createAction(
+  '[GetSSRDashBoard Effects] GetSSRDashBoard Error Response',
+  props<{ payload: any }>()
+);
 export const GetCalender = createAction(
   '[GetCalender Page] GetCalender Button',
   props<{ payload: any }>()

@@ -108,6 +108,25 @@ export class EmployeeEffects {
 
     );
 
+    GetSSRDashBoard$ = createEffect(
+        () => this.actions$
+            .pipe(
+                ofType(EmpActions.GetSSRDashBoard),
+                mergeMap(
+                    (data) => this.service.postMethodWithToken('GetDashboard_SSR', this.session.getlocalStorage('token'), data.payload)
+                        .pipe(
+                            map(result => {
+
+                                // Just to get the headers from the response in mutable way before passing into reducer 
+
+                                return EmpActions.GetSSRDashBoardSuccess({ payload: result });
+                            }),
+                            catchError(error => of(EmpActions.GetSSRDashBoardError({ payload: error })))
+                        )
+                ))
+
+    );
+
     GetSalesEntryDDL$ = createEffect(
         () => this.actions$
             .pipe(

@@ -163,7 +163,7 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
       }
     }));
     let today = new Date();
-    var mm = String(today.getMonth()).padStart(2, '0'); //January is 0!
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
 
     this.store.dispatch(EmployeeAction.GetPunchTime({

@@ -1,7 +1,13 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\components",
+    "\\src\\app\\components\\new-sales-entry-modal-component",
+    "\\src\\app\\tabs",
+    "\\src\\app\\tabs\\employee"
   ],
-  "SelectedNode": "\\angular.json",
+  "SelectedNode": "\\src\\app\\components\\new-sales-entry-modal-component\\new-sales-entry-modal-component.component.html",
   "PreviewInSolutionExplorer": false
 }

@@ -51,6 +51,7 @@
     "@sentry/capacitor": "^0.4.1",
     "@sentry/tracing": "^6.16.1",
     "@types/googlemaps": "^3.39.13",
+    "chart.js": "^3.7.1",
     "cordova-plugin-camera": "^6.0.0",
     "cordova-plugin-camera-preview": "^0.12.3",
     "crypto-js": "^4.1.1",

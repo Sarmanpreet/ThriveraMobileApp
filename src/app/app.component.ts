@@ -102,13 +102,13 @@ export class AppComponent {
       this.screenOrientation.unlock();
     });
 
-    this.http.get('https://genapi.kambalwala.com/css/version.css').subscribe((response) => {
-      debugger;
-      if (response["Version"] !== packageInfo.version) {
-        this.commonService.presentAlertMultipleButtons('Update App', '', 'Update new version of application..');
-      }
+    // this.http.get('https://genapi.kambalwala.com/css/version.css').subscribe((response) => {
+    //   debugger;
+    //   if (response["Version"] == packageInfo.version) {
+    //     this.commonService.presentAlertMultipleButtons('Update App', '', 'Please update new version of application from playstore..');
+    //   }
 
-    });
+    // });
   }
 
   logOut() {
