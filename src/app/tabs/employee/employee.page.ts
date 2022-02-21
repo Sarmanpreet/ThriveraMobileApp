@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonSlides, MenuController, ModalController, ToastController } from '@ionic/angular';
@@ -14,10 +14,11 @@ import { getServerResponse } from '../../../app/pages/auth/store/auth.selectors'
 import { AttandanceModalComponentComponent } from 'src/app/components/attandance-modal-component/attandance-modal-component.component';
 import { IonRouterOutlet } from '@ionic/angular';
 import { BasePageComponent } from 'src/app/components/base-page/base-page.component';
-import { getCalenderResponse, getPunchTimeResponse, getTargetResponse } from './store/Employee.selectors';
+import { getCalenderResponse, getPunchTimeResponse, getSSRDashBoardResponse, getTargetResponse } from './store/Employee.selectors';
 import { parse } from 'path';
 import { format, parseISO } from 'date-fns';
-
+import { Chart, registerables } from 'chart.js';
+import { stringify } from 'querystring';
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.page.html',
@@ -41,6 +42,11 @@ export class EmployeePage implements OnInit, OnDestroy {
   Targets: any;
   PunchTime: any;
   todayDiffTime: any;
+  doughnutChart: any;
+  colorArray: any;
+  //@ViewChild('barChart') private barChart: ElementRef;
+  @ViewChild('barChart', { static: true }) barChart: ElementRef;
+  DashboardSSR: any;
 
   constructor(
     private fb: FormBuilder,
@@ -53,7 +59,7 @@ export class EmployeePage implements OnInit, OnDestroy {
     private modalController: ModalController,
     private routerOutlet: IonRouterOutlet
   ) {
-
+    Chart.register(...registerables)
     // const IsdeleteActive = super.IsMenuAccess(D);
   }
 
@@ -63,12 +69,14 @@ export class EmployeePage implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
   ngOnInit() {
+
     debugger;
     const RoleID = this.sessionCall.getlocalStorage('RoleID');
     const UserId = this.sessionCall.getlocalStorage('userid');
     const monthNames = ["January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"
     ];
+
     let today = new Date();
     this.userInfo = JSON.parse(this.sessionCall.getlocalStorage('UserInfo'));
     this.dateValue = String(monthNames[today.getUTCMonth()]).padStart(2, '0') + "," + today.getFullYear();
@@ -90,8 +98,15 @@ export class EmployeePage implements OnInit, OnDestroy {
         doctype: 'Attendence'
       }
     }));
+    this.store.dispatch(EmployeeAction.GetSSRDashBoard({
+      payload: {
 
-    var mm = String(today.getMonth()).padStart(2, '0'); //January is 0!
+        LoginID: UserId
+
+      }
+    }));
+
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
 
     this.store.dispatch(EmployeeAction.GetPunchTime({
@@ -134,10 +149,23 @@ export class EmployeePage implements OnInit, OnDestroy {
           debugger
           if (Response) {
             this.Targets = Response;
+            // this.createBarChart();
           }
         }
       );
     this.subscription.add(SubscriptionTarget);
+    const SubscriptionSSRDashboard = this.store.pipe(select(getSSRDashBoardResponse))
+      .subscribe(
+        (Response) => {
+          debugger
+          if (Response) {
+            this.DashboardSSR = Response[0][0];
+            console.log(Response);
+            // this.createBarChart();
+          }
+        }
+      );
+    this.subscription.add(SubscriptionSSRDashboard);
     const Subscription = this.store.pipe(select(getCalenderResponse))
       .subscribe(
         (getCalenderResponse) => {
@@ -146,8 +174,8 @@ export class EmployeePage implements OnInit, OnDestroy {
             getCalenderResponse.forEach(element => {
               this.daysConfig.push({
                 date: new Date(element.date),
-                subTitle: element.Title,
-                cssClass: element.cssClass
+                subTitle: '',
+                cssClass: element.Title.replace('.', '').replace(' ', '')
               });
             });
 
@@ -171,6 +199,7 @@ export class EmployeePage implements OnInit, OnDestroy {
     //   color: 'danger',
     //   daysConfig: this.daysConfig
     // };
+
 
 
   }
@@ -208,6 +237,49 @@ export class EmployeePage implements OnInit, OnDestroy {
       }
     }));
     return format(parseISO(value), 'MMMM,yyyy');
+  }
+  createBarChart() {
+    let labels: any = [];
+    let data1: any = [];
+    this.Targets.forEach(element => {
+
+      labels.push(element.ProductType)
+      data1.push((element.Achievement * 100 / element.Target).toFixed(2))
+      //labels.push(element)
+    });
+    this.doughnutChart = new Chart(this.barChart.nativeElement, {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: '# of Target',
+          data: data1,
+          backgroundColor: [
+            // 'rgba(54, 162, 235, 0.2)',
+            // 'rgba(255, 206, 86, 0.2)',
+            // 'rgba(75, 192, 192, 0.2)',
+            // 'rgba(255, 159, 64, 0.2)',
+            // 'rgba(255, 99, 132, 0.2)',
+            '#FFCE56',
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+            '#FF6384',
+
+
+          ],
+          hoverBackgroundColor: [
+            '#FFCE56',
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+            '#FF6384',
+
+          ]
+        }]
+      }
+
+    });
   }
   doRefresh(event) {
     const RoleID = this.sessionCall.getlocalStorage('RoleID');
@@ -248,6 +320,13 @@ export class EmployeePage implements OnInit, OnDestroy {
           ID: '',
           LoginID: UserId,
           doctype: 'Attendence'
+        }
+      }));
+      this.store.dispatch(EmployeeAction.GetSSRDashBoard({
+        payload: {
+
+          LoginID: UserId
+
         }
       }));
       event.target.complete();

@@ -100,13 +100,54 @@ ion-toolbar {
 
 button.days-btn.Present small {
     color      : darkgreen !important;
-    font-weight: 800 !important;
+    font-weight: 700 !important;
 
 }
 
+button.days-btn.Holiday {
+    background-color: #2EFEF7 !important;
+    font-weight     : 700 !important;
+}
+
+button.days-btn.Leave {
+    background-color: #ffbc34 !important;
+    font-weight     : 700 !important;
+}
+
+button.days-btn.LWP {
+    background-color: #FE642E !important;
+    font-weight     : 700 !important;
+}
+
+button.days-btn.Iamsafe {
+    background-color: #0B3861 !important;
+    font-weight     : 700 !important;
+}
+
+button.days-btn.Woff {
+    background-color: #009efb !important;
+    font-weight     : 700 !important;
+}
+
+button.days-btn.P {
+    background-color: #55ce63 !important;
+    font-weight     : 700 !important;
+}
+
+button.days-btn.A {
+    background-color: #f62d51 !important;
+    font-weight     : 700 !important;
+}
+
+button.days-btn.HD {
+    background-color: #9AFE2E !important;
+    font-weight     : 700 !important;
+}
+
 button.days-btn.Absent small {
+
     color      : red !important;
-    font-weight: 800 !important;
+    font-weight: 700 !important;
 }
 
 .active-link {
@@ -191,6 +232,13 @@ ion-content {
     margin-inline: 3px !important
 }
 
+.text-align-center {
+    border-radius: 12px;
+    padding-top  : 10%;
+    text-align   : center !important;
+}
+
+
 ion-calendar-week {
     ion-toolbar {
         .week-title {
@@ -203,4 +251,109 @@ ion-calendar-week {
 .month-packer-item button {
 
     background-color: #5f478c !important;
+}
+
+.fs-11px {
+    font-size: 11px;
+}
+
+.fs-12px {
+    font-size: 12px;
+}
+
+.fs-13px {
+    font-size: 13px;
+}
+
+.fs-14px {
+    font-size: 14px;
+}
+
+.fs-14px {
+    font-size: 15px;
+}
+
+.bold {
+    font-weight: 770;
+
+}
+
+.bold-800 {
+    font-weight: 800;
+
+}
+
+padding-Unset {
+    padding             : unset;
+    padding-inline-start: unset !important;
+    padding-inline-end  : unset !important;
+
+}
+
+ion-toolbar {
+    --min-height: 40px;
+    height      : 40px;
+
+    .toolbar-container {
+        min-height: 40px;
+    }
+}
+
+button.days-btn p {
+    font-size: 1em !important;
+}
+
+.week-toolbar {
+    height: 40px !important;
+}
+
+.week-title {
+    height : 40px !important;
+    padding: 10px 0 !important;
+
+}
+
+.title .switch-btn {
+    font-size: 12px !important;
+}
+
+.bg-white {
+    background: white;
+}
+
+.Present {
+    background-color: #55ce63
+}
+
+.Halfday {
+    background-color: #9AFE2E
+}
+
+.WeekOff {
+    background-color: #009efb
+}
+
+.Absent {
+    background-color: #f62d51
+}
+
+.Leave {
+    background-color: #ffbc34
+}
+
+.Holiday {
+    background-color: #2EFEF7
+}
+
+.IamSafe {
+    background-color: #0B3861
+}
+
+.LWP {
+    background-color: #FE642E
+}
+
+ion-tab-bar {
+    --min-height: 40px !important;
+    height      : 60px !important;
 }

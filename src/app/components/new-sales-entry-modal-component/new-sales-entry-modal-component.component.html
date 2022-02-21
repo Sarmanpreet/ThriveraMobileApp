@@ -24,13 +24,13 @@
         <ion-label>Invoice No *</ion-label>
         <ion-input formControlName="InvoiceNo" name="InvoiceNo" placeholder=""></ion-input>
       </ion-item>
-      <ion-item button="true" id="open-date-inputNew">
+      <ion-item button="true" id="open-date-input">
 
         <!-- <ion-input formControlName="InvoiceDate" name="InvoiceDate" placeholder=""></ion-input> -->
 
         <ion-label>Invoice Date</ion-label>
         <ion-input formControlName="InvoiceDate" name="InvoiceDate" slot="end"></ion-input>
-        <ion-popover trigger="open-date-inputNew" show-backdrop="false">
+        <ion-popover trigger="open-date-input" show-backdrop="false">
           <ng-template>
             <ion-datetime #popoverDatetime presentation="date"
               (ionChange)="dateValue = formatDate(popoverDatetime.value)"></ion-datetime>
