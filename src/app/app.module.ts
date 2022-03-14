@@ -43,6 +43,7 @@ import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 import { Mopffects } from './tabs/employee/mop-list/store/Mop.effects';
 import { Counterdisplayeffects } from './tabs/employee/counterdisplay-list/store/Counterdisplay.effects';
 import { RFCeffects } from './tabs/employee/rfc-list/store/Rfc.effects';
+import { profileEffects } from './tabs/employee/profile/store/profile.effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -87,7 +88,7 @@ import { RFCeffects } from './tabs/employee/rfc-list/store/Rfc.effects';
       Counterdisplayeffects,
       // gmapEffects,
       // savedLocationsEffect,
-      //profileEffects,
+      profileEffects,
       // RoutesEffects,
       DemoEffects,
       //notificationEffects,

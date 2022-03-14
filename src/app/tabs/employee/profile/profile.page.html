@@ -1,0 +1,107 @@
+<ion-header>
+  <app-emp-header></app-emp-header>
+
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" style="--ion-text-color: var(--ion-color-medium);" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-down-outline"></ion-refresher-content>
+  </ion-refresher>
+
+
+  <ng-container>
+    <form [formGroup]="attandanceForm">
+      <ion-card class="ion-card-profile">
+        <ion-icon name="person-circle-outline" class="ion-icon-top-person"></ion-icon>
+        <ion-avatar class="margin-auto mt-minus-2">
+          <img src="https://radiometropolitanaporto.pt/images/pngtree-user-vector-avatar-png-image_1541962.jpg">
+
+        </ion-avatar>
+        <p class=" ion-no-padding">Name</p>
+      </ion-card>
+
+      <ion-card class="ion-margin mt-minus-2">
+        <ion-item class="ion-activated" lines="none">
+          <ion-label class="ion-text-center">User Profile</ion-label>
+        </ion-item>
+        <label class="labelwithcolor">User Name </label>
+        <ion-card color="white" class="auth-card ion-card-input">
+          <ion-item lines="none" color="white">
+            <ion-button slot="start" fill="clear" class="ion-no-margin">
+              <ion-icon slot="icon-only" color="medium" name="person-circle-outline"></ion-icon>
+
+            </ion-button>
+            <ion-input formControlName="EMPName" type="text" placeholder="Enter User Name"></ion-input>
+          </ion-item>
+
+        </ion-card>
+        <label class="labelwithcolor">Email </label>
+        <ion-card color="white" class="auth-card ion-card-input">
+          <ion-item lines="none" color="white">
+            <ion-button slot="start" fill="clear" class="ion-no-margin">
+              <ion-icon slot="icon-only" color="medium" name="mail-outline"></ion-icon>
+            </ion-button>
+            <ion-input formControlName="EmailID" type="Email" placeholder="Enter Email"></ion-input>
+          </ion-item>
+
+        </ion-card>
+        <label class="labelwithcolor">Mobile Number </label>
+        <ion-card color="white" class="auth-card ion-card-input">
+
+          <ion-item lines="none" color="white">
+            <ion-button slot="start" fill="clear" class="ion-no-margin">
+              <ion-icon slot="icon-only" color="medium" name="phone-portrait-outline"></ion-icon>
+            </ion-button>
+            <ion-input formControlName="Phone" type="text" placeholder="Enter Mobile Number"></ion-input>
+          </ion-item>
+
+        </ion-card>
+        <label class="labelwithcolor">Date of Birth </label>
+        <ion-card color="white" class="auth-card  ion-card-input">
+
+          <ion-item lines="none" color="white" button="true" id="open-date-input-dab">
+            <ion-button slot="start" fill="clear" class="ion-no-margin">
+              <ion-icon slot="icon-only" color="medium" name="calendar-outline"></ion-icon>
+            </ion-button>
+
+            <ion-input formControlName="DOB" name="DOB" placeholder="DD/MM/YYYY"></ion-input>
+            <ion-popover trigger="open-date-input-dab" show-backdrop="false">
+              <ng-template>
+                <ion-datetime #popoverDatetime presentation="date"
+                  (ionChange)="dateValue = formatDate(popoverDatetime.value)"></ion-datetime>
+              </ng-template>
+            </ion-popover>
+
+          </ion-item>
+
+        </ion-card>
+        <label class="labelwithcolor">Sex </label>
+        <ion-grid class="ion-no-margin ion-no-padding">
+          <ion-row class="ion-no-margin ion-no-padding">
+            <ion-col class="ion-no-margin ion-no-padding">
+              <ion-item lines="none" class="ion-no-margin ion-no-padding">
+
+                <ion-toggle [checked]="Getchecked(attandanceForm.value.Gender,'Male')" color="medium"></ion-toggle>
+                <ion-label>Male</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item lines="none">
+
+                <ion-toggle color="medium" [checked]="Getchecked(attandanceForm.value.Gender,'Female')"></ion-toggle>
+                <ion-label>Female</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom ion-button-submit"
+          type="submit">
+          SAVE
+        </ion-button>
+      </ion-card>
+    </form>
+
+  </ng-container>
+
+
+</ion-content>

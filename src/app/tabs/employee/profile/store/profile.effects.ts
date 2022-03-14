@@ -15,9 +15,9 @@ export class profileEffects {
             .pipe(
                 ofType(profileActions.loadprofile),
                 mergeMap(
-                    (data) => this.service.postMethodWithToken('Sp_GetDemoDetailByCustid',
-                    this.session.getlocalStorage('token'),
-                    data.payload)
+                    (data) => this.service.postMethodWithToken('Getuserprtofileinfo',
+                        this.session.getlocalStorage('token'),
+                        data.payload)
                         .pipe(
                             map(result => {
                                 return profileActions.loadprofileSuccess({ payload: result[0] });

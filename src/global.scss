@@ -357,3 +357,19 @@ ion-tab-bar {
     --min-height: 40px !important;
     height      : 60px !important;
 }
+
+.margin-auto {
+    margin: auto !important;
+}
+
+ion-button {
+    --border-radius    : 18px !important;
+    --ion-color-primary: linear-gradient(to right, rgb(76 61 205 / 10%) -127%, #4f0f99);
+
+    --ion-color-primary-contrast: #fff;
+
+}
+
+ion-fab-button {
+    --ion-color-primary: linear-gradient(to right, rgb(76 61 205 / 10%) -127%, #4f0f99);
+}

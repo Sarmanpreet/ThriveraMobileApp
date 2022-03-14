@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { selectprofileState } from '../../../shared/shared.state';
+import { selectprofileState } from '../../../../shared/shared.state';
 import { IprofileState } from './profile.reducers';
 
 export const selectprofileList = createSelector(

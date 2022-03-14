@@ -50,6 +50,7 @@
     "@sentry/angular": "^6.16.1",
     "@sentry/capacitor": "^0.4.1",
     "@sentry/tracing": "^6.16.1",
+    "@thiagoprz/ionic-input-mask": "0.0.4",
     "@types/googlemaps": "^3.39.13",
     "chart.js": "^3.7.1",
     "cordova-plugin-camera": "^6.0.0",

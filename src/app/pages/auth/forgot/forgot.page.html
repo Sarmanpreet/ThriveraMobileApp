@@ -1,24 +1,38 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button [text]="'back_title' | translate" defaultHref="/auth/login"></ion-back-button>
+      <ion-back-button [text]="'' | translate" defaultHref="/auth/login"></ion-back-button>
     </ion-buttons>
-    <ion-title>forgot</ion-title>
-    <ion-buttons slot="end">
+    <ion-title></ion-title>
+    <!-- <ion-buttons slot="end">
       <ion-button [disabled]="!forgot.valid" (click)="done()">
         Done
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <p class="ion-margin-start ion-margin-end">
-    Please enter the email that you used to sign in
-  </p>
-  <ion-card color="light" class="auth-card ion-margin">
-    <ion-item lines="none" color="light">
-      <ion-input type="email" placeholder="Email" [formControl]="forgot"></ion-input>
+
+  <ion-item class="ion-activated" lines="none">
+    <ion-label class="ion-text-center ">
+      <h2 style="    font-weight: 700">FORGOT PASSWORD</h2>
+      <p class="ion-margin-start ion-margin-end">
+        Please enter the email that you used to sign in
+      </p>
+    </ion-label>
+  </ion-item>
+
+  <ion-card color="white" class="auth-card ion-card-input">
+    <ion-item lines="none" color="white">
+      <ion-button slot="start" fill="clear" class="ion-no-margin">
+        <ion-icon slot="icon-only" color="medium" name="mail-outline"></ion-icon>
+      </ion-button>
+      <ion-input type="Email" placeholder="Enter Email"></ion-input>
     </ion-item>
+
   </ion-card>
+  <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom ion-button-submit" type="submit">
+    SAVE
+  </ion-button>
 </ion-content>

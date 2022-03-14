@@ -6,11 +6,11 @@ import { TabsPage } from './tabs.page';
 
 import { SharedModule } from '../shared/shared.module';
 
+
 @NgModule({
   imports: [
     CommonModule,
     TabsPageRoutingModule,
-
     SharedModule
   ],
   declarations: [TabsPage]

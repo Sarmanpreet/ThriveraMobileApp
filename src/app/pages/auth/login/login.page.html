@@ -30,13 +30,16 @@
                         [disabled]="!login.valid">
                         Log In
                     </ion-button>
-                    <span class="ion-margin"></span>
+
                     <!--<span class="ion-margin"></span>
           <ion-button expand="block" class="ion-margin" [routerLink]="[ '/auth', 'register' ]"
             routerDirection="forward">
             Sign Up
           </ion-button> -->
 
+                    <ion-nav-link expand="block" [routerLink]="[ '/auth', 'forgot' ]" routerDirection="forward">
+                        Forgot password
+                    </ion-nav-link>
 
                 </form>
             </ion-col>

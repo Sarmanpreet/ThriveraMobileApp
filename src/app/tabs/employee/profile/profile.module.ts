@@ -10,11 +10,11 @@ import { FormsModule } from '@angular/forms';
 @NgModule({
   imports: [
     CommonModule,
-    ProfilePageRoutingModule,
-    
+
+
     SharedModule,
     FormsModule
   ],
-  declarations: [ProfilePage]
+  declarations: []
 })
 export class ProfilePageModule { }

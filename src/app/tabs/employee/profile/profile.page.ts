@@ -9,21 +9,25 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { SessionCheck } from "src/app/shared/session/sessioncheck.service";
 import { selectprofileList } from './store/profile.selectors';
 import * as profileActions from "./store/profile.actions"
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { format, parseISO } from 'date-fns';
 @Component({
   selector: "app-profile",
   templateUrl: "profile.page.html",
   styleUrls: ["profile.page.scss"]
 })
-export class ProfilePage implements OnInit,OnDestroy {
-   user = {
-     full_name: "",
-     nickname: "",
+export class ProfilePage implements OnInit, OnDestroy {
+
+  dateValue: any;
+  user = {
+    full_name: "",
+    nickname: "",
     image: "",
     status: "",
-   online: false,
-     isMobileOnline: true
-   };
-  
+    online: false,
+    isMobileOnline: true
+  };
+  attandanceForm: FormGroup;
   isIos: boolean;
 
   subscription = new Subscription();
@@ -31,7 +35,8 @@ export class ProfilePage implements OnInit,OnDestroy {
   allProfileData: any;
   profile: any;
 
-  profilePic:any;
+  profilePic: any;
+  userInfo: any;
 
   constructor(
     private menu: MenuController,
@@ -39,11 +44,11 @@ export class ProfilePage implements OnInit,OnDestroy {
     private sessionCall: SessionCheck,
     private store: Store<IAppState>,
     public commonService: CommonService,
+    private formBuilder: FormBuilder,
     private router: Router,
     private fakerService: FakerService,
     public config: Config
-  ) 
-  {}
+  ) { }
 
   toggleMenu() {
     this.menu.toggle("menuBar");
@@ -53,7 +58,24 @@ export class ProfilePage implements OnInit,OnDestroy {
       this.menu.enable(false, "menuBar");
     }
   }
+  initForm(data: any) {
+    debugger
+    // const form = {
+    //   StatusID: ['', Validators.required],
+    //   Notes: ['']
+    // };
 
+    this.attandanceForm = this.formBuilder.group({
+      EMPName: this.formBuilder.control(data.EMPName ? data.EMPName : '', [Validators.required]),
+      EmailID: this.formBuilder.control(data.EmailID ? data.EmailID : ''),
+      Gender: this.formBuilder.control(data.Gender ? data.Gender : ''),
+      Phone: this.formBuilder.control(data.Phone ? data.Phone : ''),
+      DOB: this.formBuilder.control(data.DOB ? data.DOB : '')
+    });
+
+    //this.feedbackForm = this.formBuilder.group(form);
+
+  }
   // doRefresh(event) {
   //   setTimeout(() => {
   //     this.getUser();
@@ -71,28 +93,47 @@ export class ProfilePage implements OnInit,OnDestroy {
   //     this.user.nickname = this.user.full_name.toLocaleLowerCase().split(' ').join('_');
   //   });
   // }
-
+  Getchecked(val, Sex) {
+    debugger
+    let v = (val == Sex) ? 'Checked' : false;
+    return v;
+  }
+  change(val, Sex) {
+    debugger
+    let v = (val == Sex) ? 'Checked' : false;
+    return v;
+  }
   ngOnInit(): void {
     this.isIos = this.config.get("mode") === "ios";
-
+    this.attandanceForm = this.formBuilder.group({
+      EMPName: this.formBuilder.control('', [Validators.required]),
+      EmailID: this.formBuilder.control(''),
+      Gender: this.formBuilder.control(''),
+      Phone: this.formBuilder.control(''),
+      DOB: this.formBuilder.control('')
+    });
+    this.userInfo = JSON.parse(this.sessionCall.getlocalStorage('UserInfo'));
+    console.log(this.userInfo)
     this.getprofileList();
 
     const sub1 = this.store.pipe(select(selectprofileList))
-    .subscribe((resp) => {
-      if (resp) {   
-        debugger;     
-        this.profile = resp[0];
-        // if(this.profile && this.profile.ProfilePic){
-        //   this.profilePic = 'data:image/jpeg;base64,' + this.profile.ProfilePic;
-        // }
-      }
-    });
+      .subscribe((resp) => {
+        if (resp.length > 0) {
+          debugger;
+          this.profile = resp[0];
+          this.initForm(this.profile);
+          // console.log(this.profile)
+          // if(this.profile && this.profile.ProfilePic){
+          //   this.profilePic = 'data:image/jpeg;base64,' + this.profile.ProfilePic;
+          // }
+        }
+      });
 
-  this.subscription.add(sub1);
+    this.subscription.add(sub1);
 
   }
-  
-  
+
+
   doRefresh(event) {
     setTimeout(() => {
       console.log('Async operation has ended');
@@ -100,13 +141,18 @@ export class ProfilePage implements OnInit,OnDestroy {
       event.target.complete();
     }, 2000);
   }
+  formatDate(value: string) {
+    this.attandanceForm.patchValue({ DOB: format(parseISO(value), 'MMM dd yyyy') });
 
+    return format(parseISO(value), 'MMM dd yyyy');
+  }
   getprofileList() {
-    if (this.sessionCall.getlocalStorage("userid")) {
+
+    if (this.userInfo.EMPID) {
       this.store.dispatch(
-      profileActions.loadprofile({
+        profileActions.loadprofile({
           payload: {
-            custid: this.sessionCall.getlocalStorage("userid")
+            LoginId: this.userInfo.EMPID
           }
         })
       );
@@ -116,9 +162,9 @@ export class ProfilePage implements OnInit,OnDestroy {
         "danger"
       );
     }
- }
+  }
 
- ngOnDestroy() {
-  this.subscription.unsubscribe();
-}
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 }

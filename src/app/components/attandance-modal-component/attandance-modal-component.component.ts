@@ -300,6 +300,10 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
     await this.Checkpermission();
     // this.Image = this.CordovaService.Image64DataAttn;
     // this.imageElement = "data:image/jpeg;base64," + this.Image;
+    if (this.lat == undefined && this.lat == undefined) {
+      this.commonService.toastAlert('Please check GPS of device', 'danger');
+
+    }
     if (this.Geopermission && this.lat && this.lat) {
       const form = this.attandanceForm;
       debugger;
@@ -335,10 +339,7 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
           }
         }
         // this.commonService.toastAlert(invalid, 'danger');
-        if (this.lat == undefined && this.lat == undefined) {
-          this.commonService.toastAlert('Please check GPS of device', 'danger');
 
-        }
         if (this.Image == undefined) {
           this.commonService.toastAlert('Please upload image ', 'danger');
         }

@@ -32,8 +32,9 @@ ion-card-subtitle {
 }
 
 .ion-profile-grid {
-    --ion-grid-padding: 2px;
-    background-color  : #5f478c;
+    --ion-grid-padding     : 2px;
+    background-color       : #5f478c;
+    //\ background-color   : linear-gradient(to right, rgb(76 61 205 / 10%) -127%, #4f0f99);
 
     .imgcenter {
         display: block;

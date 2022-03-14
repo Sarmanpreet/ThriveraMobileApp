@@ -6,6 +6,7 @@ import { CounterDisplayListComponent } from './counterdisplay-list/counterdispla
 import { EmployeePage } from './employee.page';
 import { LeaveListComponent } from './leave-list/leave-list.component';
 import { MOPListComponent } from './mop-list/mop-list.component';
+import { ProfilePage } from './profile/profile.page';
 import { RFCListComponent } from './rfc-list/rfc-list.component';
 import { SaleEntryListComponent } from './sale-entry-list/sale-entry-list.component';
 
@@ -17,6 +18,11 @@ const routes: Routes = [
   {
     path: 'employeedashboard',
     component: EmployeePage
+  },
+  {
+    path: 'profile',
+    component: ProfilePage
+
   },
   {
 

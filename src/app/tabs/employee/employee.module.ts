@@ -26,6 +26,9 @@ import { CompetitionListComponent } from './competition-list/competition-list.co
 import { CompetitionEntryModalComponent } from 'src/app/components/competition-entry-modal/competition-entry-modal.component';
 import { LeaveListComponent } from './leave-list/leave-list.component';
 import { LeaveEntryModalComponent } from 'src/app/components/leave-entry-modal/leave-entry-modal.component';
+import { ProfilePage } from './profile/profile.page';
+import { LogoutModalComponent } from 'src/app/components/logout-modal/logout-modal.component';
+import { TabsPageModule } from '../tabs.module';
 
 @NgModule({
   imports: [
@@ -34,7 +37,7 @@ import { LeaveEntryModalComponent } from 'src/app/components/leave-entry-modal/l
     IonicModule,
     EmployeePageRoutingModule,
     CalendarModule,
-    SharedModule,
+    SharedModule
 
   ],
   declarations: [EmployeePage,
@@ -44,16 +47,17 @@ import { LeaveEntryModalComponent } from 'src/app/components/leave-entry-modal/l
     TabHeaderComponent,
     CompetitionListComponent,
     DynamicTableComponent,
+    ProfilePage,
     SalesEntryModalComponentComponent,
     AttandanceModalComponentComponent,
     MapentryModalComponent, LeaveListComponent,
     CounterDisplayListComponent, CounterdisplayentryModalComponent,
     ModalHeaderComponent, RfcEntryModalComponent, CompetitionEntryModalComponent,
-    LeaveEntryModalComponent
+    LeaveEntryModalComponent, LogoutModalComponent
   ],
   entryComponents: [AttandanceModalComponentComponent,
     SalesEntryModalComponentComponent, MapentryModalComponent,
     CounterdisplayentryModalComponent, CompetitionEntryModalComponent,
-    RfcEntryModalComponent, LeaveEntryModalComponent]
+    RfcEntryModalComponent, LeaveEntryModalComponent, LogoutModalComponent]
 })
 export class EmployeePageModule { }

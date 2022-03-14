@@ -43,17 +43,30 @@ const routes: Routes = [
           }
         ]
       },
-      // Tab 1
       {
-        path: 'routes',
+        path: 'profile',
         children: [
           {
             path: '',
-            loadChildren: () => import('./routes/routes.module').then(m => m.RoutesPageModule)
+            loadChildren: () => import('./employee/profile/profile.module').then(m => m.ProfilePageModule)
+          },
+          {
+            path: 'settings',
+            loadChildren: () => import('../pages/settings/settings.module').then(m => m.SettingsPageModule)
           }
         ]
-        // loadChildren: () => import('./routes/routes.module').then( m => m.RoutesPageModule)
       },
+      // Tab 1
+      // {
+      //   path: 'routes',
+      //   children: [
+      //     {
+      //       path: '',
+      //       loadChildren: () => import('./routes/routes.module').then(m => m.RoutesPageModule)
+      //     }
+      //   ]
+      //   // loadChildren: () => import('./routes/routes.module').then( m => m.RoutesPageModule)
+      // },
       // {
       //   path: 'savedLocation',
       //   children: [
@@ -110,19 +123,7 @@ const routes: Routes = [
       //   ]
       // },
       // Tab 5
-      {
-        path: 'profile',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule)
-          },
-          {
-            path: 'settings',
-            loadChildren: () => import('../pages/settings/settings.module').then(m => m.SettingsPageModule)
-          }
-        ]
-      },
+
       {
         path: '',
         redirectTo: 'employee',

@@ -28,7 +28,7 @@ import { clientDtlReducer, IClientDtlState } from '../pages/client-dtl/store/cli
 import { savedlocationsReducer, IsavedlocationsState } from '../tabs/saved-locations/store/savedlocations.reducers';
 import { gmapReducer, IGmapsState } from '../tabs/gmap/store/gmap.reducers';
 import { InotificationState, notificationReducer } from '../tabs/notification/store/notification.reducers';
-import { profileReducer, IprofileState } from '../tabs/profile/store/profile.reducers';
+import { profileReducer, IprofileState } from '../tabs/employee/profile/store/profile.reducers';
 import { IRoutesState, routeReducer } from '../tabs/routes/store/route.reducers';
 import { DemoReducer, IDemoState } from '../pages/pend-upcom-demo-list/store/Pend-upcom-reducers';
 import { employeeReducer, IEmployee } from '../tabs/employee/store/Employee.reducers';
