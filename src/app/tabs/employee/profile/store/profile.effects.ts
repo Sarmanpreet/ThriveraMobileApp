@@ -26,5 +26,21 @@ export class profileEffects {
                         )
                 ))
     );
+    saveprofile$ = createEffect(
+        () => this.actions$
+            .pipe(
+                ofType(profileActions.saveprofile),
+                mergeMap(
+                    (data) => this.service.postMethodWithToken('setprofileinfo',
+                        this.session.getlocalStorage('token'),
+                        data.payload)
+                        .pipe(
+                            map(result => {
+                                return profileActions.saveprofileSuccess({ payload: result[0] });
+                            }),
+                            catchError(error => of(profileActions.saveprofileError({ payload: error })))
+                        )
+                ))
+    );
     constructor(private actions$: Actions, private service: GenericCallService, private session: SessionCheck) { }
 }

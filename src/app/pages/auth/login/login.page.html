@@ -7,7 +7,7 @@
                         <img alt="logo" id="header_logo" height="60" src="../../../../assets/logo/logo.png">
                     </div>
 
-                    <ion-card color="light" class="auth-card ion-margin">
+                    <ion-card color="light" class="auth-card ion-margin ion-card-input  ">
                         <ion-item lines="none" color="light">
                             <ion-button slot="start" fill="clear" class="ion-no-margin">
                                 <ion-icon slot="icon-only" color="medium" name="person-circle-outline"></ion-icon>
@@ -16,7 +16,7 @@
                         </ion-item>
 
                     </ion-card>
-                    <ion-card color="light" class="auth-card ion-margin">
+                    <ion-card color="light" class="auth-card ion-margin ion-card-input">
 
                         <ion-item lines="none" color="light" class="ion-no-inner-padding-end">
                             <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
@@ -37,7 +37,7 @@
             Sign Up
           </ion-button> -->
 
-                    <ion-nav-link expand="block" [routerLink]="[ '/auth', 'forgot' ]" routerDirection="forward">
+                    <ion-nav-link expand="block" (click)="openCapacitorSite()">
                         Forgot password
                     </ion-nav-link>
 

@@ -22,3 +22,7 @@ export const getServerResponse = createSelector(
     selectprofileState,
     (state: IprofileState) => state.serverResponse
 );
+export const saveprofileResponse = createSelector(
+    selectprofileState,
+    (state: IprofileState) => state.saveprofile
+);

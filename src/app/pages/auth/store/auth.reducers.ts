@@ -8,6 +8,7 @@ export interface IAuthState {
   error: any;
   Menusettings: any;
   Checksession: any;
+  WebUrl: any;
 }
 
 export const initialAuthState: IAuthState = {
@@ -15,7 +16,8 @@ export const initialAuthState: IAuthState = {
   serverResponse: null,
   error: null,
   Menusettings: [],
-  Checksession: null
+  Checksession: null,
+  WebUrl: null
 };
 
 
@@ -140,6 +142,31 @@ export const reducer = createReducer(
         error: action.payload
       };
     }),
+  on(AuthActions.config,
+    (state, action) => {
+      return {
+        ...state,
+        loading: true
+      };
+    }),
+  on(AuthActions.configSuccess,
+    (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        WebUrl: action.payload
+      };
+    }),
+
+  on(AuthActions.configError,
+    (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }),
+
 
 );
 

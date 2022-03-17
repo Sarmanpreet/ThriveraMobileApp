@@ -28,5 +28,9 @@ export const getcheckSession = createSelector(
     selectAuthState,
     (state: IAuthState) => state.Checksession
 );
+export const getconfig = createSelector(
+    selectAuthState,
+    (state: IAuthState) => state.WebUrl
+);
 
 

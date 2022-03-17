@@ -77,25 +77,7 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
             const form = this.attandanceForm;
             if (getCalenderResponse[0].MESSAGE == "Added Successfully") {
               if (form.valid) {
-                const data = {
-                  StatusID: form.value.StatusID,
-                  EMPID: this.sessionCall.getlocalStorage('empid'),
-                  AttachmentID: getCalenderResponse[0].RET_ID,
-                  Location: '',
-                  Latitude: this.lat,
-                  Longitude: this.lng,
-                  Error: '',
-                  Notes: form.value.Notes,
-                  PunchDistance: '',
-                  IsActive: '',
-                  Priority: 0,
-                  createdby: this.UserId,
-                  IPAddress: '192.168.1.1',
-                  EntrySource: 'App'
-
-
-                }
-                this.store.dispatch(SaveAttandence({ payload: data }));
+                this.saveAttandence(form, getCalenderResponse[0].RET_ID)
               }
             }
 
@@ -148,6 +130,27 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
       //     .catch((error: any) => console.log(error));
     }
   }
+  saveAttandence(form, id) {
+    const data = {
+      StatusID: form.value.Attandance,
+      EMPID: this.sessionCall.getlocalStorage('empid'),
+      AttachmentID: id,
+      Location: '',
+      Latitude: this.lat,
+      Longitude: this.lng,
+      Error: '',
+      Notes: form.value.Notes,
+      PunchDistance: '',
+      IsActive: '',
+      Priority: 0,
+      createdby: this.UserId,
+      IPAddress: '192.168.1.1',
+      EntrySource: 'App'
+
+
+    }
+    this.store.dispatch(SaveAttandence({ payload: data }));
+  }
   updateCalender() {
     this.store.dispatch(EmployeeAction.GetCalender({
       payload: {
@@ -188,7 +191,7 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
     // };
 
     this.attandanceForm = this.formBuilder.group({
-      StatusID: this.formBuilder.control('', [
+      Attandance: this.formBuilder.control('', [
         Validators.required
       ]),
       Notes: ['']
@@ -307,7 +310,10 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
     if (this.Geopermission && this.lat && this.lat) {
       const form = this.attandanceForm;
       debugger;
-      if (form.valid && this.Image != undefined) {
+      if (form.valid && form.value.Attandance == 7) {
+        this.saveAttandence(form, 0);
+      }
+      else if (form.valid && this.Image != undefined) {
         // const formData = new FormData();
         // formData.append('file', this.Image);
         // formData.append('EntityTypeId', '7');
@@ -344,7 +350,7 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
           this.commonService.toastAlert('Please upload image ', 'danger');
         }
         else {
-          this.commonService.toastAlert('Please fill ' + invalid, 'danger');
+          this.commonService.toastAlert('Please fill ' + invalid + 'field', 'danger');
         }
       }
     }

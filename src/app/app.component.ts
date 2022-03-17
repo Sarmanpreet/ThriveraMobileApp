@@ -100,6 +100,7 @@ export class AppComponent {
       this.statusBar.overlaysWebView(false);
       this.splashScreen.hide();
       this.screenOrientation.unlock();
+
     });
 
     // this.http.get('https://genapi.kambalwala.com/css/version.css').subscribe((response) => {

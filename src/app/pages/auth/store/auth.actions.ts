@@ -72,4 +72,17 @@ export const MenusettingsError = createAction(
   props<{ payload: any }>()
 );
 
+export const config = createAction(
+  '[Login Page] config Button',
+  props<{ payload: any }>()
+);
 
+export const configSuccess = createAction(
+  '[Auth Effects] config Success Response',
+  props<{ payload: any }>()
+);
+
+export const configError = createAction(
+  '[Auth Effects] config Error Response',
+  props<{ payload: any }>()
+);

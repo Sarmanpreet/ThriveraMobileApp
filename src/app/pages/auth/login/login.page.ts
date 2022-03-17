@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -8,19 +8,20 @@ import { IAppState } from 'src/app/interfaces/app-states.interface';
 import { SessionCheck } from 'src/app/shared/session/sessioncheck.service';
 import * as AuthActions from '../store/auth.actions';
 import { CommonService } from 'src/app/shared/services/common.service';
-import { getServerResponse } from '../store/auth.selectors';
+import { getconfig, getServerResponse } from '../store/auth.selectors';
 import { Device } from '@capacitor/device';
-
+import { Browser } from '@capacitor/browser';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit, OnDestroy {
+export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
   login: FormGroup;
   loading = false;
   subscription = new Subscription();
   devid: any;
+  weburl: any = '';
 
   constructor(
     private fb: FormBuilder,
@@ -35,6 +36,11 @@ export class LoginPage implements OnInit, OnDestroy {
         Checksession: null
       }
     }));
+
+  }
+  ngAfterViewInit(): void {
+
+
 
   }
 
@@ -95,11 +101,28 @@ export class LoginPage implements OnInit, OnDestroy {
     };
     console.log(logDeviceInfo);
 
+    this.store.dispatch(AuthActions.config({
+      payload: {
+        ConfigKey: 'WebsiteURL'
+      }
+    }));
+
+
     // if (this.isUserLoggedIn()) {
     //   this.router.navigate(['/employee/employeedashboard']);
     // } else {
 
 
+    const configSubscription = this.store.pipe(select(getconfig))
+      .subscribe(
+        (serverResponse) => {
+          debugger;
+          if (serverResponse) {
+
+            this.weburl = serverResponse.body.ResultSets[0][0].ConfigValue + "Accounts/ForgotPassword";
+          }
+        });
+    this.subscription.add(configSubscription);
     const loginSubscription = this.store.pipe(select(getServerResponse))
       .subscribe(
         (serverResponse) => {
@@ -152,7 +175,10 @@ export class LoginPage implements OnInit, OnDestroy {
     }
   }
 
-
+  async openCapacitorSite() {
+    debugger;
+    await Browser.open({ url: this.weburl });
+  };
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.store.dispatch(AuthActions.resetAuthState({

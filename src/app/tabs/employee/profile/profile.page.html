@@ -10,7 +10,7 @@
 
 
   <ng-container>
-    <form [formGroup]="attandanceForm">
+    <form [formGroup]="attandanceForm" (submit)="Submit()">
       <ion-card class="ion-card-profile">
         <ion-icon name="person-circle-outline" class="ion-icon-top-person"></ion-icon>
         <ion-avatar class="margin-auto mt-minus-2">
@@ -75,25 +75,39 @@
           </ion-item>
 
         </ion-card>
-        <label class="labelwithcolor">Sex </label>
-        <ion-grid class="ion-no-margin ion-no-padding">
-          <ion-row class="ion-no-margin ion-no-padding">
-            <ion-col class="ion-no-margin ion-no-padding">
-              <ion-item lines="none" class="ion-no-margin ion-no-padding">
+        <ion-radio-group formControlName="Gender">
+          <label class="labelwithcolor">Sex </label>
+          <ion-grid class="ion-no-margin ion-no-padding">
+            <ion-row class="ion-no-margin ion-no-padding">
 
-                <ion-toggle [checked]="Getchecked(attandanceForm.value.Gender,'Male')" color="medium"></ion-toggle>
+              <ion-col class="ion-no-margin ion-no-padding">
+                <ion-item lines="none">
+                  <ion-label>Male</ion-label>
+                  <ion-radio color="medium" slot="start" value="Male"></ion-radio>
+                </ion-item>
+                <!-- <ion-item lines="none" class="ion-no-margin ion-no-padding">
+
+                <ion-toggle [checked]="Male" (ionChange)="change(attandanceForm.value.Gender,'Male')" color="medium">
+                </ion-toggle>
                 <ion-label>Male</ion-label>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item lines="none">
+              </ion-item> -->
+              </ion-col>
+              <ion-col>
+                <ion-item lines="none">
+                  <ion-label>Female</ion-label>
+                  <ion-radio color="medium" slot="start" value="Female"></ion-radio>
+                </ion-item>
+                <!-- <ion-item lines="none">
 
-                <ion-toggle color="medium" [checked]="Getchecked(attandanceForm.value.Gender,'Female')"></ion-toggle>
+                <ion-toggle color="medium" [checked]="!Male" (ionChange)="change(attandanceForm.value.Gender,'Female')">
+                </ion-toggle>
                 <ion-label>Female</ion-label>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+              </ion-item> -->
+              </ion-col>
+
+            </ion-row>
+          </ion-grid>
+        </ion-radio-group>
         <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom ion-button-submit"
           type="submit">
           SAVE

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController, NavParams, ToastController } from '@ionic/angular';
+import { ActionSheetController, ModalController, NavParams, ToastController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { IAppState } from 'src/app/interfaces/app-states.interface';
@@ -57,7 +57,8 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
     private toaster: ToastController,
     private commonService: CommonService,
     private navParams: NavParams,
-    private sessionCall: SessionCheck) { this.startTime(); }
+    private sessionCall: SessionCheck,
+    public actionSheetController: ActionSheetController) { this.startTime(); }
 
 
   ngOnInit() {
@@ -389,15 +390,50 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
     CameraPreview.stop();
 
   }
+
+  async PickPicture() {
+    const image = await Camera.getPhoto({
+      quality: 30,
+      source: CameraSource.Photos,
+      width: 400,
+      height: 400,
+
+      resultType: CameraResultType.Base64
+    });
+    debugger;
+    this.Image = image.base64String
+  }
   async takePicture() {
-    const cameraPreviewOptions: CameraPreviewOptions = {
-      position: 'rear',
-      parent: "cameraPreview",
-      className: "cameraPreview",
-      paddingBottom: 100
-    };
-    CameraPreview.start(cameraPreviewOptions);
-    this.CameraPreview = true;
+    const actionSheet = await this.actionSheetController.create({
+      header: "Select Image source",
+      buttons: [{
+        text: 'Load from Library',
+        handler: () => {
+          this.PickPicture();
+
+        }
+      },
+      {
+        text: 'Use Camera',
+        handler: () => {
+          const cameraPreviewOptions: CameraPreviewOptions = {
+            position: 'rear',
+            parent: "cameraPreview",
+            className: "cameraPreview",
+            paddingBottom: 100
+          };
+          CameraPreview.start(cameraPreviewOptions);
+          this.CameraPreview = true;
+        }
+      },
+      {
+        text: 'Cancel',
+        role: 'cancel'
+      }
+      ]
+    });
+    await actionSheet.present();
+
 
     // const image = await Camera.getPhoto({
     //   quality: 30,

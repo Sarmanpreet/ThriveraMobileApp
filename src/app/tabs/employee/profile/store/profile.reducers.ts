@@ -9,12 +9,14 @@ export interface IprofileState {
     loading: boolean;
     serverResponse: any;
     error: any;
+    saveprofile: any;
 }
 
 export const initialprofileState: IprofileState = {
     profileList: [],
     loading: false,
     serverResponse: null,
+    saveprofile: null,
     error: null
 };
 
@@ -58,6 +60,33 @@ export const reducer = createReducer(
                 error: action.payload
             };
         }),
+    on(profileActions.saveprofile,
+        (state, action) => {
+            return {
+                ...state,
+                loading: true,
+            };
+        }),
+
+
+    on(profileActions.saveprofileSuccess,
+        (state, action) => {
+
+            return {
+                ...state,
+                loading: false,
+                saveprofile: action.payload
+            };
+        }),
+
+    on(profileActions.saveprofileError,
+        (state, action) => {
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            };
+        })
 
 );
 

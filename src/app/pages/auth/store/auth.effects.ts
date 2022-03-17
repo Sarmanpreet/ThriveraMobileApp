@@ -75,6 +75,23 @@ export class AuthEffects {
                         )
                 ))
     );
+    config$ = createEffect(
+        () => this.actions$
+            .pipe(
+                ofType(AuthActions.config),
+                mergeMap(
+                    (data) => this.service.postMethodWithoutToken('GetConfigSetting/other/auth', data.payload)
+                        .pipe(
+                            map(result => {
+                                // Just to get the headers from the response in mutable way before passing into reducer 
+                                result.headers.get('Token');
+                                return AuthActions.configSuccess({ payload: result });
+                            }),
+                            catchError(error => of(AuthActions.configError({ payload: error })))
+                        )
+                ))
+    );
+
     constructor(private actions$: Actions,
         private service: GenericCallService,
         private session: SessionCheck
