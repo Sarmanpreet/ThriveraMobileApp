@@ -14,6 +14,7 @@
   "private": true,
   "dependencies": {
     "@agm/core": "^3.0.0-beta.0",
+    "@aldegad/capacitor-geolocation": "0.0.9",
     "@angular/animations": "^13.1.1",
     "@angular/common": "~13.0.0",
     "@angular/core": "~13.0.0",
@@ -23,8 +24,9 @@
     "@angular/router": "~13.0.0",
     "@awesome-cordova-plugins/camera": "^5.37.3",
     "@awesome-cordova-plugins/core": "^5.37.3",
+    "@capacitor-community/background-geolocation": "^1.0.5",
     "@capacitor-community/camera-preview": "^2.0.0-beta.2",
-    "@capacitor/android": "3.4.0",
+    "@capacitor/android": "3.4.3",
     "@capacitor/app": "1.0.7",
     "@capacitor/browser": "^1.0.7",
     "@capacitor/camera": "^1.2.2",

@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { ToastController } from '@ionic/angular';
+import { IonDatetime, ToastController } from '@ionic/angular';
 import { IAppState } from 'src/app/interfaces/app-states.interface';
 import { SessionCheck } from 'src/app/shared/session/sessioncheck.service';
 import * as AuthActions from '../store/auth.actions';
@@ -11,6 +11,14 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { getconfig, getServerResponse } from '../store/auth.selectors';
 import { Device } from '@capacitor/device';
 import { Browser } from '@capacitor/browser';
+import { BackgroundGeolocationPlugin } from "@capacitor-community/background-geolocation";
+import { registerPlugin } from '@capacitor/core';
+import { GenericCallService } from 'src/app/shared/services/genericCall.service';
+import { HttpClient } from '@angular/common/http';
+//const BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
+//const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>("BackgroundGeolocation");
+import { Geolocation, GeolocationAlertOptions, GeolocationConnectOptions, GeolocationNotificationOptions, GeolocationPermissionOptions, GeololocationUpdatesOptions } from '@aldegad/capacitor-geolocation';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -22,6 +30,8 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
   subscription = new Subscription();
   devid: any;
   weburl: any = '';
+  tokenPrivate: any;
+  url: string;
 
   constructor(
     private fb: FormBuilder,
@@ -29,13 +39,15 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private sessionCall: SessionCheck,
     private toaster: ToastController,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private service: GenericCallService
   ) {
     this.store.dispatch(AuthActions.resetAuthState({
       payload: {
         Checksession: null
       }
     }));
+    this.url = service.host + "SetUserLocation/json";
 
   }
   ngAfterViewInit(): void {
@@ -43,12 +55,207 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
 
 
   }
+  async startLocationUpdates() {
+    //await this.startLocation();
+  }
+  async startLocation() {
+
+    let devid = await Device.getId();
+    const token = this.sessionCall.getlocalStorage('token');
+    let servicenew: GenericCallService = this.service;
+    let postmethod = (paylod) => servicenew.postMethodWithToken('SetUserLocation', token, paylod).subscribe();
+    let newurl = environment.apiUrl + "SetUserLocation/json";
+    const permissionOptions: GeolocationPermissionOptions = {
+      promptAlert: null,
+      deniedAlert: null
+    }
+    const promptAlert: GeolocationAlertOptions = {
+      header: "Permission for GPS location",
+      message: 'Please give us permission for GPS location',
+      okText: 'Ok',
+      cancelText: 'Cancel'
+    }
+    const deniedAlert: GeolocationAlertOptions = {
+      header: "Permission for GPS location",
+      message: 'Please give us permission for GPS location',
+      okText: 'Ok',
+      cancelText: 'Cancel'
+    }
+    permissionOptions.promptAlert = promptAlert;
+    permissionOptions.deniedAlert = deniedAlert;
+    const { state } = await Geolocation.requestPermission(permissionOptions);
+
+    if (state !== 'granted') return;
+
+    const updatesOptions: GeololocationUpdatesOptions = {
+      background: null,
+      notification: null,
+      connect: null
+    }
+    const background: boolean = true;
+    const notification: GeolocationNotificationOptions = {
+      channelID: 'LOCATION_SERVICE_CHANNEL',
+      channelName: "Geolocation tracker",
+      header: "Geolocation tracking now.",
+      message: "Geolocation tracking notification",
+      icon: 'drawable/default_dark'
+    }
+    const connect: GeolocationConnectOptions = {
+      token: token,
+      url: environment.apiUrl + "SetUserLocation/json",
+      body: {
+        //   user_id: 'ef34f3f3',
+        //   user_position: 'User position is @latitude and @longitude'
+
+        lng: '@latitude',
+        lat: '@longitude',
+        Devid: devid.uuid,
+        isSP: 'true'
+
+      }
+    }
+    updatesOptions.background = background;
+    updatesOptions.notification = notification;
+    updatesOptions.connect = connect;
+    Geolocation.startLocationUpdates(updatesOptions, ({ latitude, longitude }) => {
+      // let paylod = {
+      //   lng: longitude,
+      //   lat: latitude,
+      //   Devid: devid.uuid
+      // }
+      // postmethod(paylod);
+      console.log(latitude, longitude);
+    });
+  }
+  // async startLocationUpdates() {
+  //   let last_location;
+  //   let Datetime = Date.now();
+  //   let devid = await Device.getId();
+  //   const token = this.sessionCall.getlocalStorage('token');
+  //   let servicenew: GenericCallService = this.service;
+  //   let postmethod = (paylod) => servicenew.postMethodWithToken('SetUserLocation', token, paylod).subscribe();
+
+
+  //   BackgroundGeolocation.addWatcher(
+  //     {
+  //       backgroundMessage: "Cancel to prevent battery drain." + Datetime.toString(),
+
+  //       backgroundTitle: "Tracking You.",
+  //       requestPermissions: false,
+  //       stale: true
+  //     },
+  //     function (location, error) {
+  //       debugger
+  //       let last_location;
+  //       if (error) {
+  //         if (error.code === "NOT_AUTHORIZED") {
+  //           if (window.confirm(
+  //             "This app needs your location please on your device GPS, " +
+  //             "and it does not have permission.\n\n" +
+  //             "Open settings now?"
+  //           )) {
+  //             // It can be useful to direct the user to their device's
+  //             // settings when location permissions have been denied. The
+  //             // plugin provides the 'openSettings' method to do exactly
+  //             // this.
+  //             BackgroundGeolocation.openSettings();
+  //           }
+  //         }
+
+  //         return console.error(error);
+  //       }
+  //       let paylod = {
+  //         lng: location.longitude,
+  //         lat: location.latitude,
+  //         Devid: devid.uuid
+  //       }
+
+  //       postmethod(paylod);
+  //       last_location = location || undefined;
+  //     }
+  //   ).then(function (id) {
+
+  //     // BackgroundGeolocation.removeWatcher({ id });
+
+
+  //     // setTimeout(function () {
+
+  //     // this.startLocationUpdates();
+  //     // }, 30000);
+
+  //   });
+  // };
+  // async startLocationUpdates() {
+  //   let last_location;
+  //   let Datetime = Date.now();
+  //   let devid = await Device.getId();
+  //   const token = this.sessionCall.getlocalStorage('token');
+  //   let servicenew: GenericCallService = this.service;
+  //   let postmethod = (paylod) => servicenew.postMethodWithToken('SetUserLocation', token, paylod).subscribe();
+
+
+
+  //   BackgroundGeolocation.addWatcher({
+  //     backgroundMessage: "Cancel to prevent battery drain." + Datetime.toString(),
+  //     backgroundTitle: "Tracking You.",
+  //     requestPermissions: false,
+  //     stale: true,
+  //     distanceFilter: 50
+  //   },
+  //     function callback(location, error) {
+  //       debugger
+  //       let last_location;
+  //       if (error) {
+  //         if (error.code === "NOT_AUTHORIZED") {
+  //           if (window.confirm(
+  //             "This app needs your location please on your device GPS, " +
+  //             "and it does not have permission.\n\n" +
+  //             "Open settings now?"
+  //           )) {
+  //             // It can be useful to direct the user to their device's
+  //             // settings when location permissions have been denied. The
+  //             // plugin provides the 'openSettings' method to do exactly
+  //             // this.
+  //             BackgroundGeolocation.openSettings();
+  //           }
+  //         }
+
+  //         return console.error(error);
+  //       }
+
+  //       let paylod = {
+  //         lng: location.longitude,
+  //         lat: location.latitude,
+  //         Devid: devid.uuid
+  //       }
+
+  //       postmethod(paylod);
+
+  //       return console.log(location);
+  //     }
+  //   ).then(function after_the_watcher_has_been_added(watcher_id) {
+
+  //     // setTimeout(() => {
+  //     //   this.startLocationUpdates();
+  //     // }, 30000);
+  //     // When a watcher is no longer needed, it should be removed by calling
+  //     // 'removeWatcher' with an object containing its ID.
+  //     // BackgroundGeolocation.removeWatcher({
+  //     //   id: watcher_id
+  //     // });
+  //   });
+
+
+
+
+  // }
 
   async onLogin() {
     //throw new Error("done");
 
 
     debugger;
+
 
     this.devid = await Device.getId();
 
@@ -74,9 +281,10 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  isUserLoggedIn() {
+  async isUserLoggedIn() {
 
     const token = this.sessionCall.getlocalStorage('token');
+    this.tokenPrivate = token;
     const UserId = this.sessionCall.getlocalStorage('userid');
 
     if (token && +UserId > 0) {
@@ -141,7 +349,8 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
                 this.sessionCall.setlocalStorage('userid', userID);
                 this.sessionCall.setlocalStorage('empid', serverResponse.body.EMPID);
                 this.sessionCall.setlocalStorage('token', token);
-
+                this.tokenPrivate = token;
+                this.startLocationUpdates();
 
                 this.commonService.toastAlert('You are logged in successfully', 'success');
                 // this.getmeusettings(serverResponse.body.Roleid);
@@ -170,6 +379,7 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.add(loginErrorSubscription);
     //}
     if (this.isUserLoggedIn()) {
+      this.startLocationUpdates();
       this.router.navigate(['/tabs']);
       // this.router.navigate(['/employee/employeedashboard']);
     }

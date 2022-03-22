@@ -19,10 +19,11 @@ import { AuthGuard } from './shared/services/auth-guard.service';
 import { getMenusettings, getServerResponse } from './pages/auth/store/auth.selectors';
 import { SessionCheck } from './shared/session/sessioncheck.service';
 import { CommonService } from './shared/services/common.service';
-
+import { CordovaPluginsService } from './shared/services/cordova-plugins.service';
 import * as AuthActions from '../app/pages/auth/store/auth.actions';
 import { HttpClient } from '@angular/common/http';
 import packageInfo from "../../package.json";
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -86,6 +87,7 @@ export class AppComponent {
     private sessionCall: SessionCheck,
     private toaster: ToastController,
     private commonService: CommonService,
+    private cordovaPluginsService: CordovaPluginsService,
     private http: HttpClient
   ) {
     this.initializeApp();
@@ -100,7 +102,8 @@ export class AppComponent {
       this.statusBar.overlaysWebView(false);
       this.splashScreen.hide();
       this.screenOrientation.unlock();
-
+      if (this.platform.is('android')) {
+      }
     });
 
     // this.http.get('https://genapi.kambalwala.com/css/version.css').subscribe((response) => {

@@ -8,7 +8,7 @@ import { getAttachmentIdResponse, getAttandenceResponse, getCityDDLListResponse,
 import { CommonService } from 'src/app/shared/services/common.service';
 import { SessionCheck } from 'src/app/shared/session/sessioncheck.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { GetCityDDL, GetItemDDL, GetProductDDL, GetSalesEntryDDL, GetSubProductDDL, resetAttandence, SaveAttachementImage, SaveAttandence, SaveSalesEntry } from 'src/app/tabs/employee/store/Employee.actions';
+import { GetCityDDL, GetItemDDL, GetProductDDL, GetSalesEntryDDL, GetSubProductDDL, resetAttachementImage, resetAttandence, SaveAttachementImage, SaveAttandence, SaveSalesEntry } from 'src/app/tabs/employee/store/Employee.actions';
 import { Geolocation, GeolocationPluginPermissions } from '@capacitor/geolocation';
 import { NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import { DatePipe } from '@angular/common';
@@ -66,8 +66,8 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
     this.IntialiseDll();
     this.initForm();
 
-    this.locate();
-    this.Checkpermission();
+    //this.locate();
+    //this.Checkpermission();
     debugger;
     const date = new Date();
     this.dateValue = format(date, 'MMM dd yyyy');
@@ -137,12 +137,12 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
           debugger;
           if (getCalenderResponse) {
             console.log(getCalenderResponse);
-            const form = this.StaticnewSalesForm;
+            // const form = this.StaticnewSalesForm;
             this.commonService.dismissLoading();
             if (getCalenderResponse[0].MESSAGE == "Added Successfully") {
-              if (form.valid) {
-                this.DispatchEntry(form, getCalenderResponse[0].RET_ID)
-              }
+              // if (form.valid) {
+              this.DispatchEntry(this.StaticnewSalesForm, getCalenderResponse[0].RET_ID)
+              //}
             }
 
 
@@ -217,6 +217,7 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
 
     }
     this.store.dispatch(SaveSalesEntry({ payload: data }));
+    this.store.dispatch(resetAttachementImage({ payload: '' }));
   }
   GetProduct(event) {
 
@@ -263,26 +264,26 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
     }
     this.store.dispatch(GetCityDDL({ payload: data }));
   }
-  async locate() {
-    const coordinates = await Geolocation.getCurrentPosition();
-    if (coordinates.coords) {
-      this.lat = coordinates.coords.latitude;
-      this.lng = coordinates.coords.longitude;
+  // async locate() {
+  //   const coordinates = await Geolocation.getCurrentPosition();
+  //   if (coordinates.coords) {
+  //     this.lat = coordinates.coords.latitude;
+  //     this.lng = coordinates.coords.longitude;
 
-      const options: NativeGeocoderOptions = {
-        useLocale: true,
-        maxResults: 5
-      };
+  //     const options: NativeGeocoderOptions = {
+  //       useLocale: true,
+  //       maxResults: 5
+  //     };
 
-      // this.nativeGeocoder
-      //   .reverseGeocode(this.lat, this.lng, options)
-      //   .then(
-      //     (result: NativeGeocoderResult[]) =>
-      //       (this.address = JSON.stringify(result[0]))
-      //   )
-      //   .catch((error: any) => console.log(error));
-    }
-  }
+  //     // this.nativeGeocoder
+  //     //   .reverseGeocode(this.lat, this.lng, options)
+  //     //   .then(
+  //     //     (result: NativeGeocoderResult[]) =>
+  //     //       (this.address = JSON.stringify(result[0]))
+  //     //   )
+  //     //   .catch((error: any) => console.log(error));
+  //   }
+  // }
   IntialiseDll() {
     const data = {
       SaleEntryID: 0,
@@ -464,6 +465,7 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
   }
 
   async Checkpermission() {
+
     const perm = await Geolocation.checkPermissions();
     if (perm.location == "granted") {
       this.Geopermission = true;
@@ -502,58 +504,58 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
 
   }
   async saveSalesEntry() {
-    await this.Checkpermission();
-    if (this.Geopermission) {
-      const form = this.newSalesForm;
-      debugger;
-      if (form.valid && this.Image != undefined) {
-        this.StaticnewSalesForm = this.newSalesForm;
-        // const formData = new FormData();
-        // formData.append('file', this.Image);
-        // formData.append('EntityTypeId', '7');
+    // await this.Checkpermission();
+    // if (this.Geopermission) {
+    const form = this.newSalesForm;
+    debugger;
+    if (form.valid && this.Image != undefined) {
+      this.StaticnewSalesForm = this.newSalesForm;
+      // const formData = new FormData();
+      // formData.append('file', this.Image);
+      // formData.append('EntityTypeId', '7');
 
-        const data = {
-          FileImage: this.Image,
-          id: 0,
-          filename: ''
-          , contenttype: '.jpg'
-          , createdby: this.sessionCall.getlocalStorage('userid'),
-          tableid: 0,
-          TableName: ''
-          , IPAddress: '192.168.1.1.',
-          Description: '',
-          pathFor: 'ssrentry'
+      const data = {
+        FileImage: this.Image,
+        id: 0,
+        filename: ''
+        , contenttype: '.jpg'
+        , createdby: this.sessionCall.getlocalStorage('userid'),
+        tableid: 0,
+        TableName: ''
+        , IPAddress: '192.168.1.1.',
+        Description: '',
+        pathFor: 'ssrentry'
 
-
-        }
-        // this.modalController.dismiss({
-        //   'dismissed': true
-        // });
-        this.commonService.ShwLoader();
-        this.store.dispatch(SaveAttachementImage({ payload: data }));
 
       }
-      else if (form.valid) {
-        this.DispatchEntry(form, 0);
-      }
-      else {
-        const invalid = [];
-        const controls = form.controls;
-        for (const name in controls) {
-          if (controls[name].invalid) {
-            invalid.push(name);
-          }
-        }
-        // this.commonService.toastAlert(invalid, 'danger');
-        // if (this.Image == undefined) {
+      // this.modalController.dismiss({
+      //   'dismissed': true
+      // });
+      this.commonService.ShwLoader();
+      this.store.dispatch(SaveAttachementImage({ payload: data }));
 
-
-        // }
-        // else {
-        this.commonService.toastAlert('Please fill ' + invalid, 'danger');
-        //}
-      }
     }
+    else if (form.valid) {
+      this.DispatchEntry(form, 0);
+    }
+    else {
+      const invalid = [];
+      const controls = form.controls;
+      for (const name in controls) {
+        if (controls[name].invalid) {
+          invalid.push(name);
+        }
+      }
+      // this.commonService.toastAlert(invalid, 'danger');
+      // if (this.Image == undefined) {
+
+
+      // }
+      // else {
+      this.commonService.toastAlert('Please fill ' + invalid, 'danger');
+      //}
+    }
+    //}
 
   }
 }

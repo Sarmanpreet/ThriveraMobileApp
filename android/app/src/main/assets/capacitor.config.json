@@ -1,0 +1,6 @@
+{
+	"appId": "com.thriverablue.app",
+	"appName": "Thrivera Blue",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
