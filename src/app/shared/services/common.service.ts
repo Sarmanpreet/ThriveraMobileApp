@@ -12,6 +12,8 @@ import { Observer } from 'rxjs/internal/types';
 export class CommonService {
   expendedlist: any;
   MenuSetting: any = [];
+  lat: any;
+  lng: any;
 
   constructor(private toaster: ToastController, private auth: AuthGuard, private datepipe: DatePipe
     , public loadingCtrl: LoadingController,

@@ -12,10 +12,12 @@ import { CameraPreview, CameraPreviewPictureOptions } from "@capacitor-community
 
 import { CameraPreviewOptions } from '@capacitor-community/camera-preview';
 import { resetAttandence, SaveAttachementImage, SaveAttandence } from 'src/app/tabs/employee/store/Employee.actions';
-import { Geolocation, GeolocationPermissionType, GeolocationPluginPermissions } from '@capacitor/geolocation';
+//import { Geolocation, GeolocationPermissionType, GeolocationPluginPermissions } from '@capacitor/geolocation';
 import { NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import * as EmployeeAction from '../../tabs/employee/store/Employee.actions';
 import { CordovaPluginsService } from 'src/app/shared/services/cordova-plugins.service';
+import { Geolocation, GeolocationAlertOptions, GeolocationConnectOptions, GeolocationNotificationOptions, GeolocationPermissionOptions, GeololocationUpdatesOptions } from '@aldegad/capacitor-geolocation';
+
 @Component({
   selector: 'app-attandance-modal-component',
   templateUrl: './attandance-modal-component.component.html',
@@ -34,7 +36,7 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
   lng: any;
   nativeGeocoder: any;
   address: string;
-  loc: GeolocationPluginPermissions;
+  //loc: GeolocationPluginPermissions;
   Geopermission: boolean;
   UserId: any;
   CameraPreview: boolean = false;
@@ -111,25 +113,53 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
     this.subscription.add(SubscriptionAttlog);
   }
   async locate() {
-    const coordinates = await Geolocation.getCurrentPosition();
-    if (coordinates.coords) {
-      this.lat = coordinates.coords.latitude;
-      this.lng = coordinates.coords.longitude;
 
-      const options: NativeGeocoderOptions = {
-        useLocale: true,
-        maxResults: 5
-      };
 
-      //   this.nativeGeocoder
-      //     .reverseGeocode(this.lat, this.lng, options)
-      //     .then(
-      //       (result: NativeGeocoderResult[]) =>
-      //         (this.address = JSON.stringify(result[0]))
-      //     )
-      //     .catch((error: any) => console.log(error));
+
+
+
+    const { state } = await Geolocation.requestPermission();
+
+    if (state !== 'granted') {
+      this.Geopermission = false;
+      return;
+    } this.Geopermission = true;
+    const updatesOptions: GeololocationUpdatesOptions = {
+      background: null,
+      notification: null,
+      connect: null
     }
+    const background: boolean = true;
+
+
+    updatesOptions.background = background;
+    Geolocation.startLocationUpdates(updatesOptions, ({ latitude, longitude }) => {
+      this.lng = longitude;
+      this.lat = latitude;
+      console.log(latitude, longitude);
+    });
   }
+  // async locate() {
+
+  //   const coordinates = await Geolocation.getCurrentPosition();
+  //   if (coordinates.coords) {
+  //     this.lat = coordinates.coords.latitude;
+  //     this.lng = coordinates.coords.longitude;
+
+  //     const options: NativeGeocoderOptions = {
+  //       useLocale: true,
+  //       maxResults: 5
+  //     };
+
+  //     //   this.nativeGeocoder
+  //     //     .reverseGeocode(this.lat, this.lng, options)
+  //     //     .then(
+  //     //       (result: NativeGeocoderResult[]) =>
+  //     //         (this.address = JSON.stringify(result[0]))
+  //     //     )
+  //     //     .catch((error: any) => console.log(error));
+  //   }
+  // }
   saveAttandence(form, id) {
     const data = {
       StatusID: form.value.Attandance,
@@ -285,29 +315,60 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
     });
   }
   async Checkpermission() {
-    const perm = await Geolocation.checkPermissions();
-    if (perm.location == "granted") {
-      this.Geopermission = true;
 
-    } else {
+
+
+    const { state } = await Geolocation.requestPermission();
+
+    if (state !== 'granted') {
       this.Geopermission = false;
-      this.commonService.toastAlert('Please give permission to locate Device for save ', 'danger');
-
-      this.loc.permissions = ['location'];
-      const permission = await Geolocation.requestPermissions(this.loc);
-
+      return;
+    } this.Geopermission = true;
+    const updatesOptions: GeololocationUpdatesOptions = {
+      background: null,
+      notification: null,
+      connect: null
     }
+    const background: boolean = true;
+
+
+    updatesOptions.background = background;
+    Geolocation.startLocationUpdates(updatesOptions, ({ latitude, longitude }) => {
+      // let paylod = {
+      //   lng: longitude,
+      //   lat: latitude,
+      //   Devid: devid.uuid
+      // }
+      this.lng = longitude;
+      this.lat = latitude;
+      console.log(latitude, longitude);
+    });
+
+    // const perm = await Geolocation.checkPermissions();
+    // if (perm.location == "granted") {
+    //   this.Geopermission = true;
+
+    // } else {
+    //   this.Geopermission = false;
+    //   this.commonService.toastAlert('Please give permission to locate Device for save ', 'danger');
+
+    //   this.loc.permissions = ['location'];
+    //   const permission = await Geolocation.requestPermissions(this.loc);
+
+    // }
   }
 
   async saveComment() {
-    await this.Checkpermission();
+    //await this.Checkpermission();
     // this.Image = this.CordovaService.Image64DataAttn;
     // this.imageElement = "data:image/jpeg;base64," + this.Image;
-    if (this.lat == undefined && this.lat == undefined) {
+    this.lat = this.commonService.lat;
+    this.lng = this.commonService.lng;
+    if (this.lat == undefined && this.lng == undefined) {
       this.commonService.toastAlert('Please check GPS of device', 'danger');
 
     }
-    if (this.Geopermission && this.lat && this.lat) {
+    if (this.Geopermission && this.lat && this.lng) {
       const form = this.attandanceForm;
       debugger;
       if (form.valid && form.value.Attandance == 7) {

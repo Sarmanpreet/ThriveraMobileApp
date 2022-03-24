@@ -56,7 +56,7 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
 
   }
   async startLocationUpdates() {
-    //await this.startLocation();
+    await this.startLocation();
   }
   async startLocation() {
 
@@ -118,6 +118,8 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
     updatesOptions.notification = notification;
     updatesOptions.connect = connect;
     Geolocation.startLocationUpdates(updatesOptions, ({ latitude, longitude }) => {
+      this.commonService.lat = latitude;
+      this.commonService.lng = longitude;
       // let paylod = {
       //   lng: longitude,
       //   lat: latitude,
@@ -127,128 +129,7 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
       console.log(latitude, longitude);
     });
   }
-  // async startLocationUpdates() {
-  //   let last_location;
-  //   let Datetime = Date.now();
-  //   let devid = await Device.getId();
-  //   const token = this.sessionCall.getlocalStorage('token');
-  //   let servicenew: GenericCallService = this.service;
-  //   let postmethod = (paylod) => servicenew.postMethodWithToken('SetUserLocation', token, paylod).subscribe();
 
-
-  //   BackgroundGeolocation.addWatcher(
-  //     {
-  //       backgroundMessage: "Cancel to prevent battery drain." + Datetime.toString(),
-
-  //       backgroundTitle: "Tracking You.",
-  //       requestPermissions: false,
-  //       stale: true
-  //     },
-  //     function (location, error) {
-  //       debugger
-  //       let last_location;
-  //       if (error) {
-  //         if (error.code === "NOT_AUTHORIZED") {
-  //           if (window.confirm(
-  //             "This app needs your location please on your device GPS, " +
-  //             "and it does not have permission.\n\n" +
-  //             "Open settings now?"
-  //           )) {
-  //             // It can be useful to direct the user to their device's
-  //             // settings when location permissions have been denied. The
-  //             // plugin provides the 'openSettings' method to do exactly
-  //             // this.
-  //             BackgroundGeolocation.openSettings();
-  //           }
-  //         }
-
-  //         return console.error(error);
-  //       }
-  //       let paylod = {
-  //         lng: location.longitude,
-  //         lat: location.latitude,
-  //         Devid: devid.uuid
-  //       }
-
-  //       postmethod(paylod);
-  //       last_location = location || undefined;
-  //     }
-  //   ).then(function (id) {
-
-  //     // BackgroundGeolocation.removeWatcher({ id });
-
-
-  //     // setTimeout(function () {
-
-  //     // this.startLocationUpdates();
-  //     // }, 30000);
-
-  //   });
-  // };
-  // async startLocationUpdates() {
-  //   let last_location;
-  //   let Datetime = Date.now();
-  //   let devid = await Device.getId();
-  //   const token = this.sessionCall.getlocalStorage('token');
-  //   let servicenew: GenericCallService = this.service;
-  //   let postmethod = (paylod) => servicenew.postMethodWithToken('SetUserLocation', token, paylod).subscribe();
-
-
-
-  //   BackgroundGeolocation.addWatcher({
-  //     backgroundMessage: "Cancel to prevent battery drain." + Datetime.toString(),
-  //     backgroundTitle: "Tracking You.",
-  //     requestPermissions: false,
-  //     stale: true,
-  //     distanceFilter: 50
-  //   },
-  //     function callback(location, error) {
-  //       debugger
-  //       let last_location;
-  //       if (error) {
-  //         if (error.code === "NOT_AUTHORIZED") {
-  //           if (window.confirm(
-  //             "This app needs your location please on your device GPS, " +
-  //             "and it does not have permission.\n\n" +
-  //             "Open settings now?"
-  //           )) {
-  //             // It can be useful to direct the user to their device's
-  //             // settings when location permissions have been denied. The
-  //             // plugin provides the 'openSettings' method to do exactly
-  //             // this.
-  //             BackgroundGeolocation.openSettings();
-  //           }
-  //         }
-
-  //         return console.error(error);
-  //       }
-
-  //       let paylod = {
-  //         lng: location.longitude,
-  //         lat: location.latitude,
-  //         Devid: devid.uuid
-  //       }
-
-  //       postmethod(paylod);
-
-  //       return console.log(location);
-  //     }
-  //   ).then(function after_the_watcher_has_been_added(watcher_id) {
-
-  //     // setTimeout(() => {
-  //     //   this.startLocationUpdates();
-  //     // }, 30000);
-  //     // When a watcher is no longer needed, it should be removed by calling
-  //     // 'removeWatcher' with an object containing its ID.
-  //     // BackgroundGeolocation.removeWatcher({
-  //     //   id: watcher_id
-  //     // });
-  //   });
-
-
-
-
-  // }
 
   async onLogin() {
     //throw new Error("done");
@@ -284,10 +165,9 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
   async isUserLoggedIn() {
 
     const token = this.sessionCall.getlocalStorage('token');
-    this.tokenPrivate = token;
     const UserId = this.sessionCall.getlocalStorage('userid');
 
-    if (token && +UserId > 0) {
+    if (token && UserId > 0) {
       return true;
     }
     return false;
@@ -378,7 +258,7 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
       );
     this.subscription.add(loginErrorSubscription);
     //}
-    if (this.isUserLoggedIn()) {
+    if (this.sessionCall.getlocalStorage('token')) {
       this.startLocationUpdates();
       this.router.navigate(['/tabs']);
       // this.router.navigate(['/employee/employeedashboard']);
