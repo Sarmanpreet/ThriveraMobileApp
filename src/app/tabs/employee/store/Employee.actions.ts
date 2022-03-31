@@ -258,6 +258,21 @@ export const GetTargetAchievedError = createAction(
   props<{ payload: any }>()
 );
 
+export const SaveAttandenceReason = createAction(
+  '[SaveAttandenceReason Page] SaveAttandenceReason Button',
+  props<{ payload: any }>()
+);
+
+export const SaveAttandenceReasonSuccess = createAction(
+  '[SaveAttandenceReason Effects] SaveAttandenceReason Success Response',
+  props<{ payload: any }>()
+);
+
+export const SaveAttandenceReasonError = createAction(
+  '[SaveAttandenceReason Effects] SaveAttandenceReason Error Response',
+  props<{ payload: any }>()
+);
+
 
 
 

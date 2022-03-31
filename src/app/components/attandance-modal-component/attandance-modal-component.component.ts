@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController, NavParams, Platform, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, NavParams, Platform, ToastController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { IAppState } from 'src/app/interfaces/app-states.interface';
@@ -47,22 +47,30 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
     private toaster: ToastController,
     private commonService: CommonService,
     private navParams: NavParams,
+    public alertController: AlertController,
     private sessionCall: SessionCheck, private platform: Platform
     , public CordovaService: CordovaPluginsService) { this.startTime(); }
 
 
   ngOnInit() {
+
     this.UserId = this.sessionCall.getlocalStorage('userid');
     this.initForm();
-    this.locate();
-    this.Checkpermission();
+    //this.locate();
+    this.commonService.startLocation();
     const Subscription = this.store.pipe(select(getAttandenceResponse))
       .subscribe(
         (getAttandenceResponse) => {
-
+          debugger;
           if (getAttandenceResponse) {
+            // if (getAttandenceResponse[1].Stop_InPunch) {
 
-            this.AttandenceDDL = getAttandenceResponse
+            // }
+            // else if (getAttandenceResponse[1].Stop_OutPunch) {
+
+            // }
+            this.AttandenceDDL = getAttandenceResponse[1]
+
 
 
           }
@@ -112,33 +120,33 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
       );
     this.subscription.add(SubscriptionAttlog);
   }
-  async locate() {
+  // async locate() {
 
 
 
 
 
-    const { state } = await Geolocation.requestPermission();
+  //   const { state } = await Geolocation.requestPermission();
 
-    if (state !== 'granted') {
-      this.Geopermission = false;
-      return;
-    } this.Geopermission = true;
-    const updatesOptions: GeololocationUpdatesOptions = {
-      background: null,
-      notification: null,
-      connect: null
-    }
-    const background: boolean = true;
+  //   if (state !== 'granted') {
+  //     this.Geopermission = false;
+  //     return;
+  //   } this.Geopermission = true;
+  //   const updatesOptions: GeololocationUpdatesOptions = {
+  //     background: null,
+  //     notification: null,
+  //     connect: null
+  //   }
+  //   const background: boolean = true;
 
 
-    updatesOptions.background = background;
-    Geolocation.startLocationUpdates(updatesOptions, ({ latitude, longitude }) => {
-      this.lng = longitude;
-      this.lat = latitude;
-      console.log(latitude, longitude);
-    });
-  }
+  //   updatesOptions.background = background;
+  //   Geolocation.startLocationUpdates(updatesOptions, ({ latitude, longitude }) => {
+  //     this.lng = longitude;
+  //     this.lat = latitude;
+  //     console.log(latitude, longitude);
+  //   });
+  // }
   // async locate() {
 
   //   const coordinates = await Geolocation.getCurrentPosition();
@@ -359,16 +367,18 @@ export class AttandanceModalComponentComponent implements OnInit, OnDestroy {
   }
 
   async saveComment() {
+    debugger
     //await this.Checkpermission();
     // this.Image = this.CordovaService.Image64DataAttn;
     // this.imageElement = "data:image/jpeg;base64," + this.Image;
+    await this.commonService.startLocation();
     this.lat = this.commonService.lat;
     this.lng = this.commonService.lng;
     if (this.lat == undefined && this.lng == undefined) {
       this.commonService.toastAlert('Please check GPS of device', 'danger');
 
     }
-    if (this.Geopermission && this.lat && this.lng) {
+    if (this.lat && this.lng) {
       const form = this.attandanceForm;
       debugger;
       if (form.valid && form.value.Attandance == 7) {

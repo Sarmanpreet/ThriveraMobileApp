@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthPage } from './auth.page';
+import { LoginPage } from './login/login.page';
 
 const routes: Routes = [
   {
@@ -11,23 +12,30 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'login'
+        redirectTo: 'loginnew'
       },
       {
         path: 'login',
-        loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+        //component: LoginPage
+        loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
+      },
+      {
+        path: 'loginnew',
+        component: AuthPage
+        // path: 'login',
+        // loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
       },
       {
         path: 'register',
-        loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+        loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule)
       },
       {
         path: 'forgot',
-        loadChildren: () => import('./forgot/forgot.module').then( m => m.ForgotPageModule)
+        loadChildren: () => import('./forgot/forgot.module').then(m => m.ForgotPageModule)
       },
       {
         path: 'reset',
-        loadChildren: () => import('./reset/reset.module').then( m => m.ResetPageModule)
+        loadChildren: () => import('./reset/reset.module').then(m => m.ResetPageModule)
       }
     ]
   },
@@ -42,4 +50,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AuthPageRoutingModule {}
+export class AuthPageRoutingModule { }

@@ -5,7 +5,10 @@ import { AlertController, LoadingController, ToastController } from '@ionic/angu
 import { DatePipe } from '@angular/common';
 import { Observable } from 'rxjs/internal/Observable';
 import { Observer } from 'rxjs/internal/types';
-
+import { Geolocation, GeolocationAlertOptions, GeolocationConnectOptions, GeolocationNotificationOptions, GeolocationPermissionOptions, GeololocationUpdatesOptions } from '@aldegad/capacitor-geolocation';
+import { environment } from 'src/environments/environment';
+import { Device } from '@capacitor/device';
+import { SessionCheck } from '../session/sessioncheck.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,6 +20,7 @@ export class CommonService {
 
   constructor(private toaster: ToastController, private auth: AuthGuard, private datepipe: DatePipe
     , public loadingCtrl: LoadingController,
+    private sessionCall: SessionCheck,
     public alertController: AlertController) { }
 
   //LogOut //
@@ -156,6 +160,76 @@ export class CommonService {
 
     }
   }
+  async startLocation() {
+
+    let devid = await Device.getId();
+    const token = this.sessionCall.getlocalStorage('token');
+
+    const permissionOptions: GeolocationPermissionOptions = {
+      promptAlert: null,
+      deniedAlert: null
+    }
+    const promptAlert: GeolocationAlertOptions = {
+      header: "Permission for GPS location",
+      message: 'Please give us permission for GPS location',
+      okText: 'Ok',
+      cancelText: 'Cancel'
+    }
+    const deniedAlert: GeolocationAlertOptions = {
+      header: "Permission for GPS location",
+      message: 'Please give us permission for GPS location',
+      okText: 'Ok',
+      cancelText: 'Cancel'
+    }
+    permissionOptions.promptAlert = promptAlert;
+    permissionOptions.deniedAlert = deniedAlert;
+    const { state } = await Geolocation.requestPermission(permissionOptions);
+
+    if (state !== 'granted') return;
+
+    const updatesOptions: GeololocationUpdatesOptions = {
+      background: null,
+      notification: null,
+      connect: null
+    }
+    const background: boolean = true;
+    const notification: GeolocationNotificationOptions = {
+      channelID: 'LOCATION_SERVICE_CHANNEL',
+      channelName: "Geolocation tracker",
+      header: "Geolocation tracking now.",
+      message: "Geolocation tracking notification",
+      icon: 'drawable/default_dark'
+    }
+    const connect: GeolocationConnectOptions = {
+      token: token,
+      url: environment.apiUrl + "SetUserLocation/json",
+      body: {
+        //   user_id: 'ef34f3f3',
+        //   user_position: 'User position is @latitude and @longitude'
+
+        lng: '@latitude',
+        lat: '@longitude',
+        Devid: devid.uuid,
+        isSP: 'true'
+
+      }
+    }
+    updatesOptions.background = background;
+    updatesOptions.notification = notification;
+    updatesOptions.connect = connect;
+    Geolocation.startLocationUpdates(updatesOptions, ({ latitude, longitude }) => {
+      this.lat = latitude;
+      this.lng = longitude;
+      // let paylod = {
+      //   lng: longitude,
+      //   lat: latitude,
+      //   Devid: devid.uuid
+      // }
+      // postmethod(paylod);
+      console.log(latitude, longitude);
+    });
+  }
+
   hideLoading() {
     debugger;
     if (this.loading) {

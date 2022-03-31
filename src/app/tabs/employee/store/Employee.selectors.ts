@@ -84,6 +84,10 @@ export const getSSRDashBoardResponse = createSelector(
     selectEmployeeState,
     (state: IEmployee) => state.DashBoardSSR
 );
+export const getSaveReasonResponse = createSelector(
+    selectEmployeeState,
+    (state: IEmployee) => state.SaveReason
+);
 
 
 

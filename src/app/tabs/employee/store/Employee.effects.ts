@@ -31,15 +31,34 @@ export class EmployeeEffects {
             .pipe(
                 ofType(EmpActions.GetAttandenceDDL),
                 mergeMap(
-                    (data) => this.service.postMethodWithToken('GetAttendenceStatus', this.session.getlocalStorage('token'), data.payload)
+                    (data) => this.service.postMethodWithToken('GetCheck_AttendenceEligibility', this.session.getlocalStorage('token'), data.payload)
+                        .pipe(
+                            map(result => {
+                                // GetAttendenceStatus
+                                // Just to get the headers from the response in mutable way before passing into reducer 
+
+                                return EmpActions.GetAttandenceDDLSuccess({ payload: result });
+                            }),
+                            catchError(error => of(EmpActions.GetAttandenceDDLError({ payload: error })))
+                        )
+                ))
+
+    );
+
+    SaveAttandenceReason$ = createEffect(
+        () => this.actions$
+            .pipe(
+                ofType(EmpActions.SaveAttandenceReason),
+                mergeMap(
+                    (data) => this.service.postMethodWithToken('SetEMP_Flags_Mismatch_Reason', this.session.getlocalStorage('token'), data.payload)
                         .pipe(
                             map(result => {
 
                                 // Just to get the headers from the response in mutable way before passing into reducer 
 
-                                return EmpActions.GetAttandenceDDLSuccess({ payload: result[0] });
+                                return EmpActions.SaveAttandenceReasonSuccess({ payload: result[0] });
                             }),
-                            catchError(error => of(EmpActions.GetAttandenceDDLError({ payload: error })))
+                            catchError(error => of(EmpActions.SaveAttandenceReasonError({ payload: error })))
                         )
                 ))
 

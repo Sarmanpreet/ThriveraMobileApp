@@ -26,6 +26,7 @@ export interface IEmployee {
   PunchTime: any;
   Target: any;
   DashBoardSSR: any;
+  SaveReason: any
 }
 
 export const initialAuthState: IEmployee = {
@@ -49,7 +50,8 @@ export const initialAuthState: IEmployee = {
   SaveMop: null,
   PunchTime: null,
   Target: null,
-  DashBoardSSR: null
+  DashBoardSSR: null,
+  SaveReason: null
 };
 
 
@@ -76,7 +78,8 @@ export const reducer = createReducer(
         SubProductDDL: null,
         ItemDDL: null,
         SaveEntry: null,
-        DashBoardSSR: null
+        DashBoardSSR: null,
+        SaveReason: null
 
       };
     }),
@@ -517,6 +520,31 @@ export const reducer = createReducer(
     }),
 
   on(EmpActions.GetTargetAchievedError,
+    (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }),
+  on(EmpActions.SaveAttandenceReason,
+    (state, action) => {
+      return {
+        ...state,
+        loading: true
+      };
+    }),
+  on(EmpActions.SaveAttandenceReasonSuccess,
+    (state, action) => {
+
+      return {
+        ...state,
+        loading: false,
+        SaveReason: action.payload
+      };
+    }),
+
+  on(EmpActions.SaveAttandenceReasonError,
     (state, action) => {
       return {
         ...state,

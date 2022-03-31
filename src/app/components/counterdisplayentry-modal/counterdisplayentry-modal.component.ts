@@ -9,7 +9,7 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { SessionCheck } from 'src/app/shared/session/sessioncheck.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { GetCityDDL, GetItemDDL, GetProductDDL, GetSalesEntryDDL, GetSubProductDDL, resetAttachementImage, resetAttandence, SaveAttachementImage, SaveAttandence, SaveSalesEntry } from 'src/app/tabs/employee/store/Employee.actions';
-import { Geolocation, GeolocationPluginPermissions } from '@capacitor/geolocation';
+//import { Geolocation, GeolocationPluginPermissions } from '@capacitor/geolocation';
 import { NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import { DatePipe } from '@angular/common';
 import { format, parseISO } from 'date-fns';
@@ -49,7 +49,7 @@ export class CounterdisplayentryModalComponent implements OnInit, OnDestroy {
   SubProductDDL: any;
   dateValue: any;
   Brand: any;
-  loc: GeolocationPluginPermissions;
+  //loc: GeolocationPluginPermissions;
   Geopermission: boolean = false;
   CameraPreview: boolean = false;
   CounterData: any;
@@ -92,8 +92,8 @@ export class CounterdisplayentryModalComponent implements OnInit, OnDestroy {
 
 
 
-    this.locate();
-    this.Checkpermission();
+    // this.locate();
+    // this.Checkpermission();
     debugger;
     const date = new Date();
     this.dateValue = format(date, 'MMM dd yyyy');
@@ -181,7 +181,7 @@ export class CounterdisplayentryModalComponent implements OnInit, OnDestroy {
         EntrySource: 'App'
 
       }
-      this.commonService.ShwLoader();
+      // this.commonService.ShwLoader();
       this.store.dispatch(saveCounterDisplay({ payload: data }));
     }
   }
@@ -221,26 +221,26 @@ export class CounterdisplayentryModalComponent implements OnInit, OnDestroy {
 
     return format(parseISO(value), 'MMM dd yyyy');
   }
-  async locate() {
-    const coordinates = await Geolocation.getCurrentPosition();
-    if (coordinates.coords) {
-      this.lat = coordinates.coords.latitude;
-      this.lng = coordinates.coords.longitude;
+  // async locate() {
+  //   const coordinates = await Geolocation.getCurrentPosition();
+  //   if (coordinates.coords) {
+  //     this.lat = coordinates.coords.latitude;
+  //     this.lng = coordinates.coords.longitude;
 
-      const options: NativeGeocoderOptions = {
-        useLocale: true,
-        maxResults: 5
-      };
+  //     const options: NativeGeocoderOptions = {
+  //       useLocale: true,
+  //       maxResults: 5
+  //     };
 
-      // this.nativeGeocoder
-      //   .reverseGeocode(this.lat, this.lng, options)
-      //   .then(
-      //     (result: NativeGeocoderResult[]) =>
-      //       (this.address = JSON.stringify(result[0]))
-      //   )
-      //   .catch((error: any) => console.log(error));
-    }
-  }
+  //     // this.nativeGeocoder
+  //     //   .reverseGeocode(this.lat, this.lng, options)
+  //     //   .then(
+  //     //     (result: NativeGeocoderResult[]) =>
+  //     //       (this.address = JSON.stringify(result[0]))
+  //     //   )
+  //     //   .catch((error: any) => console.log(error));
+  //   }
+  // }
   IntialiseDll(id) {
     const data = {
       CounterID: id,
@@ -340,20 +340,20 @@ export class CounterdisplayentryModalComponent implements OnInit, OnDestroy {
 
   }
 
-  async Checkpermission() {
-    const perm = await Geolocation.checkPermissions();
-    if (perm.location == "granted") {
-      this.Geopermission = true;
+  // async Checkpermission() {
+  //   const perm = await Geolocation.checkPermissions();
+  //   if (perm.location == "granted") {
+  //     this.Geopermission = true;
 
-    } else {
-      this.Geopermission = false;
-      this.commonService.toastAlert('Please give permission to locate Device for save ', 'danger');
+  //   } else {
+  //     this.Geopermission = false;
+  //     this.commonService.toastAlert('Please give permission to locate Device for save ', 'danger');
 
-      this.loc.permissions = ['location'];
-      const permission = await Geolocation.requestPermissions(this.loc);
+  //     this.loc.permissions = ['location'];
+  //     const permission = await Geolocation.requestPermissions(this.loc);
 
-    }
-  }
+  //   }
+  // }
   getSalesEntry() {
     const RoleID = this.sessionCall.getlocalStorage('RoleID');
     const UserId = this.sessionCall.getlocalStorage('userid');
@@ -372,66 +372,66 @@ export class CounterdisplayentryModalComponent implements OnInit, OnDestroy {
   }
   async saveCDEntry() {
     // this.commonService.LoginLoading();
-    await this.Checkpermission();
-    if (this.Geopermission) {
-      const form = this.counterDisplayForm;
-      debugger;
+    // await this.Checkpermission();
+    // if (this.Geopermission) {
+    const form = this.counterDisplayForm;
+    debugger;
 
-      if (form.valid && this.Image != undefined) {
-        this.StaticcounterDisplayForm = this.counterDisplayForm;
-        if (this.CounterData.CounterID != 0 && this.ImageData == this.URL + this.CounterData.AttachmentURL) {
+    if (form.valid && this.Image != undefined) {
+      this.StaticcounterDisplayForm = this.counterDisplayForm;
+      if (this.CounterData.CounterID != 0 && this.ImageData == this.URL + this.CounterData.AttachmentURL) {
 
-          this.saveData(this.StaticcounterDisplayForm, this.CounterData.AttachmentID)
+        this.saveData(this.StaticcounterDisplayForm, this.CounterData.AttachmentID)
 
-        }
-        else {
-          // const formData = new FormData();
-          // formData.append('file', this.Image);
-          // formData.append('EntityTypeId', '7');
-
-          const data = {
-            FileImage: this.Image,
-            id: 0,
-            filename: ''
-            , contenttype: '.jpg'
-            , createdby: this.sessionCall.getlocalStorage('userid'),
-            tableid: 0,
-            TableName: ''
-            , IPAddress: '192.168.1.1.',
-            Description: '',
-            pathFor: 'ssrentry'
-
-
-          }
-          // this.modalController.dismiss({
-          //   'dismissed': true
-          // });
-          this.commonService.ShwLoader();
-          this.store.dispatch(SaveAttachementImage({ payload: data }));
-        }
-
-      }
-      else if (form.valid) {
-        this.saveData(form, 0)
       }
       else {
-        const invalid = [];
-        const controls = form.controls;
-        for (const name in controls) {
-          if (controls[name].invalid) {
-            invalid.push(name);
-          }
-        }
-        // this.commonService.toastAlert(invalid, 'danger');
-        // if (this.Image == undefined) {
-        //   this.commonService.toastAlert('Please upload image ', 'danger');
-        // }
-        // else {
+        // const formData = new FormData();
+        // formData.append('file', this.Image);
+        // formData.append('EntityTypeId', '7');
 
-        this.commonService.toastAlert('Please fill ' + invalid, 'danger');
-        //}
+        const data = {
+          FileImage: this.Image,
+          id: 0,
+          filename: ''
+          , contenttype: '.jpg'
+          , createdby: this.sessionCall.getlocalStorage('userid'),
+          tableid: 0,
+          TableName: ''
+          , IPAddress: '192.168.1.1.',
+          Description: '',
+          pathFor: 'ssrentry'
+
+
+        }
+        // this.modalController.dismiss({
+        //   'dismissed': true
+        // });
+        this.commonService.ShwLoader();
+        this.store.dispatch(SaveAttachementImage({ payload: data }));
       }
+
     }
+    else if (form.valid) {
+      this.saveData(form, 0)
+    }
+    else {
+      const invalid = [];
+      const controls = form.controls;
+      for (const name in controls) {
+        if (controls[name].invalid) {
+          invalid.push(name);
+        }
+      }
+      // this.commonService.toastAlert(invalid, 'danger');
+      // if (this.Image == undefined) {
+      //   this.commonService.toastAlert('Please upload image ', 'danger');
+      // }
+      // else {
+
+      this.commonService.toastAlert('Please fill ' + invalid, 'danger');
+      //}
+    }
+    // }
 
   }
 }

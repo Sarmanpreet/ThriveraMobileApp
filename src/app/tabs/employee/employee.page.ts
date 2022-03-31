@@ -47,6 +47,7 @@ export class EmployeePage implements OnInit, OnDestroy {
   //@ViewChild('barChart') private barChart: ElementRef;
   @ViewChild('barChart', { static: true }) barChart: ElementRef;
   DashboardSSR: any;
+  time: Date;
 
   constructor(
     private fb: FormBuilder,
@@ -65,12 +66,11 @@ export class EmployeePage implements OnInit, OnDestroy {
 
 
   ngOnDestroy(): void {
-    debugger;
+
     this.subscription.unsubscribe();
   }
   ngOnInit() {
 
-    debugger;
     const RoleID = this.sessionCall.getlocalStorage('RoleID');
     const UserId = this.sessionCall.getlocalStorage('userid');
     const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -130,8 +130,8 @@ export class EmployeePage implements OnInit, OnDestroy {
           if (Response) {
             this.PunchTime = Response[0];
             if (this.PunchTime && this.PunchTime.InStatus == 'Site In' && this.PunchTime.OutStatus !== 'Site Out') {
-
-              this.startTime(new Date(this.PunchTime.DateInTime));
+              this.time = new Date(this.PunchTime.DateInTime);
+              this.startTime(this.time);
 
             }
             if (this.PunchTime && this.PunchTime.OutStatus == 'Site Out') {
@@ -146,7 +146,7 @@ export class EmployeePage implements OnInit, OnDestroy {
     const SubscriptionTarget = this.store.pipe(select(getTargetResponse))
       .subscribe(
         (Response) => {
-          debugger
+
           if (Response) {
             this.Targets = Response;
             // this.createBarChart();
@@ -157,7 +157,6 @@ export class EmployeePage implements OnInit, OnDestroy {
     const SubscriptionSSRDashboard = this.store.pipe(select(getSSRDashBoardResponse))
       .subscribe(
         (Response) => {
-          debugger
           if (Response) {
             this.DashboardSSR = Response[0][0];
             console.log(Response);
@@ -169,7 +168,6 @@ export class EmployeePage implements OnInit, OnDestroy {
     const Subscription = this.store.pipe(select(getCalenderResponse))
       .subscribe(
         (getCalenderResponse) => {
-          debugger
           if (getCalenderResponse) {
             getCalenderResponse.forEach(element => {
               this.daysConfig.push({
@@ -219,9 +217,10 @@ export class EmployeePage implements OnInit, OnDestroy {
   }
   startTime(Time) {
     debugger
-    let time = new Date().getTime();
+    // let time = new Date().getTime();
     var intervalVar = setInterval(function () {
-      this.todayTime = ((Date.now() - Time) / (1000 * 3600)).toFixed(2);;;
+      // Date.now()
+      this.todayTime = ((Date.now() - this.time) / (1000 * 3600)).toFixed(2);;;
     }.bind(this), 500)
   }
   formatDate(value: string) {
@@ -338,7 +337,7 @@ export class EmployeePage implements OnInit, OnDestroy {
   }
 
   async openCommentModal() {
-    debugger;
+
     const paramData = {
       custid: 2
 

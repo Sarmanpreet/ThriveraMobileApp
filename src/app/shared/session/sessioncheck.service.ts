@@ -42,7 +42,7 @@ export class SessionCheck {
 
     logout(loggedType: any) {
         localStorage.clear();
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
     }
 
     logoutValidation() {

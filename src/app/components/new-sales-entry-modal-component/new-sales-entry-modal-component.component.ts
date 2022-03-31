@@ -9,8 +9,8 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { SessionCheck } from 'src/app/shared/session/sessioncheck.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { GetCityDDL, GetItemDDL, GetProductDDL, GetSalesEntryDDL, GetSubProductDDL, resetAttachementImage, resetAttandence, SaveAttachementImage, SaveAttandence, SaveSalesEntry } from 'src/app/tabs/employee/store/Employee.actions';
-import { Geolocation, GeolocationPluginPermissions } from '@capacitor/geolocation';
-import { NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
+//import { Geolocation, GeolocationPluginPermissions } from '@capacitor/geolocation';
+//import { NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import { DatePipe } from '@angular/common';
 import { format, parseISO } from 'date-fns';
 import * as EmployeeAction from '../../tabs/employee/store/Employee.actions';
@@ -47,7 +47,7 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
   SubProductDDL: any;
   dateValue: any;
   Brand: any;
-  loc: GeolocationPluginPermissions;
+  //loc: GeolocationPluginPermissions;
   Geopermission: boolean = false;
   CameraPreview: boolean = false;
   constructor(
@@ -464,21 +464,21 @@ export class SalesEntryModalComponentComponent implements OnInit, OnDestroy {
 
   }
 
-  async Checkpermission() {
+  // async Checkpermission() {
 
-    const perm = await Geolocation.checkPermissions();
-    if (perm.location == "granted") {
-      this.Geopermission = true;
+  //   const perm = await Geolocation.checkPermissions();
+  //   if (perm.location == "granted") {
+  //     this.Geopermission = true;
 
-    } else {
-      this.Geopermission = false;
-      this.commonService.toastAlert('Please give permission to locate Device for save ', 'danger');
+  //   } else {
+  //     this.Geopermission = false;
+  //     this.commonService.toastAlert('Please give permission to locate Device for save ', 'danger');
 
-      this.loc.permissions = ['location'];
-      const permission = await Geolocation.requestPermissions(this.loc);
+  //     this.loc.permissions = ['location'];
+  //     const permission = await Geolocation.requestPermissions(this.loc);
 
-    }
-  }
+  //   }
+  // }
   getSalesEntry() {
     const RoleID = this.sessionCall.getlocalStorage('RoleID');
     const UserId = this.sessionCall.getlocalStorage('userid');

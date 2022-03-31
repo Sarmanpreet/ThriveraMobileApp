@@ -17,8 +17,7 @@ import { GenericCallService } from 'src/app/shared/services/genericCall.service'
 import { HttpClient } from '@angular/common/http';
 //const BackgroundGeolocation = registerPlugin("BackgroundGeolocation");
 //const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>("BackgroundGeolocation");
-import { Geolocation, GeolocationAlertOptions, GeolocationConnectOptions, GeolocationNotificationOptions, GeolocationPermissionOptions, GeololocationUpdatesOptions } from '@aldegad/capacitor-geolocation';
-import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -56,78 +55,7 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
 
   }
   async startLocationUpdates() {
-    await this.startLocation();
-  }
-  async startLocation() {
-
-    let devid = await Device.getId();
-    const token = this.sessionCall.getlocalStorage('token');
-    let servicenew: GenericCallService = this.service;
-    let postmethod = (paylod) => servicenew.postMethodWithToken('SetUserLocation', token, paylod).subscribe();
-    let newurl = environment.apiUrl + "SetUserLocation/json";
-    const permissionOptions: GeolocationPermissionOptions = {
-      promptAlert: null,
-      deniedAlert: null
-    }
-    const promptAlert: GeolocationAlertOptions = {
-      header: "Permission for GPS location",
-      message: 'Please give us permission for GPS location',
-      okText: 'Ok',
-      cancelText: 'Cancel'
-    }
-    const deniedAlert: GeolocationAlertOptions = {
-      header: "Permission for GPS location",
-      message: 'Please give us permission for GPS location',
-      okText: 'Ok',
-      cancelText: 'Cancel'
-    }
-    permissionOptions.promptAlert = promptAlert;
-    permissionOptions.deniedAlert = deniedAlert;
-    const { state } = await Geolocation.requestPermission(permissionOptions);
-
-    if (state !== 'granted') return;
-
-    const updatesOptions: GeololocationUpdatesOptions = {
-      background: null,
-      notification: null,
-      connect: null
-    }
-    const background: boolean = true;
-    const notification: GeolocationNotificationOptions = {
-      channelID: 'LOCATION_SERVICE_CHANNEL',
-      channelName: "Geolocation tracker",
-      header: "Geolocation tracking now.",
-      message: "Geolocation tracking notification",
-      icon: 'drawable/default_dark'
-    }
-    const connect: GeolocationConnectOptions = {
-      token: token,
-      url: environment.apiUrl + "SetUserLocation/json",
-      body: {
-        //   user_id: 'ef34f3f3',
-        //   user_position: 'User position is @latitude and @longitude'
-
-        lng: '@latitude',
-        lat: '@longitude',
-        Devid: devid.uuid,
-        isSP: 'true'
-
-      }
-    }
-    updatesOptions.background = background;
-    updatesOptions.notification = notification;
-    updatesOptions.connect = connect;
-    Geolocation.startLocationUpdates(updatesOptions, ({ latitude, longitude }) => {
-      this.commonService.lat = latitude;
-      this.commonService.lng = longitude;
-      // let paylod = {
-      //   lng: longitude,
-      //   lat: latitude,
-      //   Devid: devid.uuid
-      // }
-      // postmethod(paylod);
-      console.log(latitude, longitude);
-    });
+    await this.commonService.startLocation();
   }
 
 
